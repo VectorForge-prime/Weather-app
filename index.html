@@ -10,10 +10,17 @@
 
   <meta
     name="description"
-    content="Aplicație meteo cu vreme actuală, prognoză orară și prognoză pe 7 zile."
+    content="Aplicație meteo cu hartă interactivă, vreme actuală și prognoză."
   />
 
-  <title>Weather App</title>
+  <title>Weather App V9</title>
+
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
 
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -26,7 +33,7 @@
           <h1>Weather App</h1>
 
           <p class="subtitle">
-            Vreme actuală, prognoză orară și prognoză pe 7 zile
+            Vreme actuală, prognoză și hartă interactivă
           </p>
         </div>
 
@@ -66,6 +73,11 @@
         </button>
       </div>
 
+      <div
+        id="search-results"
+        class="search-results hidden"
+      ></div>
+
       <button id="location-button" type="button">
         📍 Folosește locația mea
       </button>
@@ -94,6 +106,23 @@
       <p class="country" id="country">
         România
       </p>
+
+      <div class="location-information">
+        <span>
+          Latitudine:
+          <strong id="latitude-value">--</strong>
+        </span>
+
+        <span>
+          Longitudine:
+          <strong id="longitude-value">--</strong>
+        </span>
+
+        <span>
+          Fus orar:
+          <strong id="timezone-value">--</strong>
+        </span>
+      </div>
 
       <p class="temperature">
         <span id="temperature">--</span>
@@ -144,6 +173,18 @@
         </div>
 
         <div class="detail-box">
+          <span class="detail-icon">🧭</span>
+
+          <span class="detail-label">
+            Direcție vânt
+          </span>
+
+          <strong>
+            <span id="wind-direction">--</span>
+          </strong>
+        </div>
+
+        <div class="detail-box">
           <span class="detail-icon">🌧️</span>
 
           <span class="detail-label">
@@ -179,12 +220,19 @@
             --
           </strong>
         </div>
-      </div>
 
-      <p class="updated-time">
-        Actualizat la
-        <strong id="weather-time">--</strong>
-      </p>
+        <div class="detail-box">
+          <span class="detail-icon">🕒</span>
+
+          <span class="detail-label">
+            Actualizat
+          </span>
+
+          <strong id="weather-time">
+            --
+          </strong>
+        </div>
+      </div>
 
       <button id="refresh-button" type="button">
         Actualizează vremea
@@ -239,8 +287,31 @@
       </div>
     </section>
 
+    <section class="map-section">
+      <div class="map-heading">
+        <div>
+          <h2>Hartă meteo interactivă</h2>
+
+          <p>
+            Apasă pe hartă pentru a vedea vremea
+            în punctul selectat.
+          </p>
+        </div>
+
+        <button id="center-map-button" type="button">
+          Centrează pe locație
+        </button>
+      </div>
+
+      <div
+        id="weather-map"
+        class="weather-map"
+        aria-label="Hartă meteo interactivă"
+      ></div>
+    </section>
+
     <section class="hourly-section">
-      <h2>Prognoza pentru următoarele 24 de ore</h2>
+      <h2>Următoarele 24 de ore</h2>
 
       <div
         class="hourly-container"
@@ -267,7 +338,8 @@
 
     <footer class="app-footer">
       <p>
-        Date meteo furnizate de Open-Meteo
+        Date meteo furnizate de Open-Meteo.
+        Hartă furnizată de OpenStreetMap.
       </p>
     </footer>
   </main>
@@ -280,6 +352,12 @@
   >
     ↑
   </button>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
 
   <script src="script.js"></script>
 </body>

@@ -32,57 +32,51 @@ body {
 }
 
 body.weather-clear {
-  background:
-    linear-gradient(
-      135deg,
-      #4facfe,
-      #00f2fe
-    );
+  background: linear-gradient(
+    135deg,
+    #4facfe,
+    #00f2fe
+  );
 }
 
 body.weather-cloudy {
-  background:
-    linear-gradient(
-      135deg,
-      #757f9a,
-      #d7dde8
-    );
+  background: linear-gradient(
+    135deg,
+    #757f9a,
+    #d7dde8
+  );
 }
 
 body.weather-rain {
-  background:
-    linear-gradient(
-      135deg,
-      #314755,
-      #26a0da
-    );
+  background: linear-gradient(
+    135deg,
+    #314755,
+    #26a0da
+  );
 }
 
 body.weather-snow {
-  background:
-    linear-gradient(
-      135deg,
-      #83a4d4,
-      #b6fbff
-    );
+  background: linear-gradient(
+    135deg,
+    #83a4d4,
+    #b6fbff
+  );
 }
 
 body.weather-storm {
-  background:
-    linear-gradient(
-      135deg,
-      #232526,
-      #414345
-    );
+  background: linear-gradient(
+    135deg,
+    #232526,
+    #414345
+  );
 }
 
 body.weather-fog {
-  background:
-    linear-gradient(
-      135deg,
-      #606c88,
-      #3f4c6b
-    );
+  background: linear-gradient(
+    135deg,
+    #606c88,
+    #3f4c6b
+  );
 }
 
 body.dark-mode {
@@ -104,6 +98,10 @@ body.dark-mode::before {
   background-color: rgba(0, 0, 0, 0.4);
 
   pointer-events: none;
+}
+
+.hidden {
+  display: none;
 }
 
 .weather-app {
@@ -174,6 +172,8 @@ body.dark-mode::before {
 }
 
 .search-section {
+  position: relative;
+
   width: 100%;
   max-width: 560px;
 
@@ -211,7 +211,8 @@ body.dark-mode::before {
 
 .search-box button,
 #location-button,
-#refresh-button {
+#refresh-button,
+#center-map-button {
   padding: 14px 20px;
 
   border: none;
@@ -232,7 +233,8 @@ body.dark-mode::before {
 
 .search-box button:hover,
 #location-button:hover,
-#refresh-button:hover {
+#refresh-button:hover,
+#center-map-button:hover {
   transform: translateY(-2px);
 }
 
@@ -248,11 +250,91 @@ body.dark-mode::before {
   backdrop-filter: blur(12px);
 }
 
+/* Rezultatele căutării */
+
+.search-results {
+  position: absolute;
+  top: 60px;
+  left: 0;
+  z-index: 2000;
+
+  width: 100%;
+
+  overflow: hidden;
+
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+
+  background-color:
+    rgba(15, 23, 42, 0.96);
+
+  box-shadow:
+    0 16px 35px
+    rgba(0, 0, 0, 0.32);
+
+  text-align: left;
+
+  backdrop-filter: blur(16px);
+}
+
+.search-result-button {
+  display: block;
+
+  width: 100%;
+
+  padding: 14px 16px;
+
+  border: none;
+  border-bottom: 1px solid
+    rgba(255, 255, 255, 0.1);
+
+  color: #ffffff;
+  background: transparent;
+
+  cursor: pointer;
+
+  text-align: left;
+}
+
+.search-result-button:last-child {
+  border-bottom: none;
+}
+
+.search-result-button:hover {
+  background-color:
+    rgba(255, 255, 255, 0.14);
+}
+
+.search-result-name {
+  display: block;
+
+  margin-bottom: 4px;
+
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.search-result-details {
+  display: block;
+
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+.search-result-empty {
+  padding: 15px;
+
+  color: #ffffff;
+
+  font-size: 14px;
+  text-align: center;
+}
+
 .weather-card {
   position: relative;
 
   width: 100%;
-  max-width: 620px;
+  max-width: 650px;
 
   margin: 0 auto;
 
@@ -319,10 +401,26 @@ body.dark-mode::before {
 }
 
 .country {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 
   font-size: 15px;
   opacity: 0.8;
+}
+
+.location-information {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 7px 16px;
+
+  margin-bottom: 14px;
+
+  font-size: 12px;
+  opacity: 0.82;
+}
+
+.location-information span {
+  white-space: nowrap;
 }
 
 .temperature {
@@ -347,7 +445,7 @@ body.dark-mode::before {
 .weather-details {
   display: grid;
   grid-template-columns:
-    repeat(3, 1fr);
+    repeat(4, 1fr);
 
   gap: 14px;
 
@@ -355,7 +453,7 @@ body.dark-mode::before {
 }
 
 .detail-box {
-  padding: 17px 10px;
+  padding: 17px 8px;
 
   border: 1px solid var(--card-border);
   border-radius: 16px;
@@ -383,19 +481,14 @@ body.dark-mode::before {
 .detail-box strong {
   display: block;
 
-  font-size: 16px;
-}
-
-.updated-time {
-  margin-bottom: 18px;
-
-  font-size: 14px;
-  opacity: 0.8;
+  font-size: 15px;
 }
 
 #refresh-button {
   width: 100%;
 }
+
+/* Favorite și căutări recente */
 
 .saved-section {
   display: grid;
@@ -489,6 +582,71 @@ body.dark-mode::before {
   opacity: 0.7;
 }
 
+/* Harta */
+
+.map-section {
+  margin-top: 38px;
+
+  padding: 24px;
+
+  border: 1px solid var(--card-border);
+  border-radius: 24px;
+
+  background-color: var(--card-background);
+
+  box-shadow:
+    0 15px 40px
+    rgba(0, 0, 0, 0.2);
+
+  backdrop-filter: blur(14px);
+
+  text-align: left;
+}
+
+.map-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+
+  margin-bottom: 18px;
+}
+
+.map-heading h2 {
+  margin-bottom: 5px;
+
+  font-size: 26px;
+}
+
+.map-heading p {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.weather-map {
+  width: 100%;
+  height: 440px;
+
+  overflow: hidden;
+
+  border: 2px solid
+    rgba(255, 255, 255, 0.25);
+
+  border-radius: 18px;
+
+  color: #222222;
+}
+
+.leaflet-popup-content {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.leaflet-control-attribution {
+  font-size: 10px;
+}
+
+/* Prognoză orară */
+
 .hourly-section,
 .forecast-section {
   margin-top: 38px;
@@ -570,6 +728,8 @@ body.dark-mode::before {
   font-size: 12px;
   opacity: 0.8;
 }
+
+/* Prognoză 7 zile */
 
 .forecast-container {
   display: grid;
@@ -679,6 +839,7 @@ body.dark-mode::before {
   position: fixed;
   right: 22px;
   bottom: 22px;
+  z-index: 3000;
 
   width: 48px;
   height: 48px;
@@ -690,7 +851,8 @@ body.dark-mode::before {
   font-weight: bold;
 
   color: #ffffff;
-  background-color: rgba(15, 23, 42, 0.7);
+  background-color:
+    rgba(15, 23, 42, 0.75);
 
   cursor: pointer;
 
@@ -748,6 +910,11 @@ button:disabled {
 }
 
 @media (max-width: 900px) {
+  .weather-details {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
   .forecast-container {
     grid-template-columns:
       repeat(7, 125px);
@@ -761,9 +928,19 @@ button:disabled {
     grid-template-columns: 1fr;
   }
 
-  .weather-details {
-    grid-template-columns:
-      repeat(2, 1fr);
+  .map-heading {
+    flex-direction: column;
+    align-items: stretch;
+
+    text-align: center;
+  }
+
+  #center-map-button {
+    width: 100%;
+  }
+
+  .weather-map {
+    height: 360px;
   }
 }
 
@@ -795,6 +972,10 @@ button:disabled {
     width: 100%;
   }
 
+  .search-results {
+    top: 116px;
+  }
+
   .weather-card {
     padding: 28px 20px;
   }
@@ -813,6 +994,18 @@ button:disabled {
 
   .weather-details {
     grid-template-columns: 1fr;
+  }
+
+  .location-information {
+    flex-direction: column;
+  }
+
+  .map-section {
+    padding: 15px;
+  }
+
+  .weather-map {
+    height: 320px;
   }
 
   .hourly-section > h2,

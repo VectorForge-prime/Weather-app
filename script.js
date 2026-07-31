@@ -4,6 +4,9 @@ const cityInput =
 const searchButton =
   document.getElementById("search-button");
 
+const searchResults =
+  document.getElementById("search-results");
+
 const locationButton =
   document.getElementById("location-button");
 
@@ -12,6 +15,15 @@ const cityElement =
 
 const countryElement =
   document.getElementById("country");
+
+const latitudeElement =
+  document.getElementById("latitude-value");
+
+const longitudeElement =
+  document.getElementById("longitude-value");
+
+const timezoneElement =
+  document.getElementById("timezone-value");
 
 const temperatureElement =
   document.getElementById("temperature");
@@ -42,6 +54,9 @@ const statusElement =
 
 const windSpeedElement =
   document.getElementById("wind-speed");
+
+const windDirectionElement =
+  document.getElementById("wind-direction");
 
 const weatherTimeElement =
   document.getElementById("weather-time");
@@ -79,15 +94,19 @@ const unitButton =
 const themeButton =
   document.getElementById("theme-button");
 
+const centerMapButton =
+  document.getElementById("center-map-button");
+
 const scrollTopButton =
   document.getElementById("scroll-top-button");
 
 
-let currentLatitude = 44.43;
-let currentLongitude = 26.10;
+let currentLatitude = 44.4268;
+let currentLongitude = 26.1025;
 
 let currentCity = "București";
 let currentCountry = "România";
+let currentTimezone = "Europe/Bucharest";
 
 let currentTemperatureCelsius = null;
 let currentApparentTemperatureCelsius = null;
@@ -96,6 +115,9 @@ let currentDailyWeather = null;
 let currentHourlyWeather = null;
 
 let currentWeatherClass = "weather-clear";
+
+let weatherMap = null;
+let weatherMarker = null;
 
 let temperatureUnit =
   localStorage.getItem("temperatureUnit") || "C";
@@ -138,9 +160,8 @@ function saveStoredArray(storageKey, array) {
 
 
 function getWeatherDescription(weatherCode) {
-  const weatherDescriptions = {
+  const descriptions = {
     0: "Cer senin",
-
     1: "În mare parte senin",
     2: "Parțial noros",
     3: "Înnorat",
@@ -181,7 +202,7 @@ function getWeatherDescription(weatherCode) {
   };
 
   return (
-    weatherDescriptions[weatherCode] ||
+    descriptions[weatherCode] ||
     "Condiții meteo necunoscute"
   );
 }
@@ -339,9 +360,7 @@ function toggleTemperatureUnit() {
   updateCurrentTemperatures();
 
   if (currentDailyWeather) {
-    displayForecast(
-      currentDailyWeather
-    );
+    displayForecast(currentDailyWeather);
   }
 
   if (currentHourlyWeather) {
@@ -416,6 +435,31 @@ function formatForecastDate(dateString) {
 }
 
 
+function getWindDirection(degrees) {
+  const directions = [
+    "N",
+    "NE",
+    "E",
+    "SE",
+    "S",
+    "SV",
+    "V",
+    "NV"
+  ];
+
+  const normalizedDegrees =
+    ((degrees % 360) + 360) % 360;
+
+  const index =
+    Math.round(normalizedDegrees / 45) % 8;
+
+  return (
+    `${directions[index]} ` +
+    `(${Math.round(normalizedDegrees)}°)`
+  );
+}
+
+
 function setLoadingState(isLoading) {
   searchButton.disabled = isLoading;
   refreshButton.disabled = isLoading;
@@ -446,6 +490,94 @@ function clearError() {
   );
 }
 
+
+/* Hartă */
+
+function initializeMap() {
+  weatherMap = L.map("weather-map").setView(
+    [currentLatitude, currentLongitude],
+    8
+  );
+
+  L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+      maxZoom: 19,
+      attribution:
+        "&copy; OpenStreetMap contributors"
+    }
+  ).addTo(weatherMap);
+
+  weatherMarker = L.marker(
+    [currentLatitude, currentLongitude]
+  )
+    .addTo(weatherMap)
+    .bindPopup("București")
+    .openPopup();
+
+  weatherMap.on(
+    "click",
+    function (event) {
+      const latitude =
+        event.latlng.lat;
+
+      const longitude =
+        event.latlng.lng;
+
+      loadWeather(
+        latitude,
+        longitude,
+        "Punct selectat",
+        "Hartă interactivă",
+        false
+      );
+    }
+  );
+
+  window.setTimeout(
+    function () {
+      weatherMap.invalidateSize();
+    },
+    200
+  );
+}
+
+
+function updateMap(
+  latitude,
+  longitude,
+  cityName,
+  shouldCenter = true
+) {
+  if (!weatherMap || !weatherMarker) {
+    return;
+  }
+
+  weatherMarker.setLatLng(
+    [latitude, longitude]
+  );
+
+  weatherMarker
+    .bindPopup(
+      `<strong>${escapeHtml(cityName)}</strong><br>` +
+      `${latitude.toFixed(4)}, ` +
+      `${longitude.toFixed(4)}`
+    )
+    .openPopup();
+
+  if (shouldCenter) {
+    weatherMap.setView(
+      [latitude, longitude],
+      9,
+      {
+        animate: true
+      }
+    );
+  }
+}
+
+
+/* Prognoză */
 
 function createForecastCard(
   date,
@@ -517,8 +649,10 @@ function displayForecast(dailyWeather) {
       createForecastCard(
         dailyWeather.time[index],
         dailyWeather.weather_code[index],
-        dailyWeather.temperature_2m_max[index],
-        dailyWeather.temperature_2m_min[index],
+        dailyWeather
+          .temperature_2m_max[index],
+        dailyWeather
+          .temperature_2m_min[index],
         index
       )
     );
@@ -614,6 +748,8 @@ function displayHourlyForecast(hourlyWeather) {
 }
 
 
+/* Favorite și istoric */
+
 function citiesAreEqual(firstCity, secondCity) {
   return (
     Math.abs(
@@ -633,7 +769,8 @@ function getCurrentCityObject() {
     name: currentCity,
     country: currentCountry,
     latitude: currentLatitude,
-    longitude: currentLongitude
+    longitude: currentLongitude,
+    timezone: currentTimezone
   };
 }
 
@@ -834,6 +971,167 @@ function clearRecentCities() {
 }
 
 
+/* Căutarea localităților */
+
+function hideSearchResults() {
+  searchResults.classList.add("hidden");
+
+  searchResults.innerHTML = "";
+}
+
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+
+function displaySearchResults(results) {
+  searchResults.innerHTML = "";
+
+  if (!results || results.length === 0) {
+    searchResults.innerHTML = `
+      <p class="search-result-empty">
+        Nu a fost găsită nicio localitate.
+      </p>
+    `;
+
+    searchResults.classList.remove(
+      "hidden"
+    );
+
+    return;
+  }
+
+  results.forEach(
+    function (location) {
+      const button =
+        document.createElement("button");
+
+      button.type = "button";
+
+      button.className =
+        "search-result-button";
+
+      const administrativeArea =
+        location.admin1
+          ? `, ${location.admin1}`
+          : "";
+
+      button.innerHTML = `
+        <span class="search-result-name">
+          ${escapeHtml(location.name)}
+        </span>
+
+        <span class="search-result-details">
+          ${escapeHtml(
+            location.country ||
+            "Țară necunoscută"
+          )}${escapeHtml(administrativeArea)}
+          · ${location.latitude.toFixed(3)},
+          ${location.longitude.toFixed(3)}
+        </span>
+      `;
+
+      button.addEventListener(
+        "click",
+        async function () {
+          hideSearchResults();
+
+          cityInput.value = "";
+
+          await loadWeather(
+            location.latitude,
+            location.longitude,
+            location.name,
+            location.country ||
+              "Țară necunoscută",
+            true
+          );
+        }
+      );
+
+      searchResults.appendChild(button);
+    }
+  );
+
+  searchResults.classList.remove(
+    "hidden"
+  );
+}
+
+
+async function searchCity() {
+  const cityName =
+    cityInput.value.trim();
+
+  if (cityName === "") {
+    showError(
+      "Introdu numele unui oraș."
+    );
+
+    cityInput.focus();
+
+    return;
+  }
+
+  clearError();
+  hideSearchResults();
+
+  statusElement.textContent =
+    "Caut localitățile...";
+
+  setLoadingState(true);
+
+  try {
+    const geocodingUrl =
+      `https://geocoding-api.open-meteo.com/v1/search` +
+      `?name=${encodeURIComponent(cityName)}` +
+      `&count=5` +
+      `&language=ro` +
+      `&format=json`;
+
+    const response =
+      await fetch(geocodingUrl);
+
+    if (!response.ok) {
+      throw new Error(
+        `Eroare HTTP: ${response.status}`
+      );
+    }
+
+    const data =
+      await response.json();
+
+    displaySearchResults(
+      data.results || []
+    );
+
+    statusElement.textContent =
+      data.results?.length
+        ? "Alege localitatea corectă."
+        : "Localitatea nu a fost găsită.";
+  } catch (error) {
+    console.error(
+      "Eroare la căutarea localității:",
+      error
+    );
+
+    showError(
+      "A apărut o eroare la căutare."
+    );
+  } finally {
+    setLoadingState(false);
+  }
+}
+
+
+/* Încărcarea vremii */
+
 async function loadWeather(
   latitude,
   longitude,
@@ -845,26 +1143,29 @@ async function loadWeather(
     `https://api.open-meteo.com/v1/forecast` +
     `?latitude=${latitude}` +
     `&longitude=${longitude}` +
-    `&current=temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,weather_code,wind_speed_10m` +
+    `&current=temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,wind_direction_10m` +
     `&hourly=temperature_2m,weather_code,precipitation_probability` +
     `&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset` +
     `&forecast_days=7` +
     `&timezone=auto`;
 
   clearError();
+  hideSearchResults();
 
   statusElement.textContent =
     "Se încarcă datele meteo...";
 
-  forecastContainer.innerHTML =
-    `<p class="loading-message">
+  forecastContainer.innerHTML = `
+    <p class="loading-message">
       Se încarcă prognoza...
-    </p>`;
+    </p>
+  `;
 
-  hourlyContainer.innerHTML =
-    `<p class="loading-message">
+  hourlyContainer.innerHTML = `
+    <p class="loading-message">
       Se încarcă prognoza orară...
-    </p>`;
+    </p>
+  `;
 
   setLoadingState(true);
 
@@ -897,6 +1198,9 @@ async function loadWeather(
     currentCity = cityName;
     currentCountry = countryName;
 
+    currentTimezone =
+      data.timezone || "Necunoscut";
+
     currentTemperatureCelsius =
       data.current.temperature_2m;
 
@@ -904,10 +1208,19 @@ async function loadWeather(
       data.current.apparent_temperature;
 
     cityElement.textContent =
-      cityName;
+      currentCity;
 
     countryElement.textContent =
-      countryName;
+      currentCountry;
+
+    latitudeElement.textContent =
+      `${Number(latitude).toFixed(4)}°`;
+
+    longitudeElement.textContent =
+      `${Number(longitude).toFixed(4)}°`;
+
+    timezoneElement.textContent =
+      currentTimezone;
 
     updateCurrentTemperatures();
 
@@ -926,20 +1239,19 @@ async function loadWeather(
         data.current.wind_speed_10m
       );
 
-    weatherTimeElement.textContent =
-      formatTime(
-        data.current.time
+    windDirectionElement.textContent =
+      getWindDirection(
+        data.current.wind_direction_10m
       );
+
+    weatherTimeElement.textContent =
+      formatTime(data.current.time);
 
     sunriseElement.textContent =
-      formatTime(
-        data.daily.sunrise[0]
-      );
+      formatTime(data.daily.sunrise[0]);
 
     sunsetElement.textContent =
-      formatTime(
-        data.daily.sunset[0]
-      );
+      formatTime(data.daily.sunset[0]);
 
     statusElement.textContent =
       getWeatherDescription(
@@ -950,12 +1262,14 @@ async function loadWeather(
       data.current.weather_code
     );
 
-    displayHourlyForecast(
-      data.hourly
-    );
+    displayHourlyForecast(data.hourly);
+    displayForecast(data.daily);
 
-    displayForecast(
-      data.daily
+    updateMap(
+      latitude,
+      longitude,
+      cityName,
+      true
     );
 
     updateFavoriteButton();
@@ -975,15 +1289,17 @@ async function loadWeather(
       "Nu am putut încărca datele meteo."
     );
 
-    forecastContainer.innerHTML =
-      `<p class="loading-message">
+    forecastContainer.innerHTML = `
+      <p class="loading-message">
         Prognoza nu a putut fi încărcată.
-      </p>`;
+      </p>
+    `;
 
-    hourlyContainer.innerHTML =
-      `<p class="loading-message">
+    hourlyContainer.innerHTML = `
+      <p class="loading-message">
         Prognoza orară nu a putut fi încărcată.
-      </p>`;
+      </p>
+    `;
   } finally {
     setLoadingState(false);
 
@@ -993,85 +1309,7 @@ async function loadWeather(
 }
 
 
-async function searchCity() {
-  const cityName =
-    cityInput.value.trim();
-
-  if (cityName === "") {
-    showError(
-      "Introdu numele unui oraș."
-    );
-
-    cityInput.focus();
-
-    return;
-  }
-
-  clearError();
-
-  statusElement.textContent =
-    "Caut orașul...";
-
-  setLoadingState(true);
-
-  try {
-    const geocodingUrl =
-      `https://geocoding-api.open-meteo.com/v1/search` +
-      `?name=${encodeURIComponent(cityName)}` +
-      `&count=1` +
-      `&language=ro` +
-      `&format=json`;
-
-    const response =
-      await fetch(geocodingUrl);
-
-    if (!response.ok) {
-      throw new Error(
-        `Eroare HTTP: ${response.status}`
-      );
-    }
-
-    const data =
-      await response.json();
-
-    if (
-      !data.results ||
-      data.results.length === 0
-    ) {
-      showError(
-        "Orașul nu a fost găsit."
-      );
-
-      return;
-    }
-
-    const cityData =
-      data.results[0];
-
-    await loadWeather(
-      cityData.latitude,
-      cityData.longitude,
-      cityData.name,
-      cityData.country ||
-        "Țară necunoscută",
-      true
-    );
-
-    cityInput.value = "";
-  } catch (error) {
-    console.error(
-      "Eroare la căutarea orașului:",
-      error
-    );
-
-    showError(
-      "A apărut o eroare la căutare."
-    );
-  } finally {
-    setLoadingState(false);
-  }
-}
-
+/* Geolocație */
 
 function getLocationErrorMessage(error) {
   if (error.code === 1) {
@@ -1161,6 +1399,8 @@ function handleScroll() {
 }
 
 
+/* Evenimente */
+
 searchButton.addEventListener(
   "click",
   searchCity
@@ -1172,6 +1412,25 @@ cityInput.addEventListener(
   function (event) {
     if (event.key === "Enter") {
       searchCity();
+    }
+
+    if (event.key === "Escape") {
+      hideSearchResults();
+    }
+  }
+);
+
+
+document.addEventListener(
+  "click",
+  function (event) {
+    const clickedInsideSearch =
+      event.target.closest(
+        ".search-section"
+      );
+
+    if (!clickedInsideSearch) {
+      hideSearchResults();
     }
   }
 );
@@ -1193,6 +1452,26 @@ refreshButton.addEventListener(
       currentCountry,
       false
     );
+  }
+);
+
+
+centerMapButton.addEventListener(
+  "click",
+  function () {
+    if (!weatherMap) {
+      return;
+    }
+
+    weatherMap.setView(
+      [currentLatitude, currentLongitude],
+      9,
+      {
+        animate: true
+      }
+    );
+
+    weatherMarker.openPopup();
   }
 );
 
@@ -1244,11 +1523,15 @@ window.addEventListener(
 );
 
 
+/* Pornirea aplicației */
+
 updateThemeButton();
 updateBodyClasses();
 
 renderFavorites();
 renderRecentCities();
+
+initializeMap();
 
 loadWeather(
   currentLatitude,
