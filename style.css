@@ -6,6 +6,7 @@
 
 body {
   min-height: 100vh;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,29 +15,85 @@ body {
 
   font-family: Arial, sans-serif;
 
-  background: linear-gradient(
-    135deg,
-    #5b86e5,
-    #36d1dc
-  );
-
   color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #5b86e5,
+      #36d1dc
+    );
 }
 
 .weather-app {
   width: 100%;
-  max-width: 460px;
+  max-width: 480px;
+
   text-align: center;
 }
 
 .weather-app h1 {
   margin-bottom: 10px;
+
   font-size: 42px;
 }
 
 .subtitle {
-  margin-bottom: 30px;
+  margin-bottom: 25px;
+
   font-size: 17px;
+}
+
+.search-box {
+  display: flex;
+  gap: 10px;
+
+  margin-bottom: 20px;
+}
+
+.search-box input {
+  flex: 1;
+
+  min-width: 0;
+
+  padding: 14px 16px;
+
+  border: none;
+  border-radius: 12px;
+  outline: none;
+
+  font-size: 16px;
+}
+
+.search-box input:focus {
+  box-shadow:
+    0 0 0 3px
+    rgba(255, 255, 255, 0.35);
+}
+
+.search-box button {
+  padding: 14px 20px;
+
+  border: none;
+  border-radius: 12px;
+
+  font-size: 16px;
+  font-weight: bold;
+
+  color: #2456a6;
+  background-color: #ffffff;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s,
+    background-color 0.2s;
+}
+
+.search-box button:hover {
+  transform: translateY(-2px);
+
+  background-color: #eef5ff;
 }
 
 .weather-card {
@@ -44,33 +101,51 @@ body {
 
   border-radius: 24px;
 
-  background-color: rgba(255, 255, 255, 0.18);
+  background-color:
+    rgba(255, 255, 255, 0.18);
 
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 15px 40px
+    rgba(0, 0, 0, 0.2);
 
   backdrop-filter: blur(12px);
 }
 
 .weather-card h2 {
-  margin-bottom: 15px;
+  margin-bottom: 4px;
+
   font-size: 30px;
+}
+
+.country {
+  margin-bottom: 15px;
+
+  font-size: 15px;
+
+  opacity: 0.8;
 }
 
 .temperature {
   margin-bottom: 10px;
+
   font-size: 70px;
   font-weight: bold;
 }
 
 #status {
   min-height: 24px;
+
   margin-bottom: 25px;
+
   font-size: 17px;
 }
 
 .weather-details {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
   gap: 15px;
 
   margin-bottom: 25px;
@@ -81,7 +156,8 @@ body {
 
   border-radius: 16px;
 
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color:
+    rgba(255, 255, 255, 0.15);
 }
 
 .detail-box span,
@@ -93,6 +169,7 @@ body {
   margin-bottom: 8px;
 
   font-size: 14px;
+
   opacity: 0.8;
 }
 
@@ -119,17 +196,31 @@ body {
 
 #refresh-button:hover {
   transform: translateY(-2px);
+
   background-color: #eef5ff;
 }
 
-#refresh-button:disabled {
+button:disabled {
   cursor: not-allowed;
-  opacity: 0.7;
+
+  opacity: 0.65;
+}
+
+.error-message {
+  color: #ffe4e4;
 }
 
 @media (max-width: 500px) {
   .weather-app h1 {
     font-size: 34px;
+  }
+
+  .search-box {
+    flex-direction: column;
+  }
+
+  .search-box button {
+    width: 100%;
   }
 
   .weather-card {

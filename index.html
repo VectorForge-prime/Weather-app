@@ -2,7 +2,11 @@
 <html lang="ro">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
 
   <title>Weather App</title>
 
@@ -14,29 +18,57 @@
     <h1>Weather App</h1>
 
     <p class="subtitle">
-      Verifică vremea actuală din București
+      Caută vremea actuală pentru orice oraș
     </p>
+
+    <div class="search-box">
+      <input
+        type="text"
+        id="city-input"
+        placeholder="Introdu un oraș"
+        autocomplete="off"
+      />
+
+      <button id="search-button" type="button">
+        Caută
+      </button>
+    </div>
 
     <section class="weather-card">
       <h2 id="city">București</h2>
+
+      <p class="country" id="country">
+        România
+      </p>
 
       <p class="temperature">
         <span id="temperature">--</span>°C
       </p>
 
-      <p id="status">Se încarcă datele meteo...</p>
+      <p id="status">
+        Se încarcă datele meteo...
+      </p>
 
       <div class="weather-details">
         <div class="detail-box">
-          <span class="detail-label">Vânt</span>
+          <span class="detail-label">
+            Vânt
+          </span>
+
           <strong>
-            <span id="wind-speed">--</span> km/h
+            <span id="wind-speed">--</span>
+            km/h
           </strong>
         </div>
 
         <div class="detail-box">
-          <span class="detail-label">Actualizat</span>
-          <strong id="weather-time">--</strong>
+          <span class="detail-label">
+            Actualizat
+          </span>
+
+          <strong id="weather-time">
+            --
+          </strong>
         </div>
       </div>
 
