@@ -1,40 +1,58 @@
 {
-  "name": "Weather App – Meteo și Calitatea Aerului",
-  "short_name": "Weather App",
-  "description": "Aplicație meteo PWA cu prognoză, hartă interactivă, calitatea aerului și funcționare offline.",
+  "name": "Weather App V12 Pro",
+  "short_name": "Weather Pro",
+  "description": "Aplicație meteo PWA cu prognoză, hartă interactivă, calitatea aerului, statistici, grafice și funcționare offline.",
   "lang": "ro-RO",
   "dir": "ltr",
   "id": "./",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui"
+  ],
   "orientation": "any",
   "background_color": "#2456a6",
   "theme_color": "#2456a6",
   "categories": [
     "weather",
     "utilities",
-    "lifestyle"
+    "lifestyle",
+    "productivity"
   ],
   "icons": [
     {
       "src": "./icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
     },
     {
       "src": "./icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
   "shortcuts": [
     {
       "name": "Deschide Weather App",
       "short_name": "Vreme",
-      "description": "Vezi vremea actuală",
+      "description": "Vezi vremea actuală și prognoza",
       "url": "./",
       "icons": [
         {
@@ -44,5 +62,6 @@
         }
       ]
     }
-  ]
+  ],
+  "screenshots": []
 }

@@ -13,13 +13,56 @@
     content="#2456a6"
   />
 
-  <title>Weather App – Offline</title>
+  <meta
+    name="mobile-web-app-capable"
+    content="yes"
+  />
+
+  <title>
+    Weather App – Mod offline
+  </title>
+
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="192x192"
+    href="./icons/icon-192.png"
+  />
 
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+    }
+
+    :root {
+      --text:
+        #ffffff;
+
+      --muted:
+        rgba(
+          255,
+          255,
+          255,
+          0.78
+        );
+
+      --glass:
+        rgba(
+          255,
+          255,
+          255,
+          0.15
+        );
+
+      --border:
+        rgba(
+          255,
+          255,
+          255,
+          0.25
+        );
     }
 
     body {
@@ -31,14 +74,27 @@
 
       padding: 22px;
 
+      overflow: hidden;
+
       font-family:
         Arial,
         Helvetica,
         sans-serif;
 
-      color: #ffffff;
+      color:
+        var(--text);
 
       background:
+        radial-gradient(
+          circle at 20% 20%,
+          rgba(
+            255,
+            255,
+            255,
+            0.22
+          ),
+          transparent 28%
+        ),
         linear-gradient(
           135deg,
           #2456a6,
@@ -46,109 +102,510 @@
         );
     }
 
-    .offline-card {
-      width: 100%;
-      max-width: 480px;
+    .background-cloud {
+      position: fixed;
 
-      padding: 36px;
+      z-index: 0;
+
+      color:
+        rgba(
+          255,
+          255,
+          255,
+          0.1
+        );
+
+      font-size: 150px;
+
+      pointer-events: none;
+
+      animation:
+        moveCloud
+        24s linear infinite;
+    }
+
+    .cloud-one {
+      top: 8%;
+      left: -180px;
+    }
+
+    .cloud-two {
+      bottom: 8%;
+      left: -260px;
+
+      font-size: 210px;
+
+      animation-duration:
+        35s;
+
+      animation-delay:
+        -14s;
+    }
+
+    .offline-card {
+      position: relative;
+      z-index: 2;
+
+      width: 100%;
+      max-width: 520px;
+
+      padding:
+        42px 36px;
 
       border:
         1px solid
-        rgba(255, 255, 255, 0.25);
+        var(--border);
 
-      border-radius: 25px;
+      border-radius:
+        28px;
 
-      background-color:
-        rgba(255, 255, 255, 0.15);
+      background:
+        var(--glass);
 
       box-shadow:
-        0 20px 50px
-        rgba(0, 0, 0, 0.25);
+        0 24px 65px
+        rgba(
+          0,
+          0,
+          0,
+          0.28
+        );
 
       backdrop-filter:
-        blur(14px);
+        blur(18px);
 
       text-align: center;
+
+      animation:
+        cardAppear
+        0.7s ease;
     }
 
-    .offline-icon {
-      margin-bottom: 18px;
+    .app-icon {
+      width: 86px;
+      height: 86px;
 
-      font-size: 76px;
+      margin:
+        0 auto 18px;
+
+      overflow: hidden;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius:
+        23px;
+
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          0.16
+        );
+
+      box-shadow:
+        0 14px 35px
+        rgba(
+          0,
+          0,
+          0,
+          0.18
+        );
+    }
+
+    .app-icon img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+    }
+
+    .offline-symbol {
+      margin-bottom: 16px;
+
+      font-size: 60px;
+
+      animation:
+        floating
+        3s ease-in-out infinite;
     }
 
     h1 {
       margin-bottom: 12px;
 
-      font-size: 30px;
+      font-size:
+        clamp(
+          28px,
+          7vw,
+          38px
+        );
     }
 
-    p {
-      margin-bottom: 25px;
+    .description {
+      margin-bottom: 24px;
 
-      line-height: 1.6;
+      color:
+        var(--muted);
 
-      opacity: 0.85;
+      font-size: 15px;
+      line-height: 1.65;
     }
 
-    button {
+    .offline-information {
+      display: grid;
+
+      gap: 10px;
+
+      margin-bottom: 24px;
+
+      text-align: left;
+    }
+
+    .information-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+
+      padding: 13px;
+
+      border:
+        1px solid
+        var(--border);
+
+      border-radius: 14px;
+
+      background:
+        rgba(
+          255,
+          255,
+          255,
+          0.08
+        );
+    }
+
+    .information-item span {
+      font-size: 21px;
+    }
+
+    .information-item p {
+      color:
+        var(--muted);
+
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .retry-button {
       width: 100%;
 
-      padding: 14px 18px;
+      padding: 15px 20px;
 
       border: none;
-      border-radius: 12px;
+      border-radius: 13px;
+
+      color: #2456a6;
+      background: #ffffff;
 
       font-size: 16px;
       font-weight: bold;
-
-      color: #2456a6;
-      background-color: #ffffff;
 
       cursor: pointer;
 
       transition:
         transform 0.2s ease,
-        background-color 0.2s ease;
+        box-shadow 0.2s ease;
     }
 
-    button:hover {
+    .retry-button:hover {
       transform:
-        translateY(-2px);
+        translateY(-3px);
 
-      background-color:
-        #eef5ff;
+      box-shadow:
+        0 14px 28px
+        rgba(
+          0,
+          0,
+          0,
+          0.22
+        );
     }
 
-    button:active {
-      transform:
-        translateY(0);
+    .connection-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      margin-top: 18px;
+
+      color:
+        var(--muted);
+
+      font-size: 13px;
+    }
+
+    .connection-dot {
+      color: #fb923c;
+
+      font-size: 14px;
+    }
+
+    .connection-status.online
+    .connection-dot {
+      color: #4ade80;
+    }
+
+    @keyframes cardAppear {
+      from {
+        opacity: 0;
+
+        transform:
+          translateY(30px)
+          scale(0.97);
+      }
+
+      to {
+        opacity: 1;
+
+        transform:
+          translateY(0)
+          scale(1);
+      }
+    }
+
+    @keyframes floating {
+      0%,
+      100% {
+        transform:
+          translateY(0);
+      }
+
+      50% {
+        transform:
+          translateY(-8px);
+      }
+    }
+
+    @keyframes moveCloud {
+      from {
+        transform:
+          translateX(0);
+      }
+
+      to {
+        transform:
+          translateX(
+            calc(
+              100vw + 500px
+            )
+          );
+      }
+    }
+
+    @media (
+      max-width: 520px
+    ) {
+      .offline-card {
+        padding:
+          32px 21px;
+      }
+
+      .app-icon {
+        width: 72px;
+        height: 72px;
+      }
+
+      .offline-symbol {
+        font-size: 51px;
+      }
+    }
+
+    @media (
+      prefers-reduced-motion:
+      reduce
+    ) {
+      * {
+        animation:
+          none !important;
+
+        transition:
+          none !important;
+      }
     }
   </style>
 </head>
 
 <body>
+  <div
+    class="background-cloud cloud-one"
+    aria-hidden="true"
+  >
+    ☁
+  </div>
+
+  <div
+    class="background-cloud cloud-two"
+    aria-hidden="true"
+  >
+    ☁
+  </div>
+
   <main class="offline-card">
-    <div class="offline-icon">
+    <div class="app-icon">
+      <img
+        src="./icons/icon-192.png"
+        alt="Weather App"
+      />
+    </div>
+
+    <div
+      class="offline-symbol"
+      aria-hidden="true"
+    >
       📡
     </div>
 
     <h1>
-      Nu există conexiune
+      Ești în modul offline
     </h1>
 
-    <p>
-      Weather App nu poate accesa internetul momentan.
-      Datele consultate anterior pot fi disponibile
-      după revenirea în aplicație.
+    <p class="description">
+      Weather App nu se poate conecta momentan
+      la internet. Interfața aplicației și datele
+      consultate anterior pot fi disponibile din
+      memoria cache.
     </p>
 
+    <div class="offline-information">
+      <div class="information-item">
+        <span>
+          🌤️
+        </span>
+
+        <p>
+          Ultimele date meteo accesate pot fi
+          afișate dacă au fost salvate anterior.
+        </p>
+      </div>
+
+      <div class="information-item">
+        <span>
+          📊
+        </span>
+
+        <p>
+          Statisticile și orașele favorite rămân
+          salvate în browser.
+        </p>
+      </div>
+
+      <div class="information-item">
+        <span>
+          🌐
+        </span>
+
+        <p>
+          Căutarea unei localități noi necesită
+          revenirea conexiunii la internet.
+        </p>
+      </div>
+    </div>
+
     <button
+      id="retry-button"
+      class="retry-button"
       type="button"
-      onclick="window.location.reload()"
     >
-      Încearcă din nou
+      ↻ Încearcă din nou
     </button>
+
+    <div
+      id="connection-status"
+      class="connection-status"
+      role="status"
+      aria-live="polite"
+    >
+      <span class="connection-dot">
+        ●
+      </span>
+
+      <span id="connection-text">
+        Fără conexiune la internet
+      </span>
+    </div>
   </main>
+
+  <script>
+    const retryButton =
+      document.getElementById(
+        "retry-button"
+      );
+
+    const connectionStatus =
+      document.getElementById(
+        "connection-status"
+      );
+
+    const connectionText =
+      document.getElementById(
+        "connection-text"
+      );
+
+
+    function updateConnectionStatus() {
+      const isOnline =
+        navigator.onLine;
+
+      connectionStatus.classList.toggle(
+        "online",
+        isOnline
+      );
+
+      connectionText.textContent =
+        isOnline
+          ? "Conexiunea a revenit"
+          : "Fără conexiune la internet";
+
+      retryButton.textContent =
+        isOnline
+          ? "Deschide aplicația"
+          : "↻ Încearcă din nou";
+    }
+
+
+    retryButton.addEventListener(
+      "click",
+      function () {
+        window.location.href =
+          "./index.html";
+      }
+    );
+
+
+    window.addEventListener(
+      "online",
+      function () {
+        updateConnectionStatus();
+
+        window.setTimeout(
+          function () {
+            window.location.href =
+              "./index.html";
+          },
+          900
+        );
+      }
+    );
+
+
+    window.addEventListener(
+      "offline",
+      updateConnectionStatus
+    );
+
+
+    updateConnectionStatus();
+  </script>
 </body>
 </html>
