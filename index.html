@@ -1,34 +1,51 @@
 <!DOCTYPE html>
 <html lang="ro">
-
 <head>
-    <meta charset="UTF-8">
-    <title>Weather App</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="style.css">
+  <title>Weather App</title>
+
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
+  <main class="weather-app">
+    <h1>Weather App</h1>
 
-    <h2>Aplicație Meteo</h2>
+    <p class="subtitle">
+      Verifică vremea actuală din București
+    </p>
 
-    <input
-        id="oras"
-        type="text"
-        placeholder="Introdu orașul">
+    <section class="weather-card">
+      <h2 id="city">București</h2>
 
-    <button id="buton">
+      <p class="temperature">
+        <span id="temperature">--</span>°C
+      </p>
 
-        Caută
+      <p id="status">Se încarcă datele meteo...</p>
 
-    </button>
+      <div class="weather-details">
+        <div class="detail-box">
+          <span class="detail-label">Vânt</span>
+          <strong>
+            <span id="wind-speed">--</span> km/h
+          </strong>
+        </div>
 
-    <hr>
+        <div class="detail-box">
+          <span class="detail-label">Actualizat</span>
+          <strong id="weather-time">--</strong>
+        </div>
+      </div>
 
-    <div id="rezultat"></div>
+      <button id="refresh-button" type="button">
+        Actualizează vremea
+      </button>
+    </section>
+  </main>
 
-    <script src="script.js"></script>
-
+  <script src="script.js"></script>
 </body>
-
 </html>
