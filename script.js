@@ -28,6 +28,9 @@ const refreshButton =
 const weatherIconElement =
   document.getElementById("weather-icon");
 
+const forecastContainer =
+  document.getElementById("forecast-container");
+
 
 let currentLatitude = 44.43;
 let currentLongitude = 26.10;
@@ -177,6 +180,33 @@ function formatWeatherTime(dateString) {
 }
 
 
+function formatForecastDay(dateString) {
+  const date =
+    new Date(`${dateString}T12:00:00`);
+
+  return date.toLocaleDateString(
+    "ro-RO",
+    {
+      weekday: "short"
+    }
+  );
+}
+
+
+function formatForecastDate(dateString) {
+  const date =
+    new Date(`${dateString}T12:00:00`);
+
+  return date.toLocaleDateString(
+    "ro-RO",
+    {
+      day: "2-digit",
+      month: "2-digit"
+    }
+  );
+}
+
+
 function setLoadingState(isLoading) {
   searchButton.disabled = isLoading;
   refreshButton.disabled = isLoading;
@@ -207,6 +237,146 @@ function clearError() {
 }
 
 
+function createForecastCard(
+  date,
+  weatherCode,
+  maximumTemperature,
+  minimumTemperature,
+  index
+) {
+  const visual =
+    getWeatherVisual(weatherCode);
+
+  const card =
+    document.createElement("article");
+
+  card.className = "forecast-card";
+
+  if (index === 0) {
+    card.classList.add("today");
+  }
+
+  const dayElement =
+    document.createElement("p");
+
+  dayElement.className = "forecast-day";
+
+  dayElement.textContent =
+    index === 0
+      ? "Astăzi"
+      : formatForecastDay(date);
+
+
+  const dateElement =
+    document.createElement("p");
+
+  dateElement.className =
+    "forecast-date";
+
+  dateElement.textContent =
+    formatForecastDate(date);
+
+
+  const iconElement =
+    document.createElement("div");
+
+  iconElement.className =
+    "forecast-icon";
+
+  iconElement.textContent =
+    visual.icon;
+
+
+  const descriptionElement =
+    document.createElement("p");
+
+  descriptionElement.className =
+    "forecast-description";
+
+  descriptionElement.textContent =
+    getWeatherDescription(weatherCode);
+
+
+  const temperaturesElement =
+    document.createElement("div");
+
+  temperaturesElement.className =
+    "forecast-temperatures";
+
+
+  const maximumElement =
+    document.createElement("span");
+
+  maximumElement.className =
+    "temperature-max";
+
+  maximumElement.textContent =
+    `${Math.round(maximumTemperature)}°`;
+
+
+  const minimumElement =
+    document.createElement("span");
+
+  minimumElement.className =
+    "temperature-min";
+
+  minimumElement.textContent =
+    `${Math.round(minimumTemperature)}°`;
+
+
+  temperaturesElement.append(
+    maximumElement,
+    minimumElement
+  );
+
+  card.append(
+    dayElement,
+    dateElement,
+    iconElement,
+    descriptionElement,
+    temperaturesElement
+  );
+
+  return card;
+}
+
+
+function displayForecast(dailyWeather) {
+  forecastContainer.innerHTML = "";
+
+  const dates =
+    dailyWeather.time;
+
+  const weatherCodes =
+    dailyWeather.weather_code;
+
+  const maximumTemperatures =
+    dailyWeather.temperature_2m_max;
+
+  const minimumTemperatures =
+    dailyWeather.temperature_2m_min;
+
+  for (
+    let index = 0;
+    index < dates.length;
+    index++
+  ) {
+    const forecastCard =
+      createForecastCard(
+        dates[index],
+        weatherCodes[index],
+        maximumTemperatures[index],
+        minimumTemperatures[index],
+        index
+      );
+
+    forecastContainer.appendChild(
+      forecastCard
+    );
+  }
+}
+
+
 async function loadWeather(
   latitude,
   longitude,
@@ -218,6 +388,8 @@ async function loadWeather(
     `?latitude=${latitude}` +
     `&longitude=${longitude}` +
     `&current=temperature_2m,weather_code,wind_speed_10m` +
+    `&daily=weather_code,temperature_2m_max,temperature_2m_min` +
+    `&forecast_days=7` +
     `&timezone=auto`;
 
   clearError();
@@ -225,10 +397,16 @@ async function loadWeather(
   statusElement.textContent =
     "Se încarcă datele meteo...";
 
+  forecastContainer.innerHTML =
+    `<p class="forecast-loading">
+      Se încarcă prognoza...
+    </p>`;
+
   setLoadingState(true);
 
   try {
-    const response = await fetch(apiUrl);
+    const response =
+      await fetch(apiUrl);
 
     if (!response.ok) {
       throw new Error(
@@ -236,7 +414,14 @@ async function loadWeather(
       );
     }
 
-    const data = await response.json();
+    const data =
+      await response.json();
+
+    if (!data.current || !data.daily) {
+      throw new Error(
+        "Răspunsul API este incomplet."
+      );
+    }
 
     const currentWeather =
       data.current;
@@ -276,6 +461,8 @@ async function loadWeather(
     updateWeatherVisual(
       currentWeather.weather_code
     );
+
+    displayForecast(data.daily);
   } catch (error) {
     console.error(
       "Eroare la încărcarea vremii:",
@@ -285,6 +472,11 @@ async function loadWeather(
     showError(
       "Nu am putut încărca vremea."
     );
+
+    forecastContainer.innerHTML =
+      `<p class="forecast-loading">
+        Prognoza nu a putut fi încărcată.
+      </p>`;
   } finally {
     setLoadingState(false);
   }
@@ -350,7 +542,8 @@ async function searchCity() {
       cityData.latitude,
       cityData.longitude,
       cityData.name,
-      cityData.country || "Țară necunoscută"
+      cityData.country ||
+        "Țară necunoscută"
     );
 
     cityInput.value = "";

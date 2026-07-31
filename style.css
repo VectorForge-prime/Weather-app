@@ -7,13 +7,9 @@
 body {
   min-height: 100vh;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 40px 20px;
 
-  padding: 20px;
-
-  font-family: Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 
   color: #ffffff;
 
@@ -76,28 +72,37 @@ body.weather-fog {
 
 .weather-app {
   width: 100%;
-  max-width: 480px;
+  max-width: 1050px;
+
+  margin: 0 auto;
 
   text-align: center;
 }
 
-.weather-app h1 {
+.app-header {
+  margin-bottom: 25px;
+}
+
+.app-header h1 {
   margin-bottom: 10px;
 
-  font-size: 42px;
+  font-size: 44px;
 }
 
 .subtitle {
-  margin-bottom: 25px;
-
   font-size: 17px;
+
+  opacity: 0.9;
 }
 
 .search-box {
   display: flex;
   gap: 10px;
 
-  margin-bottom: 20px;
+  width: 100%;
+  max-width: 520px;
+
+  margin: 0 auto 20px;
 }
 
 .search-box input {
@@ -112,6 +117,8 @@ body.weather-fog {
   outline: none;
 
   font-size: 16px;
+
+  background-color: rgba(255, 255, 255, 0.95);
 }
 
 .search-box input:focus {
@@ -136,8 +143,8 @@ body.weather-fog {
   cursor: pointer;
 
   transition:
-    transform 0.2s,
-    background-color 0.2s;
+    transform 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .search-box button:hover,
@@ -148,6 +155,11 @@ body.weather-fog {
 }
 
 .weather-card {
+  width: 100%;
+  max-width: 520px;
+
+  margin: 0 auto;
+
   padding: 32px;
 
   border: 1px solid
@@ -208,7 +220,8 @@ body.weather-fog {
 .weather-details {
   display: grid;
 
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns:
+    repeat(2, 1fr);
 
   gap: 15px;
 
@@ -244,6 +257,120 @@ body.weather-fog {
   width: 100%;
 }
 
+.forecast-section {
+  margin-top: 35px;
+}
+
+.forecast-section h2 {
+  margin-bottom: 18px;
+
+  font-size: 26px;
+}
+
+.forecast-container {
+  display: grid;
+
+  grid-template-columns:
+    repeat(7, minmax(115px, 1fr));
+
+  gap: 12px;
+
+  overflow-x: auto;
+
+  padding: 4px 2px 12px;
+}
+
+.forecast-card {
+  min-width: 115px;
+
+  padding: 18px 12px;
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.22);
+
+  border-radius: 18px;
+
+  background-color:
+    rgba(255, 255, 255, 0.16);
+
+  box-shadow:
+    0 10px 30px
+    rgba(0, 0, 0, 0.14);
+
+  backdrop-filter: blur(12px);
+
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+
+  animation: cardAppear 0.7s ease;
+}
+
+.forecast-card:hover {
+  transform: translateY(-5px);
+
+  background-color:
+    rgba(255, 255, 255, 0.23);
+}
+
+.forecast-card.today {
+  border: 2px solid
+    rgba(255, 255, 255, 0.8);
+}
+
+.forecast-day {
+  margin-bottom: 4px;
+
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.forecast-date {
+  font-size: 13px;
+
+  opacity: 0.75;
+}
+
+.forecast-icon {
+  margin: 14px 0;
+
+  font-size: 39px;
+}
+
+.forecast-description {
+  min-height: 34px;
+
+  margin-bottom: 12px;
+
+  font-size: 13px;
+
+  opacity: 0.9;
+}
+
+.forecast-temperatures {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+
+  font-size: 16px;
+}
+
+.temperature-max {
+  font-weight: bold;
+}
+
+.temperature-min {
+  opacity: 0.65;
+}
+
+.forecast-loading {
+  grid-column: 1 / -1;
+
+  padding: 25px;
+
+  font-size: 16px;
+}
+
 button:disabled {
   cursor: not-allowed;
 
@@ -277,9 +404,26 @@ button:disabled {
   }
 }
 
+@media (max-width: 900px) {
+  .forecast-container {
+    grid-template-columns:
+      repeat(7, 125px);
+
+    justify-content: start;
+  }
+}
+
 @media (max-width: 500px) {
-  .weather-app h1 {
+  body {
+    padding: 25px 15px;
+  }
+
+  .app-header h1 {
     font-size: 34px;
+  }
+
+  .subtitle {
+    font-size: 15px;
   }
 
   .search-box {
@@ -304,5 +448,9 @@ button:disabled {
 
   .weather-details {
     grid-template-columns: 1fr;
+  }
+
+  .forecast-section h2 {
+    font-size: 23px;
   }
 }
