@@ -4,6 +4,9 @@ const cityInput =
 const searchButton =
   document.getElementById("search-button");
 
+const locationButton =
+  document.getElementById("location-button");
+
 const cityElement =
   document.getElementById("city");
 
@@ -98,9 +101,8 @@ function getWeatherVisual(weatherCode) {
   }
 
   if (
-    weatherCode === 1 ||
-    weatherCode === 2 ||
-    weatherCode === 3
+    weatherCode >= 1 &&
+    weatherCode <= 3
   ) {
     return {
       icon: "☁️",
@@ -210,6 +212,7 @@ function formatForecastDate(dateString) {
 function setLoadingState(isLoading) {
   searchButton.disabled = isLoading;
   refreshButton.disabled = isLoading;
+  locationButton.disabled = isLoading;
 
   searchButton.textContent =
     isLoading ? "Se caută..." : "Caută";
@@ -479,6 +482,9 @@ async function loadWeather(
       </p>`;
   } finally {
     setLoadingState(false);
+
+    locationButton.textContent =
+      "📍 Folosește locația mea";
   }
 }
 
@@ -562,6 +568,90 @@ async function searchCity() {
 }
 
 
+function getLocationErrorMessage(error) {
+  if (error.code === 1) {
+    return (
+      "Permisiunea pentru locație a fost refuzată."
+    );
+  }
+
+  if (error.code === 2) {
+    return (
+      "Locația dispozitivului nu este disponibilă."
+    );
+  }
+
+  if (error.code === 3) {
+    return (
+      "Localizarea a durat prea mult."
+    );
+  }
+
+  return (
+    "Nu am putut determina locația."
+  );
+}
+
+
+function useCurrentLocation() {
+  if (!navigator.geolocation) {
+    showError(
+      "Browserul nu acceptă geolocația."
+    );
+
+    return;
+  }
+
+  clearError();
+
+  statusElement.textContent =
+    "Determin locația dispozitivului...";
+
+  locationButton.disabled = true;
+  locationButton.textContent =
+    "📍 Se caută locația...";
+
+  navigator.geolocation.getCurrentPosition(
+    function (position) {
+      const latitude =
+        position.coords.latitude;
+
+      const longitude =
+        position.coords.longitude;
+
+      loadWeather(
+        latitude,
+        longitude,
+        "Locația mea",
+        "Poziție curentă"
+      );
+    },
+
+    function (error) {
+      console.error(
+        "Eroare de geolocație:",
+        error
+      );
+
+      showError(
+        getLocationErrorMessage(error)
+      );
+
+      locationButton.disabled = false;
+
+      locationButton.textContent =
+        "📍 Folosește locația mea";
+    },
+
+    {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 300000
+    }
+  );
+}
+
+
 searchButton.addEventListener(
   "click",
   searchCity
@@ -575,6 +665,12 @@ cityInput.addEventListener(
       searchCity();
     }
   }
+);
+
+
+locationButton.addEventListener(
+  "click",
+  useCurrentLocation
 );
 
 

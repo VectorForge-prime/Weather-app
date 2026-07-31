@@ -17,57 +17,51 @@ body {
 }
 
 body.weather-clear {
-  background:
-    linear-gradient(
-      135deg,
-      #4facfe,
-      #00f2fe
-    );
+  background: linear-gradient(
+    135deg,
+    #4facfe,
+    #00f2fe
+  );
 }
 
 body.weather-cloudy {
-  background:
-    linear-gradient(
-      135deg,
-      #757f9a,
-      #d7dde8
-    );
+  background: linear-gradient(
+    135deg,
+    #757f9a,
+    #d7dde8
+  );
 }
 
 body.weather-rain {
-  background:
-    linear-gradient(
-      135deg,
-      #314755,
-      #26a0da
-    );
+  background: linear-gradient(
+    135deg,
+    #314755,
+    #26a0da
+  );
 }
 
 body.weather-snow {
-  background:
-    linear-gradient(
-      135deg,
-      #83a4d4,
-      #b6fbff
-    );
+  background: linear-gradient(
+    135deg,
+    #83a4d4,
+    #b6fbff
+  );
 }
 
 body.weather-storm {
-  background:
-    linear-gradient(
-      135deg,
-      #232526,
-      #414345
-    );
+  background: linear-gradient(
+    135deg,
+    #232526,
+    #414345
+  );
 }
 
 body.weather-fog {
-  background:
-    linear-gradient(
-      135deg,
-      #606c88,
-      #3f4c6b
-    );
+  background: linear-gradient(
+    135deg,
+    #606c88,
+    #3f4c6b
+  );
 }
 
 .weather-app {
@@ -102,7 +96,7 @@ body.weather-fog {
   width: 100%;
   max-width: 520px;
 
-  margin: 0 auto 20px;
+  margin: 0 auto 12px;
 }
 
 .search-box input {
@@ -128,6 +122,7 @@ body.weather-fog {
 }
 
 .search-box button,
+#location-button,
 #refresh-button {
   padding: 14px 20px;
 
@@ -148,10 +143,31 @@ body.weather-fog {
 }
 
 .search-box button:hover,
+#location-button:hover,
 #refresh-button:hover {
   transform: translateY(-2px);
 
   background-color: #eef5ff;
+}
+
+#location-button {
+  width: 100%;
+  max-width: 520px;
+
+  margin-bottom: 20px;
+
+  color: #ffffff;
+
+  background-color:
+    rgba(255, 255, 255, 0.2);
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.4);
+}
+
+#location-button:hover {
+  background-color:
+    rgba(255, 255, 255, 0.3);
 }
 
 .weather-card {
@@ -375,6 +391,8 @@ button:disabled {
   cursor: not-allowed;
 
   opacity: 0.65;
+
+  transform: none;
 }
 
 .error-message {
