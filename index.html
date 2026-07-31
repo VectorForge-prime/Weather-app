@@ -16,31 +16,64 @@
 <body class="weather-clear">
   <main class="weather-app">
     <header class="app-header">
-      <h1>Weather App</h1>
+      <div class="header-top">
+        <div>
+          <h1>Weather App</h1>
 
-      <p class="subtitle">
-        Vremea actuală și prognoza pentru următoarele 7 zile
-      </p>
+          <p class="subtitle">
+            Vremea actuală și prognoza pentru următoarele 7 zile
+          </p>
+        </div>
+
+        <div class="header-controls">
+          <button
+            id="unit-button"
+            class="small-button"
+            type="button"
+          >
+            °F
+          </button>
+
+          <button
+            id="theme-button"
+            class="small-button"
+            type="button"
+          >
+            🌙
+          </button>
+        </div>
+      </div>
     </header>
 
-    <div class="search-box">
-      <input
-        type="text"
-        id="city-input"
-        placeholder="Introdu un oraș"
-        autocomplete="off"
-      />
+    <section class="search-section">
+      <div class="search-box">
+        <input
+          type="text"
+          id="city-input"
+          placeholder="Introdu un oraș"
+          autocomplete="off"
+        />
 
-      <button id="search-button" type="button">
-        Caută
+        <button id="search-button" type="button">
+          Caută
+        </button>
+      </div>
+
+      <button id="location-button" type="button">
+        📍 Folosește locația mea
       </button>
-    </div>
-
-    <button id="location-button" type="button">
-      📍 Folosește locația mea
-    </button>
+    </section>
 
     <section class="weather-card">
+      <button
+        id="favorite-button"
+        class="favorite-button"
+        type="button"
+        title="Adaugă la favorite"
+      >
+        ☆
+      </button>
+
       <div
         class="weather-icon"
         id="weather-icon"
@@ -56,7 +89,8 @@
       </p>
 
       <p class="temperature">
-        <span id="temperature">--</span>°C
+        <span id="temperature">--</span>
+        <span id="temperature-unit">°C</span>
       </p>
 
       <p id="status">
@@ -89,6 +123,54 @@
       <button id="refresh-button" type="button">
         Actualizează vremea
       </button>
+    </section>
+
+    <section class="saved-section">
+      <div class="saved-panel">
+        <div class="section-heading">
+          <h2>⭐ Favorite</h2>
+
+          <button
+            id="clear-favorites-button"
+            class="text-button"
+            type="button"
+          >
+            Șterge
+          </button>
+        </div>
+
+        <div
+          id="favorites-container"
+          class="saved-list"
+        >
+          <p class="empty-message">
+            Nu ai orașe favorite.
+          </p>
+        </div>
+      </div>
+
+      <div class="saved-panel">
+        <div class="section-heading">
+          <h2>🕘 Căutări recente</h2>
+
+          <button
+            id="clear-recent-button"
+            class="text-button"
+            type="button"
+          >
+            Șterge
+          </button>
+        </div>
+
+        <div
+          id="recent-container"
+          class="saved-list"
+        >
+          <p class="empty-message">
+            Nu există căutări recente.
+          </p>
+        </div>
+      </div>
     </section>
 
     <section class="forecast-section">

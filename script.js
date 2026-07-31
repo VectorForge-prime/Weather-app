@@ -16,6 +16,9 @@ const countryElement =
 const temperatureElement =
   document.getElementById("temperature");
 
+const temperatureUnitElement =
+  document.getElementById("temperature-unit");
+
 const statusElement =
   document.getElementById("status");
 
@@ -28,11 +31,32 @@ const weatherTimeElement =
 const refreshButton =
   document.getElementById("refresh-button");
 
+const favoriteButton =
+  document.getElementById("favorite-button");
+
 const weatherIconElement =
   document.getElementById("weather-icon");
 
 const forecastContainer =
   document.getElementById("forecast-container");
+
+const favoritesContainer =
+  document.getElementById("favorites-container");
+
+const recentContainer =
+  document.getElementById("recent-container");
+
+const clearFavoritesButton =
+  document.getElementById("clear-favorites-button");
+
+const clearRecentButton =
+  document.getElementById("clear-recent-button");
+
+const unitButton =
+  document.getElementById("unit-button");
+
+const themeButton =
+  document.getElementById("theme-button");
 
 
 let currentLatitude = 44.43;
@@ -40,6 +64,49 @@ let currentLongitude = 26.10;
 
 let currentCity = "București";
 let currentCountry = "România";
+
+let currentTemperatureCelsius = null;
+let currentDailyWeather = null;
+let currentWeatherClass = "weather-clear";
+
+let temperatureUnit =
+  localStorage.getItem("temperatureUnit") || "C";
+
+let darkMode =
+  localStorage.getItem("darkMode") === "true";
+
+let favoriteCities =
+  getStoredArray("favoriteCities");
+
+let recentCities =
+  getStoredArray("recentCities");
+
+
+function getStoredArray(storageKey) {
+  try {
+    const storedValue =
+      localStorage.getItem(storageKey);
+
+    return storedValue
+      ? JSON.parse(storedValue)
+      : [];
+  } catch (error) {
+    console.error(
+      `Eroare la citirea ${storageKey}:`,
+      error
+    );
+
+    return [];
+  }
+}
+
+
+function saveStoredArray(storageKey, array) {
+  localStorage.setItem(
+    storageKey,
+    JSON.stringify(array)
+  );
+}
 
 
 function getWeatherDescription(weatherCode) {
@@ -157,6 +224,18 @@ function getWeatherVisual(weatherCode) {
 }
 
 
+function updateBodyClasses() {
+  document.body.className =
+    currentWeatherClass;
+
+  if (darkMode) {
+    document.body.classList.add(
+      "dark-mode"
+    );
+  }
+}
+
+
 function updateWeatherVisual(weatherCode) {
   const visual =
     getWeatherVisual(weatherCode);
@@ -164,8 +243,91 @@ function updateWeatherVisual(weatherCode) {
   weatherIconElement.textContent =
     visual.icon;
 
-  document.body.className =
+  currentWeatherClass =
     visual.className;
+
+  updateBodyClasses();
+}
+
+
+function celsiusToFahrenheit(celsius) {
+  return (celsius * 9) / 5 + 32;
+}
+
+
+function convertTemperature(celsius) {
+  if (temperatureUnit === "F") {
+    return Math.round(
+      celsiusToFahrenheit(celsius)
+    );
+  }
+
+  return Math.round(celsius);
+}
+
+
+function updateCurrentTemperature() {
+  if (currentTemperatureCelsius === null) {
+    return;
+  }
+
+  temperatureElement.textContent =
+    convertTemperature(
+      currentTemperatureCelsius
+    );
+
+  temperatureUnitElement.textContent =
+    `°${temperatureUnit}`;
+
+  unitButton.textContent =
+    temperatureUnit === "C"
+      ? "°F"
+      : "°C";
+}
+
+
+function toggleTemperatureUnit() {
+  temperatureUnit =
+    temperatureUnit === "C"
+      ? "F"
+      : "C";
+
+  localStorage.setItem(
+    "temperatureUnit",
+    temperatureUnit
+  );
+
+  updateCurrentTemperature();
+
+  if (currentDailyWeather) {
+    displayForecast(
+      currentDailyWeather
+    );
+  }
+}
+
+
+function updateThemeButton() {
+  themeButton.textContent =
+    darkMode ? "☀️" : "🌙";
+
+  themeButton.title =
+    darkMode
+      ? "Activează modul luminos"
+      : "Activează modul întunecat";
+}
+
+
+function toggleTheme() {
+  darkMode = !darkMode;
+
+  localStorage.setItem(
+    "darkMode",
+    darkMode
+  );
+
+  updateBodyClasses();
+  updateThemeButton();
 }
 
 
@@ -314,7 +476,9 @@ function createForecastCard(
     "temperature-max";
 
   maximumElement.textContent =
-    `${Math.round(maximumTemperature)}°`;
+    `${convertTemperature(
+      maximumTemperature
+    )}°`;
 
 
   const minimumElement =
@@ -324,7 +488,9 @@ function createForecastCard(
     "temperature-min";
 
   minimumElement.textContent =
-    `${Math.round(minimumTemperature)}°`;
+    `${convertTemperature(
+      minimumTemperature
+    )}°`;
 
 
   temperaturesElement.append(
@@ -345,6 +511,9 @@ function createForecastCard(
 
 
 function displayForecast(dailyWeather) {
+  currentDailyWeather =
+    dailyWeather;
+
   forecastContainer.innerHTML = "";
 
   const dates =
@@ -380,11 +549,232 @@ function displayForecast(dailyWeather) {
 }
 
 
+function citiesAreEqual(firstCity, secondCity) {
+  return (
+    Math.abs(
+      firstCity.latitude -
+      secondCity.latitude
+    ) < 0.001 &&
+    Math.abs(
+      firstCity.longitude -
+      secondCity.longitude
+    ) < 0.001
+  );
+}
+
+
+function getCurrentCityObject() {
+  return {
+    name: currentCity,
+    country: currentCountry,
+    latitude: currentLatitude,
+    longitude: currentLongitude
+  };
+}
+
+
+function isCurrentCityFavorite() {
+  const currentCityObject =
+    getCurrentCityObject();
+
+  return favoriteCities.some(
+    function (favoriteCity) {
+      return citiesAreEqual(
+        favoriteCity,
+        currentCityObject
+      );
+    }
+  );
+}
+
+
+function updateFavoriteButton() {
+  const isFavorite =
+    isCurrentCityFavorite();
+
+  favoriteButton.textContent =
+    isFavorite ? "★" : "☆";
+
+  favoriteButton.classList.toggle(
+    "active",
+    isFavorite
+  );
+
+  favoriteButton.title =
+    isFavorite
+      ? "Elimină din favorite"
+      : "Adaugă la favorite";
+}
+
+
+function toggleFavoriteCity() {
+  const city =
+    getCurrentCityObject();
+
+  const existingIndex =
+    favoriteCities.findIndex(
+      function (favoriteCity) {
+        return citiesAreEqual(
+          favoriteCity,
+          city
+        );
+      }
+    );
+
+  if (existingIndex >= 0) {
+    favoriteCities.splice(
+      existingIndex,
+      1
+    );
+  } else {
+    favoriteCities.unshift(city);
+  }
+
+  saveStoredArray(
+    "favoriteCities",
+    favoriteCities
+  );
+
+  renderFavorites();
+  updateFavoriteButton();
+}
+
+
+function addRecentCity(city) {
+  recentCities =
+    recentCities.filter(
+      function (recentCity) {
+        return !citiesAreEqual(
+          recentCity,
+          city
+        );
+      }
+    );
+
+  recentCities.unshift(city);
+
+  recentCities =
+    recentCities.slice(0, 6);
+
+  saveStoredArray(
+    "recentCities",
+    recentCities
+  );
+
+  renderRecentCities();
+}
+
+
+function createSavedCityButton(city) {
+  const button =
+    document.createElement("button");
+
+  button.type = "button";
+
+  button.className =
+    "saved-city-button";
+
+  button.textContent =
+    `${city.name}, ${city.country}`;
+
+  button.addEventListener(
+    "click",
+    function () {
+      loadWeather(
+        city.latitude,
+        city.longitude,
+        city.name,
+        city.country,
+        false
+      );
+    }
+  );
+
+  return button;
+}
+
+
+function renderCityList(
+  container,
+  cities,
+  emptyMessage
+) {
+  container.innerHTML = "";
+
+  if (cities.length === 0) {
+    const message =
+      document.createElement("p");
+
+    message.className =
+      "empty-message";
+
+    message.textContent =
+      emptyMessage;
+
+    container.appendChild(message);
+
+    return;
+  }
+
+  cities.forEach(
+    function (city) {
+      container.appendChild(
+        createSavedCityButton(city)
+      );
+    }
+  );
+}
+
+
+function renderFavorites() {
+  renderCityList(
+    favoritesContainer,
+    favoriteCities,
+    "Nu ai orașe favorite."
+  );
+}
+
+
+function renderRecentCities() {
+  renderCityList(
+    recentContainer,
+    recentCities,
+    "Nu există căutări recente."
+  );
+}
+
+
+function clearFavorites() {
+  favoriteCities = [];
+
+  saveStoredArray(
+    "favoriteCities",
+    favoriteCities
+  );
+
+  renderFavorites();
+  updateFavoriteButton();
+}
+
+
+function clearRecentCities() {
+  recentCities = [];
+
+  saveStoredArray(
+    "recentCities",
+    recentCities
+  );
+
+  renderRecentCities();
+}
+
+
 async function loadWeather(
   latitude,
   longitude,
   cityName,
-  countryName
+  countryName,
+  saveToRecent = false
 ) {
   const apiUrl =
     `https://api.open-meteo.com/v1/forecast` +
@@ -435,16 +825,16 @@ async function loadWeather(
     currentCity = cityName;
     currentCountry = countryName;
 
+    currentTemperatureCelsius =
+      currentWeather.temperature_2m;
+
     cityElement.textContent =
       cityName;
 
     countryElement.textContent =
       countryName;
 
-    temperatureElement.textContent =
-      Math.round(
-        currentWeather.temperature_2m
-      );
+    updateCurrentTemperature();
 
     windSpeedElement.textContent =
       Math.round(
@@ -466,6 +856,14 @@ async function loadWeather(
     );
 
     displayForecast(data.daily);
+
+    updateFavoriteButton();
+
+    if (saveToRecent) {
+      addRecentCity(
+        getCurrentCityObject()
+      );
+    }
   } catch (error) {
     console.error(
       "Eroare la încărcarea vremii:",
@@ -549,7 +947,8 @@ async function searchCity() {
       cityData.longitude,
       cityData.name,
       cityData.country ||
-        "Țară necunoscută"
+        "Țară necunoscută",
+      true
     );
 
     cityInput.value = "";
@@ -608,22 +1007,18 @@ function useCurrentLocation() {
     "Determin locația dispozitivului...";
 
   locationButton.disabled = true;
+
   locationButton.textContent =
     "📍 Se caută locația...";
 
   navigator.geolocation.getCurrentPosition(
     function (position) {
-      const latitude =
-        position.coords.latitude;
-
-      const longitude =
-        position.coords.longitude;
-
       loadWeather(
-        latitude,
-        longitude,
+        position.coords.latitude,
+        position.coords.longitude,
         "Locația mea",
-        "Poziție curentă"
+        "Poziție curentă",
+        false
       );
     },
 
@@ -681,15 +1076,55 @@ refreshButton.addEventListener(
       currentLatitude,
       currentLongitude,
       currentCity,
-      currentCountry
+      currentCountry,
+      false
     );
   }
 );
+
+
+favoriteButton.addEventListener(
+  "click",
+  toggleFavoriteCity
+);
+
+
+unitButton.addEventListener(
+  "click",
+  toggleTemperatureUnit
+);
+
+
+themeButton.addEventListener(
+  "click",
+  toggleTheme
+);
+
+
+clearFavoritesButton.addEventListener(
+  "click",
+  clearFavorites
+);
+
+
+clearRecentButton.addEventListener(
+  "click",
+  clearRecentCities
+);
+
+
+updateThemeButton();
+updateBodyClasses();
+updateCurrentTemperature();
+
+renderFavorites();
+renderRecentCities();
 
 
 loadWeather(
   currentLatitude,
   currentLongitude,
   currentCity,
-  currentCountry
+  currentCountry,
+  false
 );
