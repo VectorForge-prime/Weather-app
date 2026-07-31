@@ -8,6 +8,11 @@
     content="width=device-width, initial-scale=1.0"
   />
 
+  <meta
+    name="description"
+    content="Aplicație meteo cu vreme actuală, prognoză orară și prognoză pe 7 zile."
+  />
+
   <title>Weather App</title>
 
   <link rel="stylesheet" href="style.css" />
@@ -21,7 +26,7 @@
           <h1>Weather App</h1>
 
           <p class="subtitle">
-            Vremea actuală și prognoza pentru următoarele 7 zile
+            Vreme actuală, prognoză orară și prognoză pe 7 zile
           </p>
         </div>
 
@@ -30,6 +35,7 @@
             id="unit-button"
             class="small-button"
             type="button"
+            title="Schimbă unitatea temperaturii"
           >
             °F
           </button>
@@ -38,6 +44,7 @@
             id="theme-button"
             class="small-button"
             type="button"
+            title="Activează modul întunecat"
           >
             🌙
           </button>
@@ -99,6 +106,33 @@
 
       <div class="weather-details">
         <div class="detail-box">
+          <span class="detail-icon">🌡️</span>
+
+          <span class="detail-label">
+            Se simte ca
+          </span>
+
+          <strong>
+            <span id="apparent-temperature">--</span>
+            <span id="apparent-unit">°C</span>
+          </strong>
+        </div>
+
+        <div class="detail-box">
+          <span class="detail-icon">💧</span>
+
+          <span class="detail-label">
+            Umiditate
+          </span>
+
+          <strong>
+            <span id="humidity">--</span>%
+          </strong>
+        </div>
+
+        <div class="detail-box">
+          <span class="detail-icon">💨</span>
+
           <span class="detail-label">
             Vânt
           </span>
@@ -110,15 +144,47 @@
         </div>
 
         <div class="detail-box">
+          <span class="detail-icon">🌧️</span>
+
           <span class="detail-label">
-            Actualizat
+            Precipitații
           </span>
 
-          <strong id="weather-time">
+          <strong>
+            <span id="precipitation">--</span>
+            mm
+          </strong>
+        </div>
+
+        <div class="detail-box">
+          <span class="detail-icon">🌅</span>
+
+          <span class="detail-label">
+            Răsărit
+          </span>
+
+          <strong id="sunrise">
+            --
+          </strong>
+        </div>
+
+        <div class="detail-box">
+          <span class="detail-icon">🌇</span>
+
+          <span class="detail-label">
+            Apus
+          </span>
+
+          <strong id="sunset">
             --
           </strong>
         </div>
       </div>
+
+      <p class="updated-time">
+        Actualizat la
+        <strong id="weather-time">--</strong>
+      </p>
 
       <button id="refresh-button" type="button">
         Actualizează vremea
@@ -173,6 +239,19 @@
       </div>
     </section>
 
+    <section class="hourly-section">
+      <h2>Prognoza pentru următoarele 24 de ore</h2>
+
+      <div
+        class="hourly-container"
+        id="hourly-container"
+      >
+        <p class="loading-message">
+          Se încarcă prognoza orară...
+        </p>
+      </div>
+    </section>
+
     <section class="forecast-section">
       <h2>Prognoza pe 7 zile</h2>
 
@@ -180,12 +259,27 @@
         class="forecast-container"
         id="forecast-container"
       >
-        <p class="forecast-loading">
+        <p class="loading-message">
           Se încarcă prognoza...
         </p>
       </div>
     </section>
+
+    <footer class="app-footer">
+      <p>
+        Date meteo furnizate de Open-Meteo
+      </p>
+    </footer>
   </main>
+
+  <button
+    id="scroll-top-button"
+    class="scroll-top-button"
+    type="button"
+    title="Înapoi sus"
+  >
+    ↑
+  </button>
 
   <script src="script.js"></script>
 </body>

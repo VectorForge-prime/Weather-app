@@ -19,6 +19,24 @@ const temperatureElement =
 const temperatureUnitElement =
   document.getElementById("temperature-unit");
 
+const apparentTemperatureElement =
+  document.getElementById("apparent-temperature");
+
+const apparentUnitElement =
+  document.getElementById("apparent-unit");
+
+const humidityElement =
+  document.getElementById("humidity");
+
+const precipitationElement =
+  document.getElementById("precipitation");
+
+const sunriseElement =
+  document.getElementById("sunrise");
+
+const sunsetElement =
+  document.getElementById("sunset");
+
 const statusElement =
   document.getElementById("status");
 
@@ -40,6 +58,9 @@ const weatherIconElement =
 const forecastContainer =
   document.getElementById("forecast-container");
 
+const hourlyContainer =
+  document.getElementById("hourly-container");
+
 const favoritesContainer =
   document.getElementById("favorites-container");
 
@@ -58,6 +79,9 @@ const unitButton =
 const themeButton =
   document.getElementById("theme-button");
 
+const scrollTopButton =
+  document.getElementById("scroll-top-button");
+
 
 let currentLatitude = 44.43;
 let currentLongitude = 26.10;
@@ -66,7 +90,11 @@ let currentCity = "București";
 let currentCountry = "România";
 
 let currentTemperatureCelsius = null;
+let currentApparentTemperatureCelsius = null;
+
 let currentDailyWeather = null;
+let currentHourlyWeather = null;
+
 let currentWeatherClass = "weather-clear";
 
 let temperatureUnit =
@@ -266,17 +294,28 @@ function convertTemperature(celsius) {
 }
 
 
-function updateCurrentTemperature() {
-  if (currentTemperatureCelsius === null) {
-    return;
+function updateCurrentTemperatures() {
+  if (currentTemperatureCelsius !== null) {
+    temperatureElement.textContent =
+      convertTemperature(
+        currentTemperatureCelsius
+      );
   }
 
-  temperatureElement.textContent =
-    convertTemperature(
-      currentTemperatureCelsius
-    );
+  if (
+    currentApparentTemperatureCelsius !==
+    null
+  ) {
+    apparentTemperatureElement.textContent =
+      convertTemperature(
+        currentApparentTemperatureCelsius
+      );
+  }
 
   temperatureUnitElement.textContent =
+    `°${temperatureUnit}`;
+
+  apparentUnitElement.textContent =
     `°${temperatureUnit}`;
 
   unitButton.textContent =
@@ -297,11 +336,17 @@ function toggleTemperatureUnit() {
     temperatureUnit
   );
 
-  updateCurrentTemperature();
+  updateCurrentTemperatures();
 
   if (currentDailyWeather) {
     displayForecast(
       currentDailyWeather
+    );
+  }
+
+  if (currentHourlyWeather) {
+    displayHourlyForecast(
+      currentHourlyWeather
     );
   }
 }
@@ -331,7 +376,7 @@ function toggleTheme() {
 }
 
 
-function formatWeatherTime(dateString) {
+function formatTime(dateString) {
   const date = new Date(dateString);
 
   return date.toLocaleTimeString(
@@ -421,90 +466,37 @@ function createForecastCard(
     card.classList.add("today");
   }
 
-  const dayElement =
-    document.createElement("p");
+  card.innerHTML = `
+    <p class="forecast-day">
+      ${
+        index === 0
+          ? "Astăzi"
+          : formatForecastDay(date)
+      }
+    </p>
 
-  dayElement.className = "forecast-day";
+    <p class="forecast-date">
+      ${formatForecastDate(date)}
+    </p>
 
-  dayElement.textContent =
-    index === 0
-      ? "Astăzi"
-      : formatForecastDay(date);
+    <div class="forecast-icon">
+      ${visual.icon}
+    </div>
 
+    <p class="forecast-description">
+      ${getWeatherDescription(weatherCode)}
+    </p>
 
-  const dateElement =
-    document.createElement("p");
+    <div class="forecast-temperatures">
+      <span class="temperature-max">
+        ${convertTemperature(maximumTemperature)}°
+      </span>
 
-  dateElement.className =
-    "forecast-date";
-
-  dateElement.textContent =
-    formatForecastDate(date);
-
-
-  const iconElement =
-    document.createElement("div");
-
-  iconElement.className =
-    "forecast-icon";
-
-  iconElement.textContent =
-    visual.icon;
-
-
-  const descriptionElement =
-    document.createElement("p");
-
-  descriptionElement.className =
-    "forecast-description";
-
-  descriptionElement.textContent =
-    getWeatherDescription(weatherCode);
-
-
-  const temperaturesElement =
-    document.createElement("div");
-
-  temperaturesElement.className =
-    "forecast-temperatures";
-
-
-  const maximumElement =
-    document.createElement("span");
-
-  maximumElement.className =
-    "temperature-max";
-
-  maximumElement.textContent =
-    `${convertTemperature(
-      maximumTemperature
-    )}°`;
-
-
-  const minimumElement =
-    document.createElement("span");
-
-  minimumElement.className =
-    "temperature-min";
-
-  minimumElement.textContent =
-    `${convertTemperature(
-      minimumTemperature
-    )}°`;
-
-
-  temperaturesElement.append(
-    maximumElement,
-    minimumElement
-  );
-
-  card.append(
-    dayElement,
-    dateElement,
-    iconElement,
-    descriptionElement,
-    temperaturesElement
-  );
+      <span class="temperature-min">
+        ${convertTemperature(minimumTemperature)}°
+      </span>
+    </div>
+  `;
 
   return card;
 }
@@ -516,34 +508,107 @@ function displayForecast(dailyWeather) {
 
   forecastContainer.innerHTML = "";
 
-  const dates =
-    dailyWeather.time;
-
-  const weatherCodes =
-    dailyWeather.weather_code;
-
-  const maximumTemperatures =
-    dailyWeather.temperature_2m_max;
-
-  const minimumTemperatures =
-    dailyWeather.temperature_2m_min;
-
   for (
     let index = 0;
-    index < dates.length;
+    index < dailyWeather.time.length;
     index++
   ) {
-    const forecastCard =
-      createForecastCard(
-        dates[index],
-        weatherCodes[index],
-        maximumTemperatures[index],
-        minimumTemperatures[index],
-        index
-      );
-
     forecastContainer.appendChild(
-      forecastCard
+      createForecastCard(
+        dailyWeather.time[index],
+        dailyWeather.weather_code[index],
+        dailyWeather.temperature_2m_max[index],
+        dailyWeather.temperature_2m_min[index],
+        index
+      )
+    );
+  }
+}
+
+
+function createHourlyCard(
+  time,
+  temperature,
+  weatherCode,
+  precipitationProbability,
+  index
+) {
+  const visual =
+    getWeatherVisual(weatherCode);
+
+  const card =
+    document.createElement("article");
+
+  card.className = "hourly-card";
+
+  if (index === 0) {
+    card.classList.add("current-hour");
+  }
+
+  card.innerHTML = `
+    <p class="hourly-time">
+      ${index === 0 ? "Acum" : formatTime(time)}
+    </p>
+
+    <div class="hourly-icon">
+      ${visual.icon}
+    </div>
+
+    <p class="hourly-temperature">
+      ${convertTemperature(temperature)}°
+    </p>
+
+    <p class="hourly-precipitation">
+      💧 ${precipitationProbability ?? 0}%
+    </p>
+  `;
+
+  return card;
+}
+
+
+function displayHourlyForecast(hourlyWeather) {
+  currentHourlyWeather =
+    hourlyWeather;
+
+  hourlyContainer.innerHTML = "";
+
+  const currentTime = new Date();
+
+  let startIndex =
+    hourlyWeather.time.findIndex(
+      function (time) {
+        return (
+          new Date(time).getTime() >=
+          currentTime.getTime()
+        );
+      }
+    );
+
+  if (startIndex === -1) {
+    startIndex = 0;
+  }
+
+  const endIndex =
+    Math.min(
+      startIndex + 24,
+      hourlyWeather.time.length
+    );
+
+  for (
+    let index = startIndex;
+    index < endIndex;
+    index++
+  ) {
+    hourlyContainer.appendChild(
+      createHourlyCard(
+        hourlyWeather.time[index],
+        hourlyWeather.temperature_2m[index],
+        hourlyWeather.weather_code[index],
+        hourlyWeather
+          .precipitation_probability[index],
+        index - startIndex
+      )
     );
   }
 }
@@ -780,8 +845,9 @@ async function loadWeather(
     `https://api.open-meteo.com/v1/forecast` +
     `?latitude=${latitude}` +
     `&longitude=${longitude}` +
-    `&current=temperature_2m,weather_code,wind_speed_10m` +
-    `&daily=weather_code,temperature_2m_max,temperature_2m_min` +
+    `&current=temperature_2m,apparent_temperature,relative_humidity_2m,precipitation,weather_code,wind_speed_10m` +
+    `&hourly=temperature_2m,weather_code,precipitation_probability` +
+    `&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset` +
     `&forecast_days=7` +
     `&timezone=auto`;
 
@@ -791,8 +857,13 @@ async function loadWeather(
     "Se încarcă datele meteo...";
 
   forecastContainer.innerHTML =
-    `<p class="forecast-loading">
+    `<p class="loading-message">
       Se încarcă prognoza...
+    </p>`;
+
+  hourlyContainer.innerHTML =
+    `<p class="loading-message">
+      Se încarcă prognoza orară...
     </p>`;
 
   setLoadingState(true);
@@ -810,14 +881,15 @@ async function loadWeather(
     const data =
       await response.json();
 
-    if (!data.current || !data.daily) {
+    if (
+      !data.current ||
+      !data.hourly ||
+      !data.daily
+    ) {
       throw new Error(
         "Răspunsul API este incomplet."
       );
     }
-
-    const currentWeather =
-      data.current;
 
     currentLatitude = latitude;
     currentLongitude = longitude;
@@ -826,7 +898,10 @@ async function loadWeather(
     currentCountry = countryName;
 
     currentTemperatureCelsius =
-      currentWeather.temperature_2m;
+      data.current.temperature_2m;
+
+    currentApparentTemperatureCelsius =
+      data.current.apparent_temperature;
 
     cityElement.textContent =
       cityName;
@@ -834,28 +909,54 @@ async function loadWeather(
     countryElement.textContent =
       countryName;
 
-    updateCurrentTemperature();
+    updateCurrentTemperatures();
+
+    humidityElement.textContent =
+      Math.round(
+        data.current.relative_humidity_2m
+      );
+
+    precipitationElement.textContent =
+      Number(
+        data.current.precipitation
+      ).toFixed(1);
 
     windSpeedElement.textContent =
       Math.round(
-        currentWeather.wind_speed_10m
+        data.current.wind_speed_10m
       );
 
     weatherTimeElement.textContent =
-      formatWeatherTime(
-        currentWeather.time
+      formatTime(
+        data.current.time
+      );
+
+    sunriseElement.textContent =
+      formatTime(
+        data.daily.sunrise[0]
+      );
+
+    sunsetElement.textContent =
+      formatTime(
+        data.daily.sunset[0]
       );
 
     statusElement.textContent =
       getWeatherDescription(
-        currentWeather.weather_code
+        data.current.weather_code
       );
 
     updateWeatherVisual(
-      currentWeather.weather_code
+      data.current.weather_code
     );
 
-    displayForecast(data.daily);
+    displayHourlyForecast(
+      data.hourly
+    );
+
+    displayForecast(
+      data.daily
+    );
 
     updateFavoriteButton();
 
@@ -871,12 +972,17 @@ async function loadWeather(
     );
 
     showError(
-      "Nu am putut încărca vremea."
+      "Nu am putut încărca datele meteo."
     );
 
     forecastContainer.innerHTML =
-      `<p class="forecast-loading">
+      `<p class="loading-message">
         Prognoza nu a putut fi încărcată.
+      </p>`;
+
+    hourlyContainer.innerHTML =
+      `<p class="loading-message">
+        Prognoza orară nu a putut fi încărcată.
       </p>`;
   } finally {
     setLoadingState(false);
@@ -1047,6 +1153,14 @@ function useCurrentLocation() {
 }
 
 
+function handleScroll() {
+  scrollTopButton.classList.toggle(
+    "visible",
+    window.scrollY > 400
+  );
+}
+
+
 searchButton.addEventListener(
   "click",
   searchCity
@@ -1113,13 +1227,28 @@ clearRecentButton.addEventListener(
 );
 
 
+scrollTopButton.addEventListener(
+  "click",
+  function () {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+);
+
+
+window.addEventListener(
+  "scroll",
+  handleScroll
+);
+
+
 updateThemeButton();
 updateBodyClasses();
-updateCurrentTemperature();
 
 renderFavorites();
 renderRecentCities();
-
 
 loadWeather(
   currentLatitude,
