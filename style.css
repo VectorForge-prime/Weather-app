@@ -22,7 +22,10 @@ body {
   min-height: 100vh;
   padding: 40px 20px;
 
-  font-family: Arial, Helvetica, sans-serif;
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
 
   color: var(--text-color);
 
@@ -32,60 +35,74 @@ body {
 }
 
 body.weather-clear {
-  background: linear-gradient(
-    135deg,
-    #4facfe,
-    #00f2fe
-  );
+  background:
+    linear-gradient(
+      135deg,
+      #4facfe,
+      #00f2fe
+    );
 }
 
 body.weather-cloudy {
-  background: linear-gradient(
-    135deg,
-    #757f9a,
-    #d7dde8
-  );
+  background:
+    linear-gradient(
+      135deg,
+      #757f9a,
+      #d7dde8
+    );
 }
 
 body.weather-rain {
-  background: linear-gradient(
-    135deg,
-    #314755,
-    #26a0da
-  );
+  background:
+    linear-gradient(
+      135deg,
+      #314755,
+      #26a0da
+    );
 }
 
 body.weather-snow {
-  background: linear-gradient(
-    135deg,
-    #83a4d4,
-    #b6fbff
-  );
+  background:
+    linear-gradient(
+      135deg,
+      #83a4d4,
+      #b6fbff
+    );
 }
 
 body.weather-storm {
-  background: linear-gradient(
-    135deg,
-    #232526,
-    #414345
-  );
+  background:
+    linear-gradient(
+      135deg,
+      #232526,
+      #414345
+    );
 }
 
 body.weather-fog {
-  background: linear-gradient(
-    135deg,
-    #606c88,
-    #3f4c6b
-  );
+  background:
+    linear-gradient(
+      135deg,
+      #606c88,
+      #3f4c6b
+    );
 }
 
 body.dark-mode {
-  --card-background: rgba(15, 23, 42, 0.76);
-  --card-border: rgba(255, 255, 255, 0.16);
-  --small-card-background: rgba(15, 23, 42, 0.56);
+  --card-background:
+    rgba(15, 23, 42, 0.8);
+
+  --card-border:
+    rgba(255, 255, 255, 0.16);
+
+  --small-card-background:
+    rgba(15, 23, 42, 0.58);
+
   --button-background: #172033;
   --button-color: #ffffff;
-  --shadow-color: rgba(0, 0, 0, 0.46);
+
+  --shadow-color:
+    rgba(0, 0, 0, 0.48);
 }
 
 body.dark-mode::before {
@@ -95,7 +112,8 @@ body.dark-mode::before {
   inset: 0;
   z-index: -1;
 
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color:
+    rgba(0, 0, 0, 0.4);
 
   pointer-events: none;
 }
@@ -112,6 +130,8 @@ body.dark-mode::before {
 
   text-align: center;
 }
+
+/* Header */
 
 .app-header {
   margin-bottom: 25px;
@@ -146,14 +166,18 @@ body.dark-mode::before {
   width: 48px;
   height: 48px;
 
-  border: 1px solid var(--card-border);
+  border: 1px solid
+    var(--card-border);
+
   border-radius: 14px;
 
   font-size: 18px;
   font-weight: bold;
 
   color: var(--text-color);
-  background-color: var(--card-background);
+
+  background-color:
+    var(--card-background);
 
   cursor: pointer;
 
@@ -170,6 +194,8 @@ body.dark-mode::before {
   background-color:
     rgba(255, 255, 255, 0.25);
 }
+
+/* Căutare */
 
 .search-section {
   position: relative;
@@ -222,13 +248,15 @@ body.dark-mode::before {
   font-weight: bold;
 
   color: var(--button-color);
-  background-color: var(--button-background);
+
+  background-color:
+    var(--button-background);
 
   cursor: pointer;
 
   transition:
     transform 0.2s ease,
-    background-color 0.2s ease;
+    opacity 0.2s ease;
 }
 
 .search-box button:hover,
@@ -243,14 +271,14 @@ body.dark-mode::before {
 
   color: #ffffff;
 
-  border: 1px solid var(--card-border);
+  border: 1px solid
+    var(--card-border);
 
-  background-color: var(--card-background);
+  background-color:
+    var(--card-background);
 
   backdrop-filter: blur(12px);
 }
-
-/* Rezultatele căutării */
 
 .search-results {
   position: absolute;
@@ -262,11 +290,13 @@ body.dark-mode::before {
 
   overflow: hidden;
 
-  border: 1px solid var(--card-border);
+  border: 1px solid
+    var(--card-border);
+
   border-radius: 14px;
 
   background-color:
-    rgba(15, 23, 42, 0.96);
+    rgba(15, 23, 42, 0.97);
 
   box-shadow:
     0 16px 35px
@@ -281,18 +311,17 @@ body.dark-mode::before {
   display: block;
 
   width: 100%;
-
   padding: 14px 16px;
 
   border: none;
-  border-bottom: 1px solid
+  border-bottom:
+    1px solid
     rgba(255, 255, 255, 0.1);
 
   color: #ffffff;
   background: transparent;
 
   cursor: pointer;
-
   text-align: left;
 }
 
@@ -326,9 +355,10 @@ body.dark-mode::before {
 
   color: #ffffff;
 
-  font-size: 14px;
   text-align: center;
 }
+
+/* Cardul meteo */
 
 .weather-card {
   position: relative;
@@ -337,13 +367,15 @@ body.dark-mode::before {
   max-width: 650px;
 
   margin: 0 auto;
-
   padding: 34px;
 
-  border: 1px solid var(--card-border);
+  border: 1px solid
+    var(--card-border);
+
   border-radius: 26px;
 
-  background-color: var(--card-background);
+  background-color:
+    var(--card-background);
 
   box-shadow:
     0 20px 50px
@@ -351,7 +383,8 @@ body.dark-mode::before {
 
   backdrop-filter: blur(14px);
 
-  animation: cardAppear 0.7s ease;
+  animation:
+    cardAppear 0.7s ease;
 }
 
 .favorite-button {
@@ -362,23 +395,19 @@ body.dark-mode::before {
   width: 46px;
   height: 46px;
 
-  border: 1px solid var(--card-border);
+  border: 1px solid
+    var(--card-border);
+
   border-radius: 50%;
 
   font-size: 28px;
 
   color: #ffffff;
-  background-color: var(--small-card-background);
+
+  background-color:
+    var(--small-card-background);
 
   cursor: pointer;
-
-  transition:
-    transform 0.2s ease,
-    background-color 0.2s ease;
-}
-
-.favorite-button:hover {
-  transform: scale(1.08);
 }
 
 .favorite-button.active {
@@ -391,7 +420,8 @@ body.dark-mode::before {
   font-size: 78px;
 
   animation:
-    floatingIcon 3s ease-in-out infinite;
+    floatingIcon
+    3s ease-in-out infinite;
 }
 
 .weather-card h2 {
@@ -403,7 +433,6 @@ body.dark-mode::before {
 .country {
   margin-bottom: 10px;
 
-  font-size: 15px;
   opacity: 0.8;
 }
 
@@ -411,16 +440,13 @@ body.dark-mode::before {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+
   gap: 7px 16px;
 
   margin-bottom: 14px;
 
   font-size: 12px;
   opacity: 0.82;
-}
-
-.location-information span {
-  white-space: nowrap;
 }
 
 .temperature {
@@ -444,6 +470,7 @@ body.dark-mode::before {
 
 .weather-details {
   display: grid;
+
   grid-template-columns:
     repeat(4, 1fr);
 
@@ -455,10 +482,13 @@ body.dark-mode::before {
 .detail-box {
   padding: 17px 8px;
 
-  border: 1px solid var(--card-border);
+  border: 1px solid
+    var(--card-border);
+
   border-radius: 16px;
 
-  background-color: var(--small-card-background);
+  background-color:
+    var(--small-card-background);
 }
 
 .detail-icon {
@@ -488,11 +518,294 @@ body.dark-mode::before {
   width: 100%;
 }
 
-/* Favorite și căutări recente */
+/* V10 – Calitatea aerului */
+
+.air-quality-section {
+  margin-top: 32px;
+  padding: 26px;
+
+  border: 1px solid
+    var(--card-border);
+
+  border-radius: 26px;
+
+  background-color:
+    var(--card-background);
+
+  box-shadow:
+    0 16px 42px
+    rgba(0, 0, 0, 0.2);
+
+  backdrop-filter: blur(14px);
+
+  text-align: left;
+}
+
+.air-quality-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+
+  margin-bottom: 22px;
+}
+
+.air-quality-heading h2 {
+  margin-bottom: 5px;
+
+  font-size: 28px;
+}
+
+.air-quality-heading p {
+  font-size: 14px;
+  opacity: 0.78;
+}
+
+.aqi-badge {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  min-width: 105px;
+  min-height: 88px;
+
+  padding: 12px;
+
+  border-radius: 20px;
+
+  color: #ffffff;
+
+  text-align: center;
+
+  box-shadow:
+    0 10px 25px
+    rgba(0, 0, 0, 0.2);
+}
+
+.aqi-badge span {
+  font-size: 34px;
+  font-weight: bold;
+}
+
+.aqi-badge small {
+  margin-top: 3px;
+
+  font-size: 11px;
+}
+
+.aqi-unknown {
+  background:
+    linear-gradient(
+      135deg,
+      #64748b,
+      #475569
+    );
+}
+
+.aqi-good {
+  background:
+    linear-gradient(
+      135deg,
+      #16a34a,
+      #4ade80
+    );
+}
+
+.aqi-fair {
+  background:
+    linear-gradient(
+      135deg,
+      #65a30d,
+      #a3e635
+    );
+}
+
+.aqi-moderate {
+  background:
+    linear-gradient(
+      135deg,
+      #eab308,
+      #facc15
+    );
+
+  color: #3a2e00;
+}
+
+.aqi-poor {
+  background:
+    linear-gradient(
+      135deg,
+      #f97316,
+      #fb923c
+    );
+}
+
+.aqi-very-poor {
+  background:
+    linear-gradient(
+      135deg,
+      #dc2626,
+      #ef4444
+    );
+}
+
+.aqi-extreme {
+  background:
+    linear-gradient(
+      135deg,
+      #7e22ce,
+      #be123c
+    );
+}
+
+.air-quality-status {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  margin-bottom: 22px;
+  padding: 20px;
+
+  border: 1px solid
+    var(--card-border);
+
+  border-radius: 20px;
+
+  background-color:
+    var(--small-card-background);
+}
+
+.air-quality-main-icon {
+  font-size: 46px;
+}
+
+.air-quality-status h3 {
+  margin-bottom: 5px;
+
+  font-size: 21px;
+}
+
+.air-quality-status p {
+  font-size: 14px;
+  line-height: 1.5;
+
+  opacity: 0.85;
+}
+
+.air-quality-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 14px;
+}
+
+.air-card {
+  display: flex;
+  flex-direction: column;
+
+  padding: 20px 14px;
+
+  border: 1px solid
+    var(--card-border);
+
+  border-radius: 18px;
+
+  background-color:
+    var(--small-card-background);
+
+  text-align: center;
+
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.air-card:hover {
+  transform: translateY(-4px);
+
+  background-color:
+    rgba(255, 255, 255, 0.2);
+}
+
+.air-card-icon {
+  margin-bottom: 9px;
+
+  font-size: 30px;
+}
+
+.air-card-label {
+  margin-bottom: 8px;
+
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.air-card strong {
+  margin-bottom: 6px;
+
+  font-size: 19px;
+}
+
+.air-card small {
+  font-size: 11px;
+  opacity: 0.65;
+}
+
+.recommendations-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 14px;
+
+  margin-top: 18px;
+}
+
+.recommendation-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+
+  padding: 18px;
+
+  border: 1px solid
+    var(--card-border);
+
+  border-radius: 18px;
+
+  background-color:
+    var(--small-card-background);
+}
+
+.recommendation-card > span {
+  font-size: 31px;
+}
+
+.recommendation-card h3 {
+  margin-bottom: 6px;
+
+  font-size: 16px;
+}
+
+.recommendation-card p {
+  font-size: 13px;
+  line-height: 1.5;
+
+  opacity: 0.82;
+}
+
+/* Favorite și istoric */
 
 .saved-section {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
   gap: 20px;
 
   margin-top: 30px;
@@ -501,14 +814,13 @@ body.dark-mode::before {
 .saved-panel {
   padding: 22px;
 
-  border: 1px solid var(--card-border);
+  border: 1px solid
+    var(--card-border);
+
   border-radius: 20px;
 
-  background-color: var(--card-background);
-
-  box-shadow:
-    0 12px 32px
-    rgba(0, 0, 0, 0.14);
+  background-color:
+    var(--card-background);
 
   backdrop-filter: blur(12px);
 
@@ -519,7 +831,6 @@ body.dark-mode::before {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 15px;
 
   margin-bottom: 16px;
 }
@@ -531,19 +842,11 @@ body.dark-mode::before {
 .text-button {
   border: none;
 
-  font-size: 14px;
-
   color: inherit;
   background: none;
 
   cursor: pointer;
-
   opacity: 0.75;
-}
-
-.text-button:hover {
-  opacity: 1;
-  text-decoration: underline;
 }
 
 .saved-list {
@@ -555,26 +858,17 @@ body.dark-mode::before {
 .saved-city-button {
   padding: 10px 14px;
 
-  border: 1px solid var(--card-border);
+  border: 1px solid
+    var(--card-border);
+
   border-radius: 999px;
 
-  font-size: 14px;
-
   color: inherit;
-  background-color: var(--small-card-background);
-
-  cursor: pointer;
-
-  transition:
-    transform 0.2s ease,
-    background-color 0.2s ease;
-}
-
-.saved-city-button:hover {
-  transform: translateY(-2px);
 
   background-color:
-    rgba(255, 255, 255, 0.24);
+    var(--small-card-background);
+
+  cursor: pointer;
 }
 
 .empty-message {
@@ -582,21 +876,19 @@ body.dark-mode::before {
   opacity: 0.7;
 }
 
-/* Harta */
+/* Hartă */
 
 .map-section {
   margin-top: 38px;
-
   padding: 24px;
 
-  border: 1px solid var(--card-border);
+  border: 1px solid
+    var(--card-border);
+
   border-radius: 24px;
 
-  background-color: var(--card-background);
-
-  box-shadow:
-    0 15px 40px
-    rgba(0, 0, 0, 0.2);
+  background-color:
+    var(--card-background);
 
   backdrop-filter: blur(14px);
 
@@ -607,6 +899,7 @@ body.dark-mode::before {
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   gap: 20px;
 
   margin-bottom: 18px;
@@ -637,15 +930,7 @@ body.dark-mode::before {
   color: #222222;
 }
 
-.leaflet-popup-content {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-.leaflet-control-attribution {
-  font-size: 10px;
-}
-
-/* Prognoză orară */
+/* Prognoză */
 
 .hourly-section,
 .forecast-section {
@@ -669,52 +954,39 @@ body.dark-mode::before {
   overflow-x: auto;
 
   padding: 4px 2px 14px;
-
-  scroll-snap-type: x mandatory;
 }
 
-.hourly-card {
-  padding: 17px 10px;
+.hourly-card,
+.forecast-card {
+  padding: 18px 12px;
 
-  border: 1px solid var(--card-border);
+  border: 1px solid
+    var(--card-border);
+
   border-radius: 18px;
 
-  background-color: var(--card-background);
-
-  box-shadow:
-    0 10px 30px
-    rgba(0, 0, 0, 0.14);
+  background-color:
+    var(--card-background);
 
   backdrop-filter: blur(12px);
-
-  scroll-snap-align: start;
-
-  transition:
-    transform 0.2s ease,
-    background-color 0.2s ease;
 }
 
-.hourly-card:hover {
-  transform: translateY(-5px);
-
-  background-color:
-    rgba(255, 255, 255, 0.23);
-}
-
-.hourly-card.current-hour {
+.hourly-card.current-hour,
+.forecast-card.today {
   border: 2px solid
     rgba(255, 255, 255, 0.85);
 }
 
-.hourly-time {
-  font-size: 15px;
+.hourly-time,
+.forecast-day {
   font-weight: bold;
 }
 
-.hourly-icon {
+.hourly-icon,
+.forecast-icon {
   margin: 12px 0;
 
-  font-size: 34px;
+  font-size: 36px;
 }
 
 .hourly-temperature {
@@ -724,15 +996,16 @@ body.dark-mode::before {
   font-weight: bold;
 }
 
-.hourly-precipitation {
+.hourly-precipitation,
+.forecast-date,
+.forecast-description {
   font-size: 12px;
   opacity: 0.8;
 }
 
-/* Prognoză 7 zile */
-
 .forecast-container {
   display: grid;
+
   grid-template-columns:
     repeat(7, minmax(120px, 1fr));
 
@@ -740,66 +1013,7 @@ body.dark-mode::before {
 
   overflow-x: auto;
 
-  padding: 4px 2px 14px;
-}
-
-.forecast-card {
-  min-width: 120px;
-
-  padding: 18px 12px;
-
-  border: 1px solid var(--card-border);
-  border-radius: 18px;
-
-  background-color: var(--card-background);
-
-  box-shadow:
-    0 10px 30px
-    rgba(0, 0, 0, 0.14);
-
-  backdrop-filter: blur(12px);
-
-  transition:
-    transform 0.2s ease,
-    background-color 0.2s ease;
-
-  animation: cardAppear 0.7s ease;
-}
-
-.forecast-card:hover {
-  transform: translateY(-5px);
-}
-
-.forecast-card.today {
-  border: 2px solid
-    rgba(255, 255, 255, 0.85);
-}
-
-.forecast-day {
-  margin-bottom: 4px;
-
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.forecast-date {
-  font-size: 13px;
-  opacity: 0.75;
-}
-
-.forecast-icon {
-  margin: 14px 0;
-
-  font-size: 39px;
-}
-
-.forecast-description {
-  min-height: 34px;
-
-  margin-bottom: 12px;
-
-  font-size: 13px;
-  opacity: 0.9;
+  padding-bottom: 14px;
 }
 
 .forecast-temperatures {
@@ -807,7 +1021,7 @@ body.dark-mode::before {
   justify-content: center;
   gap: 8px;
 
-  font-size: 16px;
+  margin-top: 12px;
 }
 
 .temperature-max {
@@ -822,16 +1036,15 @@ body.dark-mode::before {
   grid-column: 1 / -1;
 
   padding: 25px;
-
-  font-size: 16px;
 }
 
 .app-footer {
   margin-top: 42px;
-
   padding: 20px;
 
-  font-size: 14px;
+  font-size: 13px;
+  line-height: 1.7;
+
   opacity: 0.75;
 }
 
@@ -844,25 +1057,20 @@ body.dark-mode::before {
   width: 48px;
   height: 48px;
 
-  border: 1px solid var(--card-border);
+  border: none;
   border-radius: 50%;
 
   font-size: 24px;
-  font-weight: bold;
 
   color: #ffffff;
+
   background-color:
-    rgba(15, 23, 42, 0.75);
+    rgba(15, 23, 42, 0.8);
 
   cursor: pointer;
 
   opacity: 0;
   visibility: hidden;
-
-  transition:
-    opacity 0.2s ease,
-    transform 0.2s ease,
-    visibility 0.2s ease;
 }
 
 .scroll-top-button.visible {
@@ -870,15 +1078,10 @@ body.dark-mode::before {
   visibility: visible;
 }
 
-.scroll-top-button:hover {
-  transform: translateY(-3px);
-}
-
 button:disabled {
   cursor: not-allowed;
 
   opacity: 0.65;
-
   transform: none;
 }
 
@@ -909,8 +1112,15 @@ button:disabled {
   }
 }
 
+/* Responsive */
+
 @media (max-width: 900px) {
   .weather-details {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .air-quality-grid {
     grid-template-columns:
       repeat(2, 1fr);
   }
@@ -918,21 +1128,25 @@ button:disabled {
   .forecast-container {
     grid-template-columns:
       repeat(7, 125px);
-
-    justify-content: start;
   }
 }
 
 @media (max-width: 700px) {
-  .saved-section {
+  .saved-section,
+  .recommendations-grid {
     grid-template-columns: 1fr;
   }
 
-  .map-heading {
+  .map-heading,
+  .air-quality-heading {
     flex-direction: column;
     align-items: stretch;
 
     text-align: center;
+  }
+
+  .aqi-badge {
+    width: 100%;
   }
 
   #center-map-button {
@@ -960,24 +1174,17 @@ button:disabled {
     font-size: 35px;
   }
 
-  .subtitle {
-    font-size: 15px;
-  }
-
   .search-box {
     flex-direction: column;
-  }
-
-  .search-box button {
-    width: 100%;
   }
 
   .search-results {
     top: 116px;
   }
 
-  .weather-card {
-    padding: 28px 20px;
+  .weather-card,
+  .air-quality-section {
+    padding: 24px 18px;
   }
 
   .temperature {
@@ -988,11 +1195,8 @@ button:disabled {
     font-size: 34px;
   }
 
-  .weather-icon {
-    font-size: 65px;
-  }
-
-  .weather-details {
+  .weather-details,
+  .air-quality-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1000,21 +1204,13 @@ button:disabled {
     flex-direction: column;
   }
 
-  .map-section {
-    padding: 15px;
+  .air-quality-status {
+    flex-direction: column;
+
+    text-align: center;
   }
 
   .weather-map {
     height: 320px;
-  }
-
-  .hourly-section > h2,
-  .forecast-section > h2 {
-    font-size: 22px;
-  }
-
-  .scroll-top-button {
-    right: 14px;
-    bottom: 14px;
   }
 }

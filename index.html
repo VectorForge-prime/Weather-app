@@ -10,10 +10,10 @@
 
   <meta
     name="description"
-    content="Aplicație meteo cu hartă interactivă, vreme actuală și prognoză."
+    content="Aplicație meteo cu prognoză, hartă interactivă și monitorizarea calității aerului."
   />
 
-  <title>Weather App V9</title>
+  <title>Weather App V10</title>
 
   <link
     rel="stylesheet"
@@ -33,7 +33,7 @@
           <h1>Weather App</h1>
 
           <p class="subtitle">
-            Vreme actuală, prognoză și hartă interactivă
+            Vreme, prognoză, hartă și calitatea aerului
           </p>
         </div>
 
@@ -179,8 +179,8 @@
             Direcție vânt
           </span>
 
-          <strong>
-            <span id="wind-direction">--</span>
+          <strong id="wind-direction">
+            --
           </strong>
         </div>
 
@@ -204,9 +204,7 @@
             Răsărit
           </span>
 
-          <strong id="sunrise">
-            --
-          </strong>
+          <strong id="sunrise">--</strong>
         </div>
 
         <div class="detail-box">
@@ -216,9 +214,7 @@
             Apus
           </span>
 
-          <strong id="sunset">
-            --
-          </strong>
+          <strong id="sunset">--</strong>
         </div>
 
         <div class="detail-box">
@@ -228,15 +224,187 @@
             Actualizat
           </span>
 
-          <strong id="weather-time">
-            --
-          </strong>
+          <strong id="weather-time">--</strong>
         </div>
       </div>
 
       <button id="refresh-button" type="button">
-        Actualizează vremea
+        Actualizează toate datele
       </button>
+    </section>
+
+    <!-- V10: CALITATEA AERULUI -->
+
+    <section class="air-quality-section">
+      <div class="air-quality-heading">
+        <div>
+          <h2>Calitatea aerului</h2>
+
+          <p>
+            Valori actuale pentru locația selectată
+          </p>
+        </div>
+
+        <div
+          id="aqi-badge"
+          class="aqi-badge aqi-unknown"
+        >
+          <span id="aqi-value">--</span>
+
+          <small>AQI european</small>
+        </div>
+      </div>
+
+      <div
+        id="air-quality-status"
+        class="air-quality-status"
+      >
+        <span
+          id="air-quality-icon"
+          class="air-quality-main-icon"
+        >
+          🌿
+        </span>
+
+        <div>
+          <h3 id="air-quality-label">
+            Se încarcă...
+          </h3>
+
+          <p id="air-quality-message">
+            Se încarcă informațiile despre aer.
+          </p>
+        </div>
+      </div>
+
+      <div class="air-quality-grid">
+        <article class="air-card">
+          <span class="air-card-icon">🌫️</span>
+
+          <span class="air-card-label">
+            PM2.5
+          </span>
+
+          <strong>
+            <span id="pm25-value">--</span>
+            µg/m³
+          </strong>
+
+          <small>
+            Particule foarte fine
+          </small>
+        </article>
+
+        <article class="air-card">
+          <span class="air-card-icon">🏭</span>
+
+          <span class="air-card-label">
+            PM10
+          </span>
+
+          <strong>
+            <span id="pm10-value">--</span>
+            µg/m³
+          </strong>
+
+          <small>
+            Particule în suspensie
+          </small>
+        </article>
+
+        <article class="air-card">
+          <span class="air-card-icon">🚗</span>
+
+          <span class="air-card-label">
+            Dioxid de azot
+          </span>
+
+          <strong>
+            <span id="no2-value">--</span>
+            µg/m³
+          </strong>
+
+          <small>
+            NO₂
+          </small>
+        </article>
+
+        <article class="air-card">
+          <span class="air-card-icon">🫧</span>
+
+          <span class="air-card-label">
+            Ozon
+          </span>
+
+          <strong>
+            <span id="ozone-value">--</span>
+            µg/m³
+          </strong>
+
+          <small>
+            O₃
+          </small>
+        </article>
+
+        <article class="air-card">
+          <span class="air-card-icon">🔥</span>
+
+          <span class="air-card-label">
+            Monoxid de carbon
+          </span>
+
+          <strong>
+            <span id="carbon-monoxide-value">--</span>
+            µg/m³
+          </strong>
+
+          <small>
+            CO
+          </small>
+        </article>
+
+        <article class="air-card uv-card">
+          <span class="air-card-icon">☀️</span>
+
+          <span class="air-card-label">
+            Indice UV
+          </span>
+
+          <strong id="uv-index-value">
+            --
+          </strong>
+
+          <small id="uv-level">
+            Nivel necunoscut
+          </small>
+        </article>
+      </div>
+
+      <div class="recommendations-grid">
+        <article class="recommendation-card">
+          <span>🫁</span>
+
+          <div>
+            <h3>Recomandare aer</h3>
+
+            <p id="air-recommendation">
+              Se analizează calitatea aerului...
+            </p>
+          </div>
+        </article>
+
+        <article class="recommendation-card">
+          <span>🧴</span>
+
+          <div>
+            <h3>Recomandare UV</h3>
+
+            <p id="uv-recommendation">
+              Se analizează indicele UV...
+            </p>
+          </div>
+        </article>
+      </div>
     </section>
 
     <section class="saved-section">
@@ -293,8 +461,8 @@
           <h2>Hartă meteo interactivă</h2>
 
           <p>
-            Apasă pe hartă pentru a vedea vremea
-            în punctul selectat.
+            Apasă pe hartă pentru vremea și
+            calitatea aerului din acel punct.
           </p>
         </div>
 
@@ -338,7 +506,11 @@
 
     <footer class="app-footer">
       <p>
-        Date meteo furnizate de Open-Meteo.
+        Date meteo și de calitate a aerului
+        furnizate de Open-Meteo.
+      </p>
+
+      <p>
         Hartă furnizată de OpenStreetMap.
       </p>
     </footer>
