@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <meta
+    name="theme-color"
+    content="#2456a6"
+  />
+
+  <title>Weather App – Offline</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      padding: 22px;
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      color: #ffffff;
+
+      background:
+        linear-gradient(
+          135deg,
+          #2456a6,
+          #36d1dc
+        );
+    }
+
+    .offline-card {
+      width: 100%;
+      max-width: 480px;
+
+      padding: 36px;
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.25);
+
+      border-radius: 25px;
+
+      background-color:
+        rgba(255, 255, 255, 0.15);
+
+      box-shadow:
+        0 20px 50px
+        rgba(0, 0, 0, 0.25);
+
+      backdrop-filter:
+        blur(14px);
+
+      text-align: center;
+    }
+
+    .offline-icon {
+      margin-bottom: 18px;
+
+      font-size: 76px;
+    }
+
+    h1 {
+      margin-bottom: 12px;
+
+      font-size: 30px;
+    }
+
+    p {
+      margin-bottom: 25px;
+
+      line-height: 1.6;
+
+      opacity: 0.85;
+    }
+
+    button {
+      width: 100%;
+
+      padding: 14px 18px;
+
+      border: none;
+      border-radius: 12px;
+
+      font-size: 16px;
+      font-weight: bold;
+
+      color: #2456a6;
+      background-color: #ffffff;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    button:hover {
+      transform:
+        translateY(-2px);
+
+      background-color:
+        #eef5ff;
+    }
+
+    button:active {
+      transform:
+        translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+  <main class="offline-card">
+    <div class="offline-icon">
+      📡
+    </div>
+
+    <h1>
+      Nu există conexiune
+    </h1>
+
+    <p>
+      Weather App nu poate accesa internetul momentan.
+      Datele consultate anterior pot fi disponibile
+      după revenirea în aplicație.
+    </p>
+
+    <button
+      type="button"
+      onclick="window.location.reload()"
+    >
+      Încearcă din nou
+    </button>
+  </main>
+</body>
+</html>

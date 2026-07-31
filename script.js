@@ -1,193 +1,218 @@
+const $ = (id) =>
+  document.getElementById(id);
+
+
 const cityInput =
-  document.getElementById("city-input");
+  $("city-input");
 
 const searchButton =
-  document.getElementById("search-button");
+  $("search-button");
 
 const searchResults =
-  document.getElementById("search-results");
+  $("search-results");
 
 const locationButton =
-  document.getElementById("location-button");
+  $("location-button");
+
 
 const cityElement =
-  document.getElementById("city");
+  $("city");
 
 const countryElement =
-  document.getElementById("country");
+  $("country");
 
 const latitudeElement =
-  document.getElementById("latitude-value");
+  $("latitude-value");
 
 const longitudeElement =
-  document.getElementById("longitude-value");
+  $("longitude-value");
 
 const timezoneElement =
-  document.getElementById("timezone-value");
+  $("timezone-value");
+
 
 const temperatureElement =
-  document.getElementById("temperature");
+  $("temperature");
 
 const temperatureUnitElement =
-  document.getElementById("temperature-unit");
+  $("temperature-unit");
 
 const apparentTemperatureElement =
-  document.getElementById(
-    "apparent-temperature"
-  );
+  $("apparent-temperature");
 
 const apparentUnitElement =
-  document.getElementById("apparent-unit");
+  $("apparent-unit");
 
 const humidityElement =
-  document.getElementById("humidity");
+  $("humidity");
 
 const precipitationElement =
-  document.getElementById("precipitation");
+  $("precipitation");
 
 const sunriseElement =
-  document.getElementById("sunrise");
+  $("sunrise");
 
 const sunsetElement =
-  document.getElementById("sunset");
+  $("sunset");
 
 const statusElement =
-  document.getElementById("status");
+  $("status");
 
 const windSpeedElement =
-  document.getElementById("wind-speed");
+  $("wind-speed");
 
 const windDirectionElement =
-  document.getElementById("wind-direction");
+  $("wind-direction");
 
 const weatherTimeElement =
-  document.getElementById("weather-time");
+  $("weather-time");
 
 const refreshButton =
-  document.getElementById("refresh-button");
+  $("refresh-button");
 
 const favoriteButton =
-  document.getElementById("favorite-button");
+  $("favorite-button");
 
 const weatherIconElement =
-  document.getElementById("weather-icon");
+  $("weather-icon");
 
-const forecastContainer =
-  document.getElementById(
-    "forecast-container"
-  );
 
 const hourlyContainer =
-  document.getElementById("hourly-container");
+  $("hourly-container");
+
+const forecastContainer =
+  $("forecast-container");
 
 const favoritesContainer =
-  document.getElementById(
-    "favorites-container"
-  );
+  $("favorites-container");
 
 const recentContainer =
-  document.getElementById("recent-container");
+  $("recent-container");
+
 
 const clearFavoritesButton =
-  document.getElementById(
-    "clear-favorites-button"
-  );
+  $("clear-favorites-button");
 
 const clearRecentButton =
-  document.getElementById(
-    "clear-recent-button"
-  );
+  $("clear-recent-button");
 
 const unitButton =
-  document.getElementById("unit-button");
+  $("unit-button");
 
 const themeButton =
-  document.getElementById("theme-button");
+  $("theme-button");
 
 const centerMapButton =
-  document.getElementById(
-    "center-map-button"
-  );
+  $("center-map-button");
 
 const scrollTopButton =
-  document.getElementById(
-    "scroll-top-button"
-  );
+  $("scroll-top-button");
 
-/* Elemente V10 */
 
 const aqiBadge =
-  document.getElementById("aqi-badge");
+  $("aqi-badge");
 
 const aqiValueElement =
-  document.getElementById("aqi-value");
+  $("aqi-value");
 
 const airQualityIconElement =
-  document.getElementById(
-    "air-quality-icon"
-  );
+  $("air-quality-icon");
 
 const airQualityLabelElement =
-  document.getElementById(
-    "air-quality-label"
-  );
+  $("air-quality-label");
 
 const airQualityMessageElement =
-  document.getElementById(
-    "air-quality-message"
-  );
+  $("air-quality-message");
 
 const pm25Element =
-  document.getElementById("pm25-value");
+  $("pm25-value");
 
 const pm10Element =
-  document.getElementById("pm10-value");
+  $("pm10-value");
 
 const no2Element =
-  document.getElementById("no2-value");
+  $("no2-value");
 
 const ozoneElement =
-  document.getElementById("ozone-value");
+  $("ozone-value");
 
 const carbonMonoxideElement =
-  document.getElementById(
-    "carbon-monoxide-value"
-  );
+  $("carbon-monoxide-value");
 
 const uvIndexElement =
-  document.getElementById("uv-index-value");
+  $("uv-index-value");
 
 const uvLevelElement =
-  document.getElementById("uv-level");
+  $("uv-level");
 
 const airRecommendationElement =
-  document.getElementById(
-    "air-recommendation"
-  );
+  $("air-recommendation");
 
 const uvRecommendationElement =
-  document.getElementById(
-    "uv-recommendation"
-  );
+  $("uv-recommendation");
 
 
-let currentLatitude = 44.4268;
-let currentLongitude = 26.1025;
+const installButton =
+  $("install-button");
 
-let currentCity = "București";
-let currentCountry = "România";
-let currentTimezone = "Europe/Bucharest";
+const secondaryInstallButton =
+  $("secondary-install-button");
 
-let currentTemperatureCelsius = null;
-let currentApparentTemperatureCelsius = null;
+const connectionStatus =
+  $("connection-status");
 
-let currentDailyWeather = null;
-let currentHourlyWeather = null;
+const connectionText =
+  $("connection-text");
 
-let currentWeatherClass = "weather-clear";
+const updateNotification =
+  $("update-notification");
 
-let weatherMap = null;
-let weatherMarker = null;
+const updateButton =
+  $("update-button");
+
+
+let currentLatitude =
+  44.4268;
+
+let currentLongitude =
+  26.1025;
+
+let currentCity =
+  "București";
+
+let currentCountry =
+  "România";
+
+let currentTimezone =
+  "Europe/Bucharest";
+
+
+let currentTemperatureCelsius =
+  null;
+
+let currentApparentTemperatureCelsius =
+  null;
+
+let currentDailyWeather =
+  null;
+
+let currentHourlyWeather =
+  null;
+
+let currentWeatherClass =
+  "weather-clear";
+
+
+let map;
+
+let marker;
+
+let deferredInstallPrompt =
+  null;
+
+let waitingWorker =
+  null;
+
 
 let temperatureUnit =
   localStorage.getItem(
@@ -195,42 +220,41 @@ let temperatureUnit =
   ) || "C";
 
 let darkMode =
-  localStorage.getItem("darkMode") ===
-  "true";
+  localStorage.getItem(
+    "darkMode"
+  ) === "true";
 
 let favoriteCities =
-  getStoredArray("favoriteCities");
+  readArray(
+    "favoriteCities"
+  );
 
 let recentCities =
-  getStoredArray("recentCities");
+  readArray(
+    "recentCities"
+  );
 
 
-function getStoredArray(storageKey) {
+function readArray(key) {
   try {
-    const storedValue =
-      localStorage.getItem(storageKey);
-
-    return storedValue
-      ? JSON.parse(storedValue)
-      : [];
-  } catch (error) {
-    console.error(
-      `Eroare la citirea ${storageKey}:`,
-      error
+    return (
+      JSON.parse(
+        localStorage.getItem(key)
+      ) || []
     );
-
+  } catch {
     return [];
   }
 }
 
 
-function saveStoredArray(
-  storageKey,
-  array
+function saveArray(
+  key,
+  value
 ) {
   localStorage.setItem(
-    storageKey,
-    JSON.stringify(array)
+    key,
+    JSON.stringify(value)
   );
 }
 
@@ -240,18 +264,23 @@ function escapeHtml(value) {
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
 }
 
 
-/* Vreme */
-
 function getWeatherDescription(
-  weatherCode
+  code
 ) {
   const descriptions = {
     0: "Cer senin",
+
     1: "În mare parte senin",
     2: "Parțial noros",
     3: "Înnorat",
@@ -281,70 +310,79 @@ function getWeatherDescription(
   };
 
   return (
-    descriptions[weatherCode] ||
+    descriptions[code] ||
     "Condiții necunoscute"
   );
 }
 
 
-function getWeatherVisual(weatherCode) {
-  if (weatherCode === 0) {
+function getWeatherVisual(
+  code
+) {
+  if (code === 0) {
     return {
       icon: "☀️",
-      className: "weather-clear"
+      className:
+        "weather-clear"
     };
   }
 
   if (
-    weatherCode >= 1 &&
-    weatherCode <= 3
+    code >= 1 &&
+    code <= 3
   ) {
     return {
       icon: "☁️",
-      className: "weather-cloudy"
+      className:
+        "weather-cloudy"
     };
   }
 
   if (
-    weatherCode === 45 ||
-    weatherCode === 48
+    code === 45 ||
+    code === 48
   ) {
     return {
       icon: "🌫️",
-      className: "weather-fog"
+      className:
+        "weather-fog"
     };
   }
 
   if (
-    weatherCode >= 51 &&
-    weatherCode <= 67
+    code >= 51 &&
+    code <= 67
   ) {
     return {
       icon: "🌧️",
-      className: "weather-rain"
+      className:
+        "weather-rain"
     };
   }
 
   if (
-    weatherCode >= 71 &&
-    weatherCode <= 86
+    code >= 71 &&
+    code <= 86
   ) {
     return {
       icon: "❄️",
-      className: "weather-snow"
+      className:
+        "weather-snow"
     };
   }
 
-  if (weatherCode >= 95) {
+  if (code >= 95) {
     return {
       icon: "⛈️",
-      className: "weather-storm"
+      className:
+        "weather-storm"
     };
   }
 
   return {
     icon: "🌤️",
-    className: "weather-clear"
+    className:
+      "weather-clear"
   };
 }
 
@@ -353,19 +391,18 @@ function updateBodyClasses() {
   document.body.className =
     currentWeatherClass;
 
-  if (darkMode) {
-    document.body.classList.add(
-      "dark-mode"
-    );
-  }
+  document.body.classList.toggle(
+    "dark-mode",
+    darkMode
+  );
 }
 
 
 function updateWeatherVisual(
-  weatherCode
+  code
 ) {
   const visual =
-    getWeatherVisual(weatherCode);
+    getWeatherVisual(code);
 
   weatherIconElement.textContent =
     visual.icon;
@@ -377,27 +414,33 @@ function updateWeatherVisual(
 }
 
 
-/* Temperatură și temă */
-
-function celsiusToFahrenheit(celsius) {
-  return (celsius * 9) / 5 + 32;
+function celsiusToFahrenheit(
+  value
+) {
+  return (
+    value * 9 / 5 + 32
+  );
 }
 
 
-function convertTemperature(celsius) {
-  if (temperatureUnit === "F") {
-    return Math.round(
-      celsiusToFahrenheit(celsius)
-    );
-  }
+function convertTemperature(
+  value
+) {
+  const convertedValue =
+    temperatureUnit === "F"
+      ? celsiusToFahrenheit(value)
+      : value;
 
-  return Math.round(celsius);
+  return Math.round(
+    convertedValue
+  );
 }
 
 
 function updateCurrentTemperatures() {
   if (
-    currentTemperatureCelsius !== null
+    currentTemperatureCelsius !==
+    null
   ) {
     temperatureElement.textContent =
       convertTemperature(
@@ -441,15 +484,15 @@ function toggleTemperatureUnit() {
 
   updateCurrentTemperatures();
 
-  if (currentDailyWeather) {
-    displayForecast(
-      currentDailyWeather
-    );
-  }
-
   if (currentHourlyWeather) {
     displayHourlyForecast(
       currentHourlyWeather
+    );
+  }
+
+  if (currentDailyWeather) {
+    displayDailyForecast(
+      currentDailyWeather
     );
   }
 }
@@ -457,16 +500,19 @@ function toggleTemperatureUnit() {
 
 function updateThemeButton() {
   themeButton.textContent =
-    darkMode ? "☀️" : "🌙";
+    darkMode
+      ? "☀️"
+      : "🌙";
 }
 
 
 function toggleTheme() {
-  darkMode = !darkMode;
+  darkMode =
+    !darkMode;
 
   localStorage.setItem(
     "darkMode",
-    darkMode
+    String(darkMode)
   );
 
   updateBodyClasses();
@@ -474,12 +520,10 @@ function toggleTheme() {
 }
 
 
-/* Formatarea datelor */
-
-function formatTime(dateString) {
-  const date = new Date(dateString);
-
-  return date.toLocaleTimeString(
+function formatTime(value) {
+  return new Date(
+    value
+  ).toLocaleTimeString(
     "ro-RO",
     {
       hour: "2-digit",
@@ -489,11 +533,10 @@ function formatTime(dateString) {
 }
 
 
-function formatForecastDay(dateString) {
-  const date =
-    new Date(`${dateString}T12:00:00`);
-
-  return date.toLocaleDateString(
+function formatDay(value) {
+  return new Date(
+    `${value}T12:00:00`
+  ).toLocaleDateString(
     "ro-RO",
     {
       weekday: "short"
@@ -502,11 +545,10 @@ function formatForecastDay(dateString) {
 }
 
 
-function formatForecastDate(dateString) {
-  const date =
-    new Date(`${dateString}T12:00:00`);
-
-  return date.toLocaleDateString(
+function formatDate(value) {
+  return new Date(
+    `${value}T12:00:00`
+  ).toLocaleDateString(
     "ro-RO",
     {
       day: "2-digit",
@@ -516,7 +558,9 @@ function formatForecastDate(dateString) {
 }
 
 
-function getWindDirection(degrees) {
+function getWindDirection(
+  degrees
+) {
   const directions = [
     "N",
     "NE",
@@ -529,10 +573,16 @@ function getWindDirection(degrees) {
   ];
 
   const normalized =
-    ((degrees % 360) + 360) % 360;
+    (
+      (
+        degrees % 360
+      ) + 360
+    ) % 360;
 
   const index =
-    Math.round(normalized / 45) % 8;
+    Math.round(
+      normalized / 45
+    ) % 8;
 
   return (
     `${directions[index]} ` +
@@ -541,12 +591,17 @@ function getWindDirection(degrees) {
 }
 
 
-/* Starea aplicației */
+function setLoadingState(
+  isLoading
+) {
+  searchButton.disabled =
+    isLoading;
 
-function setLoadingState(isLoading) {
-  searchButton.disabled = isLoading;
-  refreshButton.disabled = isLoading;
-  locationButton.disabled = isLoading;
+  refreshButton.disabled =
+    isLoading;
+
+  locationButton.disabled =
+    isLoading;
 
   searchButton.textContent =
     isLoading
@@ -561,7 +616,8 @@ function setLoadingState(isLoading) {
 
 
 function showError(message) {
-  statusElement.textContent = message;
+  statusElement.textContent =
+    message;
 
   statusElement.classList.add(
     "error-message"
@@ -576,16 +632,21 @@ function clearError() {
 }
 
 
-/* V10 – Calitatea aerului */
-
-function getAirQualityInformation(aqi) {
+function getAirInfo(aqi) {
   if (aqi <= 20) {
     return {
-      label: "Aer bun",
+      label:
+        "Aer bun",
+
       message:
         "Calitatea aerului este bună.",
-      icon: "🌿",
-      className: "aqi-good",
+
+      icon:
+        "🌿",
+
+      className:
+        "aqi-good",
+
       recommendation:
         "Poți desfășura activități în aer liber în condiții normale."
     };
@@ -593,11 +654,18 @@ function getAirQualityInformation(aqi) {
 
   if (aqi <= 40) {
     return {
-      label: "Aer acceptabil",
+      label:
+        "Aer acceptabil",
+
       message:
         "Calitatea aerului este în general acceptabilă.",
-      icon: "🙂",
-      className: "aqi-fair",
+
+      icon:
+        "🙂",
+
+      className:
+        "aqi-fair",
+
       recommendation:
         "Activitățile în aer liber sunt potrivite pentru majoritatea persoanelor."
     };
@@ -605,11 +673,18 @@ function getAirQualityInformation(aqi) {
 
   if (aqi <= 60) {
     return {
-      label: "Aer moderat",
+      label:
+        "Aer moderat",
+
       message:
-        "Persoanele sensibile pot resimți un disconfort.",
-      icon: "😐",
-      className: "aqi-moderate",
+        "Persoanele sensibile pot resimți disconfort.",
+
+      icon:
+        "😐",
+
+      className:
+        "aqi-moderate",
+
       recommendation:
         "Persoanele sensibile ar trebui să reducă efortul intens în aer liber."
     };
@@ -617,123 +692,162 @@ function getAirQualityInformation(aqi) {
 
   if (aqi <= 80) {
     return {
-      label: "Aer slab",
+      label:
+        "Aer slab",
+
       message:
         "Poluarea aerului este ridicată.",
-      icon: "😷",
-      className: "aqi-poor",
+
+      icon:
+        "😷",
+
+      className:
+        "aqi-poor",
+
       recommendation:
-        "Redu activitățile fizice intense și timpul petrecut în zone aglomerate."
+        "Redu activitățile intense și timpul petrecut în zone aglomerate."
     };
   }
 
   if (aqi <= 100) {
     return {
-      label: "Aer foarte slab",
+      label:
+        "Aer foarte slab",
+
       message:
         "Calitatea aerului poate afecta sănătatea.",
-      icon: "⚠️",
-      className: "aqi-very-poor",
+
+      icon:
+        "⚠️",
+
+      className:
+        "aqi-very-poor",
+
       recommendation:
-        "Limitează timpul petrecut în exterior și evită exercițiile intense."
+        "Limitează timpul în exterior și evită exercițiile intense."
     };
   }
 
   return {
-    label: "Aer extrem de slab",
+    label:
+      "Aer extrem de slab",
+
     message:
       "Nivelul de poluare este foarte ridicat.",
-    icon: "☣️",
-    className: "aqi-extreme",
+
+    icon:
+      "☣️",
+
+    className:
+      "aqi-extreme",
+
     recommendation:
       "Evită activitățile în aer liber și ține ferestrele închise când este posibil."
   };
 }
 
 
-function getUvInformation(uvIndex) {
-  if (uvIndex < 3) {
+function getUvInfo(uv) {
+  if (uv < 3) {
     return {
-      level: "Scăzut",
+      level:
+        "Scăzut",
+
       recommendation:
         "Protecția solară obișnuită este suficientă."
     };
   }
 
-  if (uvIndex < 6) {
+  if (uv < 6) {
     return {
-      level: "Moderat",
+      level:
+        "Moderat",
+
       recommendation:
-        "Folosește cremă cu protecție solară și ochelari de soare."
+        "Folosește cremă cu protecție solară și ochelari."
     };
   }
 
-  if (uvIndex < 8) {
+  if (uv < 8) {
     return {
-      level: "Ridicat",
+      level:
+        "Ridicat",
+
       recommendation:
         "Folosește SPF ridicat și evită expunerea prelungită la prânz."
     };
   }
 
-  if (uvIndex < 11) {
+  if (uv < 11) {
     return {
-      level: "Foarte ridicat",
+      level:
+        "Foarte ridicat",
+
       recommendation:
-        "Redu expunerea la soare, poartă pălărie și folosește SPF ridicat."
+        "Redu expunerea, poartă pălărie și folosește SPF ridicat."
     };
   }
 
   return {
-    level: "Extrem",
+    level:
+      "Extrem",
+
     recommendation:
       "Evită expunerea directă la soare în orele de vârf."
   };
 }
 
 
-function displayAirQuality(airData) {
-  if (!airData.current) {
+function displayAirQuality(data) {
+  const current =
+    data.current;
+
+  if (!current) {
     throw new Error(
-      "Datele despre aer sunt incomplete."
+      "Date incomplete despre aer."
     );
   }
 
-  const current = airData.current;
-
   const aqi =
-    Math.round(current.european_aqi);
-
-  const uvIndex =
-    Number(current.uv_index).toFixed(1);
-
-  const airInformation =
-    getAirQualityInformation(aqi);
-
-  const uvInformation =
-    getUvInformation(
-      Number(current.uv_index)
+    Math.round(
+      current.european_aqi
     );
 
-  aqiValueElement.textContent = aqi;
+  const uv =
+    Number(
+      current.uv_index
+    );
+
+  const air =
+    getAirInfo(aqi);
+
+  const uvInfo =
+    getUvInfo(uv);
+
+  aqiValueElement.textContent =
+    aqi;
 
   aqiBadge.className =
-    `aqi-badge ${airInformation.className}`;
+    `aqi-badge ${air.className}`;
 
   airQualityIconElement.textContent =
-    airInformation.icon;
+    air.icon;
 
   airQualityLabelElement.textContent =
-    airInformation.label;
+    air.label;
 
   airQualityMessageElement.textContent =
-    airInformation.message;
+    air.message;
 
   pm25Element.textContent =
-    Number(current.pm2_5).toFixed(1);
+    Number(
+      current.pm2_5
+    ).toFixed(1);
 
   pm10Element.textContent =
-    Number(current.pm10).toFixed(1);
+    Number(
+      current.pm10
+    ).toFixed(1);
 
   no2Element.textContent =
     Number(
@@ -741,7 +855,9 @@ function displayAirQuality(airData) {
     ).toFixed(1);
 
   ozoneElement.textContent =
-    Number(current.ozone).toFixed(1);
+    Number(
+      current.ozone
+    ).toFixed(1);
 
   carbonMonoxideElement.textContent =
     Math.round(
@@ -749,21 +865,22 @@ function displayAirQuality(airData) {
     );
 
   uvIndexElement.textContent =
-    uvIndex;
+    uv.toFixed(1);
 
   uvLevelElement.textContent =
-    uvInformation.level;
+    uvInfo.level;
 
   airRecommendationElement.textContent =
-    airInformation.recommendation;
+    air.recommendation;
 
   uvRecommendationElement.textContent =
-    uvInformation.recommendation;
+    uvInfo.recommendation;
 }
 
 
-function resetAirQualityDisplay() {
-  aqiValueElement.textContent = "--";
+function resetAirQuality() {
+  aqiValueElement.textContent =
+    "--";
 
   aqiBadge.className =
     "aqi-badge aqi-unknown";
@@ -777,18 +894,24 @@ function resetAirQualityDisplay() {
   airQualityMessageElement.textContent =
     "Nu am putut încărca datele despre aer.";
 
-  pm25Element.textContent = "--";
-  pm10Element.textContent = "--";
-  no2Element.textContent = "--";
-  ozoneElement.textContent = "--";
+  const elementsToReset = [
+    pm25Element,
+    pm10Element,
+    no2Element,
+    ozoneElement,
+    carbonMonoxideElement,
+    uvIndexElement
+  ];
 
-  carbonMonoxideElement.textContent =
-    "--";
-
-  uvIndexElement.textContent = "--";
+  elementsToReset.forEach(
+    function (element) {
+      element.textContent =
+        "--";
+    }
+  );
 
   uvLevelElement.textContent =
-    "Nivel necunoscut";
+    "Necunoscut";
 
   airRecommendationElement.textContent =
     "Date insuficiente pentru recomandare.";
@@ -802,7 +925,7 @@ async function loadAirQuality(
   latitude,
   longitude
 ) {
-  const airQualityUrl =
+  const url =
     `https://air-quality-api.open-meteo.com/v1/air-quality` +
     `?latitude=${latitude}` +
     `&longitude=${longitude}` +
@@ -811,11 +934,11 @@ async function loadAirQuality(
 
   try {
     const response =
-      await fetch(airQualityUrl);
+      await fetch(url);
 
     if (!response.ok) {
       throw new Error(
-        `Eroare aer HTTP: ${response.status}`
+        `HTTP ${response.status}`
       );
     }
 
@@ -825,20 +948,20 @@ async function loadAirQuality(
     displayAirQuality(data);
   } catch (error) {
     console.error(
-      "Eroare calitatea aerului:",
+      "Calitatea aerului:",
       error
     );
 
-    resetAirQualityDisplay();
+    resetAirQuality();
   }
 }
 
 
-/* Hartă */
-
 function initializeMap() {
-  weatherMap =
-    L.map("weather-map").setView(
+  map =
+    L.map(
+      "weather-map"
+    ).setView(
       [
         currentLatitude,
         currentLongitude
@@ -850,21 +973,26 @@ function initializeMap() {
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
     {
       maxZoom: 19,
+
       attribution:
         "&copy; OpenStreetMap contributors"
     }
-  ).addTo(weatherMap);
+  ).addTo(map);
 
-  weatherMarker =
-    L.marker([
-      currentLatitude,
-      currentLongitude
-    ])
-      .addTo(weatherMap)
-      .bindPopup("București")
+  marker =
+    L.marker(
+      [
+        currentLatitude,
+        currentLongitude
+      ]
+    )
+      .addTo(map)
+      .bindPopup(
+        "București"
+      )
       .openPopup();
 
-  weatherMap.on(
+  map.on(
     "click",
     function (event) {
       loadAllData(
@@ -879,7 +1007,7 @@ function initializeMap() {
 
   setTimeout(
     function () {
-      weatherMap.invalidateSize();
+      map.invalidateSize();
     },
     200
   );
@@ -891,16 +1019,17 @@ function updateMap(
   longitude,
   cityName
 ) {
-  if (!weatherMap || !weatherMarker) {
+  if (!map || !marker) {
     return;
   }
 
-  weatherMarker.setLatLng([
-    latitude,
-    longitude
-  ]);
-
-  weatherMarker
+  marker
+    .setLatLng(
+      [
+        latitude,
+        longitude
+      ]
+    )
     .bindPopup(
       `<strong>${escapeHtml(cityName)}</strong><br>` +
       `${latitude.toFixed(4)}, ` +
@@ -908,8 +1037,11 @@ function updateMap(
     )
     .openPopup();
 
-  weatherMap.setView(
-    [latitude, longitude],
+  map.setView(
+    [
+      latitude,
+      longitude
+    ],
     9,
     {
       animate: true
@@ -918,153 +1050,24 @@ function updateMap(
 }
 
 
-/* Prognoza pe șapte zile */
-
-function createForecastCard(
-  date,
-  weatherCode,
-  maximumTemperature,
-  minimumTemperature,
-  index
-) {
-  const visual =
-    getWeatherVisual(weatherCode);
-
-  const card =
-    document.createElement("article");
-
-  card.className = "forecast-card";
-
-  if (index === 0) {
-    card.classList.add("today");
-  }
-
-  card.innerHTML = `
-    <p class="forecast-day">
-      ${
-        index === 0
-          ? "Astăzi"
-          : formatForecastDay(date)
-      }
-    </p>
-
-    <p class="forecast-date">
-      ${formatForecastDate(date)}
-    </p>
-
-    <div class="forecast-icon">
-      ${visual.icon}
-    </div>
-
-    <p class="forecast-description">
-      ${getWeatherDescription(weatherCode)}
-    </p>
-
-    <div class="forecast-temperatures">
-      <span class="temperature-max">
-        ${convertTemperature(maximumTemperature)}°
-      </span>
-
-      <span class="temperature-min">
-        ${convertTemperature(minimumTemperature)}°
-      </span>
-    </div>
-  `;
-
-  return card;
-}
-
-
-function displayForecast(dailyWeather) {
-  currentDailyWeather = dailyWeather;
-
-  forecastContainer.innerHTML = "";
-
-  for (
-    let index = 0;
-    index < dailyWeather.time.length;
-    index++
-  ) {
-    forecastContainer.appendChild(
-      createForecastCard(
-        dailyWeather.time[index],
-        dailyWeather.weather_code[index],
-        dailyWeather
-          .temperature_2m_max[index],
-        dailyWeather
-          .temperature_2m_min[index],
-        index
-      )
-    );
-  }
-}
-
-
-/* Prognoza orară */
-
-function createHourlyCard(
-  time,
-  temperature,
-  weatherCode,
-  precipitationProbability,
-  index
-) {
-  const visual =
-    getWeatherVisual(weatherCode);
-
-  const card =
-    document.createElement("article");
-
-  card.className = "hourly-card";
-
-  if (index === 0) {
-    card.classList.add(
-      "current-hour"
-    );
-  }
-
-  card.innerHTML = `
-    <p class="hourly-time">
-      ${
-        index === 0
-          ? "Acum"
-          : formatTime(time)
-      }
-    </p>
-
-    <div class="hourly-icon">
-      ${visual.icon}
-    </div>
-
-    <p class="hourly-temperature">
-      ${convertTemperature(temperature)}°
-    </p>
-
-    <p class="hourly-precipitation">
-      💧 ${precipitationProbability ?? 0}%
-    </p>
-  `;
-
-  return card;
-}
-
-
 function displayHourlyForecast(
-  hourlyWeather
+  hourly
 ) {
   currentHourlyWeather =
-    hourlyWeather;
+    hourly;
 
-  hourlyContainer.innerHTML = "";
+  hourlyContainer.innerHTML =
+    "";
 
-  const currentTime = new Date();
+  const now =
+    Date.now();
 
   let startIndex =
-    hourlyWeather.time.findIndex(
-      function (time) {
+    hourly.time.findIndex(
+      function (value) {
         return (
-          new Date(time).getTime() >=
-          currentTime.getTime()
+          new Date(value).getTime() >=
+          now
         );
       }
     );
@@ -1076,46 +1079,161 @@ function displayHourlyForecast(
   const endIndex =
     Math.min(
       startIndex + 24,
-      hourlyWeather.time.length
+      hourly.time.length
     );
 
   for (
     let index = startIndex;
     index < endIndex;
-    index++
+    index += 1
   ) {
+    const visual =
+      getWeatherVisual(
+        hourly.weather_code[index]
+      );
+
+    const card =
+      document.createElement(
+        "article"
+      );
+
+    card.className =
+      `hour-card${
+        index === startIndex
+          ? " current"
+          : ""
+      }`;
+
+    card.innerHTML = `
+      <strong>
+        ${
+          index === startIndex
+            ? "Acum"
+            : formatTime(
+                hourly.time[index]
+              )
+        }
+      </strong>
+
+      <div class="icon">
+        ${visual.icon}
+      </div>
+
+      <strong>
+        ${
+          convertTemperature(
+            hourly.temperature_2m[index]
+          )
+        }°
+      </strong>
+
+      <small>
+        💧 ${
+          hourly.precipitation_probability[index]
+          ?? 0
+        }%
+      </small>
+    `;
+
     hourlyContainer.appendChild(
-      createHourlyCard(
-        hourlyWeather.time[index],
-        hourlyWeather
-          .temperature_2m[index],
-        hourlyWeather
-          .weather_code[index],
-        hourlyWeather
-          .precipitation_probability[
-            index
-          ],
-        index - startIndex
-      )
+      card
     );
   }
 }
 
 
-/* Favorite și istoric */
+function displayDailyForecast(
+  daily
+) {
+  currentDailyWeather =
+    daily;
+
+  forecastContainer.innerHTML =
+    "";
+
+  daily.time.forEach(
+    function (date, index) {
+      const visual =
+        getWeatherVisual(
+          daily.weather_code[index]
+        );
+
+      const card =
+        document.createElement(
+          "article"
+        );
+
+      card.className =
+        `day-card${
+          index === 0
+            ? " today"
+            : ""
+        }`;
+
+      card.innerHTML = `
+        <strong>
+          ${
+            index === 0
+              ? "Astăzi"
+              : formatDay(date)
+          }
+        </strong>
+
+        <small>
+          ${formatDate(date)}
+        </small>
+
+        <div class="icon">
+          ${visual.icon}
+        </div>
+
+        <small>
+          ${
+            getWeatherDescription(
+              daily.weather_code[index]
+            )
+          }
+        </small>
+
+        <p>
+          <strong>
+            ${
+              convertTemperature(
+                daily.temperature_2m_max[index]
+              )
+            }°
+          </strong>
+
+          <span>
+            ${
+              convertTemperature(
+                daily.temperature_2m_min[index]
+              )
+            }°
+          </span>
+        </p>
+      `;
+
+      forecastContainer.appendChild(
+        card
+      );
+    }
+  );
+}
+
 
 function citiesAreEqual(
-  firstCity,
-  secondCity
+  first,
+  second
 ) {
   return (
     Math.abs(
-      firstCity.latitude -
-      secondCity.latitude
+      first.latitude -
+      second.latitude
     ) < 0.001 &&
     Math.abs(
-      firstCity.longitude -
-      secondCity.longitude
+      first.longitude -
+      second.longitude
     ) < 0.001
   );
 }
@@ -1123,40 +1241,46 @@ function citiesAreEqual(
 
 function getCurrentCityObject() {
   return {
-    name: currentCity,
-    country: currentCountry,
-    latitude: currentLatitude,
-    longitude: currentLongitude,
-    timezone: currentTimezone
+    name:
+      currentCity,
+
+    country:
+      currentCountry,
+
+    latitude:
+      currentLatitude,
+
+    longitude:
+      currentLongitude,
+
+    timezone:
+      currentTimezone
   };
 }
 
 
-function isCurrentCityFavorite() {
-  const current =
+function updateFavoriteButton() {
+  const currentCityObject =
     getCurrentCityObject();
 
-  return favoriteCities.some(
-    function (favoriteCity) {
-      return citiesAreEqual(
-        favoriteCity,
-        current
-      );
-    }
-  );
-}
-
-
-function updateFavoriteButton() {
-  const isFavorite =
-    isCurrentCityFavorite();
+  const favorite =
+    favoriteCities.some(
+      function (city) {
+        return citiesAreEqual(
+          city,
+          currentCityObject
+        );
+      }
+    );
 
   favoriteButton.textContent =
-    isFavorite ? "★" : "☆";
+    favorite
+      ? "★"
+      : "☆";
 
   favoriteButton.classList.toggle(
     "active",
-    isFavorite
+    favorite
   );
 }
 
@@ -1165,26 +1289,28 @@ function toggleFavoriteCity() {
   const city =
     getCurrentCityObject();
 
-  const existingIndex =
+  const index =
     favoriteCities.findIndex(
-      function (favoriteCity) {
+      function (item) {
         return citiesAreEqual(
-          favoriteCity,
+          item,
           city
         );
       }
     );
 
-  if (existingIndex >= 0) {
+  if (index >= 0) {
     favoriteCities.splice(
-      existingIndex,
+      index,
       1
     );
   } else {
-    favoriteCities.unshift(city);
+    favoriteCities.unshift(
+      city
+    );
   }
 
-  saveStoredArray(
+  saveArray(
     "favoriteCities",
     favoriteCities
   );
@@ -1197,20 +1323,25 @@ function toggleFavoriteCity() {
 function addRecentCity(city) {
   recentCities =
     recentCities.filter(
-      function (recentCity) {
+      function (item) {
         return !citiesAreEqual(
-          recentCity,
+          item,
           city
         );
       }
     );
 
-  recentCities.unshift(city);
+  recentCities.unshift(
+    city
+  );
 
   recentCities =
-    recentCities.slice(0, 6);
+    recentCities.slice(
+      0,
+      6
+    );
 
-  saveStoredArray(
+  saveArray(
     "recentCities",
     recentCities
   );
@@ -1219,14 +1350,17 @@ function addRecentCity(city) {
 }
 
 
-function createSavedCityButton(city) {
+function createCityButton(city) {
   const button =
-    document.createElement("button");
+    document.createElement(
+      "button"
+    );
 
-  button.type = "button";
+  button.type =
+    "button";
 
   button.className =
-    "saved-city-button";
+    "chip";
 
   button.textContent =
     `${city.name}, ${city.country}`;
@@ -1253,9 +1387,10 @@ function renderCityList(
   cities,
   emptyMessage
 ) {
-  container.innerHTML = "";
+  container.innerHTML =
+    "";
 
-  if (cities.length === 0) {
+  if (!cities.length) {
     container.innerHTML = `
       <p class="empty-message">
         ${emptyMessage}
@@ -1268,7 +1403,7 @@ function renderCityList(
   cities.forEach(
     function (city) {
       container.appendChild(
-        createSavedCityButton(city)
+        createCityButton(city)
       );
     }
   );
@@ -1293,48 +1428,30 @@ function renderRecentCities() {
 }
 
 
-function clearFavorites() {
-  favoriteCities = [];
-
-  saveStoredArray(
-    "favoriteCities",
-    favoriteCities
-  );
-
-  renderFavorites();
-  updateFavoriteButton();
-}
-
-
-function clearRecentCities() {
-  recentCities = [];
-
-  saveStoredArray(
-    "recentCities",
-    recentCities
-  );
-
-  renderRecentCities();
-}
-
-
-/* Căutarea localităților */
-
 function hideSearchResults() {
   searchResults.classList.add(
     "hidden"
   );
 
-  searchResults.innerHTML = "";
+  searchResults.innerHTML =
+    "";
 }
 
 
-function displaySearchResults(results) {
-  searchResults.innerHTML = "";
+function displaySearchResults(
+  results
+) {
+  searchResults.innerHTML =
+    "";
 
-  if (!results?.length) {
+  if (!results.length) {
     searchResults.innerHTML = `
-      <p class="search-result-empty">
+      <p
+        style="
+          padding: 15px;
+          text-align: center;
+        "
+      >
         Nu a fost găsită nicio localitate.
       </p>
     `;
@@ -1349,32 +1466,37 @@ function displaySearchResults(results) {
   results.forEach(
     function (location) {
       const button =
-        document.createElement("button");
+        document.createElement(
+          "button"
+        );
 
-      button.type = "button";
+      button.type =
+        "button";
 
       button.className =
         "search-result-button";
 
-      const adminArea =
+      const admin =
         location.admin1
           ? `, ${location.admin1}`
           : "";
 
       button.innerHTML = `
-        <span class="search-result-name">
+        <strong>
           ${escapeHtml(location.name)}
-        </span>
+        </strong>
 
-        <span class="search-result-details">
-          ${escapeHtml(
-            location.country ||
-            "Țară necunoscută"
-          )}${escapeHtml(adminArea)}
+        <small>
+          ${
+            escapeHtml(
+              location.country ||
+              "Țară necunoscută"
+            )
+          }${escapeHtml(admin)}
 
           · ${location.latitude.toFixed(3)},
           ${location.longitude.toFixed(3)}
-        </span>
+        </small>
       `;
 
       button.addEventListener(
@@ -1382,7 +1504,8 @@ function displaySearchResults(results) {
         function () {
           hideSearchResults();
 
-          cityInput.value = "";
+          cityInput.value =
+            "";
 
           loadAllData(
             location.latitude,
@@ -1395,7 +1518,9 @@ function displaySearchResults(results) {
         }
       );
 
-      searchResults.appendChild(button);
+      searchResults.appendChild(
+        button
+      );
     }
   );
 
@@ -1428,7 +1553,7 @@ async function searchCity() {
   setLoadingState(true);
 
   try {
-    const geocodingUrl =
+    const url =
       `https://geocoding-api.open-meteo.com/v1/search` +
       `?name=${encodeURIComponent(cityName)}` +
       `&count=5` +
@@ -1436,11 +1561,11 @@ async function searchCity() {
       `&format=json`;
 
     const response =
-      await fetch(geocodingUrl);
+      await fetch(url);
 
     if (!response.ok) {
       throw new Error(
-        `Eroare HTTP: ${response.status}`
+        `HTTP ${response.status}`
       );
     }
 
@@ -1467,8 +1592,6 @@ async function searchCity() {
 }
 
 
-/* Încărcarea datelor meteo */
-
 async function loadWeather(
   latitude,
   longitude,
@@ -1476,7 +1599,7 @@ async function loadWeather(
   countryName,
   saveToRecent
 ) {
-  const weatherUrl =
+  const url =
     `https://api.open-meteo.com/v1/forecast` +
     `?latitude=${latitude}` +
     `&longitude=${longitude}` +
@@ -1487,11 +1610,11 @@ async function loadWeather(
     `&timezone=auto`;
 
   const response =
-    await fetch(weatherUrl);
+    await fetch(url);
 
   if (!response.ok) {
     throw new Error(
-      `Eroare meteo HTTP: ${response.status}`
+      `HTTP ${response.status}`
     );
   }
 
@@ -1508,20 +1631,29 @@ async function loadWeather(
     );
   }
 
-  currentLatitude = latitude;
-  currentLongitude = longitude;
+  currentLatitude =
+    latitude;
 
-  currentCity = cityName;
-  currentCountry = countryName;
+  currentLongitude =
+    longitude;
+
+  currentCity =
+    cityName;
+
+  currentCountry =
+    countryName;
 
   currentTimezone =
-    data.timezone || "Necunoscut";
+    data.timezone ||
+    "Necunoscut";
+
 
   currentTemperatureCelsius =
     data.current.temperature_2m;
 
   currentApparentTemperatureCelsius =
     data.current.apparent_temperature;
+
 
   cityElement.textContent =
     currentCity;
@@ -1538,7 +1670,9 @@ async function loadWeather(
   timezoneElement.textContent =
     currentTimezone;
 
+
   updateCurrentTemperatures();
+
 
   humidityElement.textContent =
     Math.round(
@@ -1561,25 +1695,37 @@ async function loadWeather(
     );
 
   weatherTimeElement.textContent =
-    formatTime(data.current.time);
+    formatTime(
+      data.current.time
+    );
 
   sunriseElement.textContent =
-    formatTime(data.daily.sunrise[0]);
+    formatTime(
+      data.daily.sunrise[0]
+    );
 
   sunsetElement.textContent =
-    formatTime(data.daily.sunset[0]);
+    formatTime(
+      data.daily.sunset[0]
+    );
 
   statusElement.textContent =
     getWeatherDescription(
       data.current.weather_code
     );
 
+
   updateWeatherVisual(
     data.current.weather_code
   );
 
-  displayHourlyForecast(data.hourly);
-  displayForecast(data.daily);
+  displayHourlyForecast(
+    data.hourly
+  );
+
+  displayDailyForecast(
+    data.daily
+  );
 
   updateMap(
     latitude,
@@ -1589,6 +1735,7 @@ async function loadWeather(
 
   updateFavoriteButton();
 
+
   if (saveToRecent) {
     addRecentCity(
       getCurrentCityObject()
@@ -1596,8 +1743,6 @@ async function loadWeather(
   }
 }
 
-
-/* Încarcă vremea + calitatea aerului */
 
 async function loadAllData(
   latitude,
@@ -1612,23 +1757,11 @@ async function loadAllData(
   statusElement.textContent =
     "Se încarcă toate datele...";
 
-  hourlyContainer.innerHTML = `
-    <p class="loading-message">
-      Se încarcă prognoza orară...
-    </p>
-  `;
+  hourlyContainer.innerHTML =
+    "<p>Se încarcă prognoza orară...</p>";
 
-  forecastContainer.innerHTML = `
-    <p class="loading-message">
-      Se încarcă prognoza...
-    </p>
-  `;
-
-  airQualityLabelElement.textContent =
-    "Se încarcă...";
-
-  airQualityMessageElement.textContent =
-    "Se încarcă informațiile despre aer.";
+  forecastContainer.innerHTML =
+    "<p>Se încarcă prognoza...</p>";
 
   setLoadingState(true);
 
@@ -1649,12 +1782,14 @@ async function loadAllData(
     ]);
   } catch (error) {
     console.error(
-      "Eroare la încărcare:",
+      "Încărcare:",
       error
     );
 
     showError(
-      "Nu am putut încărca toate datele."
+      navigator.onLine
+        ? "Nu am putut încărca toate datele."
+        : "Ești offline. Sunt folosite datele disponibile în cache."
     );
   } finally {
     setLoadingState(false);
@@ -1662,33 +1797,6 @@ async function loadAllData(
     locationButton.textContent =
       "📍 Folosește locația mea";
   }
-}
-
-
-/* Geolocație */
-
-function getLocationErrorMessage(error) {
-  if (error.code === 1) {
-    return (
-      "Permisiunea pentru locație a fost refuzată."
-    );
-  }
-
-  if (error.code === 2) {
-    return (
-      "Locația nu este disponibilă."
-    );
-  }
-
-  if (error.code === 3) {
-    return (
-      "Localizarea a durat prea mult."
-    );
-  }
-
-  return (
-    "Nu am putut determina locația."
-  );
 }
 
 
@@ -1704,7 +1812,8 @@ function useCurrentLocation() {
   statusElement.textContent =
     "Determin locația...";
 
-  locationButton.disabled = true;
+  locationButton.disabled =
+    true;
 
   locationButton.textContent =
     "📍 Se caută locația...";
@@ -1721,44 +1830,213 @@ function useCurrentLocation() {
     },
 
     function (error) {
+      const messages = {
+        1:
+          "Permisiunea pentru locație a fost refuzată.",
+
+        2:
+          "Locația nu este disponibilă.",
+
+        3:
+          "Localizarea a durat prea mult."
+      };
+
       showError(
-        getLocationErrorMessage(error)
+        messages[error.code] ||
+        "Nu am putut determina locația."
       );
 
-      locationButton.disabled = false;
+      locationButton.disabled =
+        false;
 
       locationButton.textContent =
         "📍 Folosește locația mea";
     },
 
     {
-      enableHighAccuracy: true,
-      timeout: 10000,
-      maximumAge: 300000
+      enableHighAccuracy:
+        true,
+
+      timeout:
+        10000,
+
+      maximumAge:
+        300000
     }
   );
 }
 
 
-/* Evenimente */
+function isApplicationInstalled() {
+  return (
+    window.matchMedia(
+      "(display-mode: standalone)"
+    ).matches ||
+    window.navigator.standalone ===
+      true
+  );
+}
+
+
+function hideInstallButtons() {
+  installButton.classList.add(
+    "hidden"
+  );
+
+  secondaryInstallButton.classList.add(
+    "hidden"
+  );
+}
+
+
+function showInstallButtons() {
+  if (
+    !deferredInstallPrompt ||
+    isApplicationInstalled()
+  ) {
+    return;
+  }
+
+  installButton.classList.remove(
+    "hidden"
+  );
+
+  secondaryInstallButton.classList.remove(
+    "hidden"
+  );
+}
+
+
+async function installApplication() {
+  if (!deferredInstallPrompt) {
+    return;
+  }
+
+  deferredInstallPrompt.prompt();
+
+  await deferredInstallPrompt.userChoice;
+
+  deferredInstallPrompt =
+    null;
+
+  hideInstallButtons();
+}
+
+
+function updateConnectionStatus() {
+  const online =
+    navigator.onLine;
+
+  connectionStatus.classList.toggle(
+    "online",
+    online
+  );
+
+  connectionStatus.classList.toggle(
+    "offline",
+    !online
+  );
+
+  connectionText.textContent =
+    online
+      ? "Conectat la internet"
+      : "Mod offline";
+}
+
+
+function showUpdateNotification(
+  worker
+) {
+  waitingWorker =
+    worker;
+
+  updateNotification.classList.remove(
+    "hidden"
+  );
+}
+
+
+async function registerServiceWorker() {
+  if (
+    !(
+      "serviceWorker" in navigator
+    )
+  ) {
+    return;
+  }
+
+  try {
+    const registration =
+      await navigator.serviceWorker.register(
+        "./service-worker.js"
+      );
+
+    if (registration.waiting) {
+      showUpdateNotification(
+        registration.waiting
+      );
+    }
+
+    registration.addEventListener(
+      "updatefound",
+      function () {
+        const installing =
+          registration.installing;
+
+        if (!installing) {
+          return;
+        }
+
+        installing.addEventListener(
+          "statechange",
+          function () {
+            if (
+              installing.state ===
+                "installed" &&
+              navigator.serviceWorker.controller
+            ) {
+              showUpdateNotification(
+                installing
+              );
+            }
+          }
+        );
+      }
+    );
+  } catch (error) {
+    console.error(
+      "Service Worker:",
+      error
+    );
+  }
+}
+
 
 searchButton.addEventListener(
   "click",
   searchCity
 );
 
+
 cityInput.addEventListener(
   "keydown",
   function (event) {
-    if (event.key === "Enter") {
+    if (
+      event.key ===
+      "Enter"
+    ) {
       searchCity();
     }
 
-    if (event.key === "Escape") {
+    if (
+      event.key ===
+      "Escape"
+    ) {
       hideSearchResults();
     }
   }
 );
+
 
 document.addEventListener(
   "click",
@@ -1773,10 +2051,12 @@ document.addEventListener(
   }
 );
 
+
 locationButton.addEventListener(
   "click",
   useCurrentLocation
 );
+
 
 refreshButton.addEventListener(
   "click",
@@ -1791,10 +2071,15 @@ refreshButton.addEventListener(
   }
 );
 
+
 centerMapButton.addEventListener(
   "click",
   function () {
-    weatherMap.setView(
+    if (!map || !marker) {
+      return;
+    }
+
+    map.setView(
       [
         currentLatitude,
         currentLongitude
@@ -1805,34 +2090,61 @@ centerMapButton.addEventListener(
       }
     );
 
-    weatherMarker.openPopup();
+    marker.openPopup();
   }
 );
+
 
 favoriteButton.addEventListener(
   "click",
   toggleFavoriteCity
 );
 
+
 unitButton.addEventListener(
   "click",
   toggleTemperatureUnit
 );
+
 
 themeButton.addEventListener(
   "click",
   toggleTheme
 );
 
+
 clearFavoritesButton.addEventListener(
   "click",
-  clearFavorites
+  function () {
+    favoriteCities =
+      [];
+
+    saveArray(
+      "favoriteCities",
+      favoriteCities
+    );
+
+    renderFavorites();
+    updateFavoriteButton();
+  }
 );
+
 
 clearRecentButton.addEventListener(
   "click",
-  clearRecentCities
+  function () {
+    recentCities =
+      [];
+
+    saveArray(
+      "recentCities",
+      recentCities
+    );
+
+    renderRecentCities();
+  }
 );
+
 
 scrollTopButton.addEventListener(
   "click",
@@ -1843,6 +2155,7 @@ scrollTopButton.addEventListener(
     });
   }
 );
+
 
 window.addEventListener(
   "scroll",
@@ -1855,15 +2168,126 @@ window.addEventListener(
 );
 
 
-/* Pornirea aplicației */
+window.addEventListener(
+  "beforeinstallprompt",
+  function (event) {
+    event.preventDefault();
+
+    deferredInstallPrompt =
+      event;
+
+    showInstallButtons();
+  }
+);
+
+
+window.addEventListener(
+  "appinstalled",
+  function () {
+    deferredInstallPrompt =
+      null;
+
+    hideInstallButtons();
+
+    document.body.classList.add(
+      "app-installed"
+    );
+  }
+);
+
+
+installButton.addEventListener(
+  "click",
+  installApplication
+);
+
+
+secondaryInstallButton.addEventListener(
+  "click",
+  installApplication
+);
+
+
+window.addEventListener(
+  "online",
+  function () {
+    updateConnectionStatus();
+
+    loadAllData(
+      currentLatitude,
+      currentLongitude,
+      currentCity,
+      currentCountry,
+      false
+    );
+  }
+);
+
+
+window.addEventListener(
+  "offline",
+  updateConnectionStatus
+);
+
+
+updateButton.addEventListener(
+  "click",
+  function () {
+    if (!waitingWorker) {
+      return;
+    }
+
+    waitingWorker.postMessage({
+      type:
+        "SKIP_WAITING"
+    });
+  }
+);
+
+
+let refreshing =
+  false;
+
+
+if (
+  "serviceWorker" in navigator
+) {
+  navigator.serviceWorker.addEventListener(
+    "controllerchange",
+    function () {
+      if (refreshing) {
+        return;
+      }
+
+      refreshing =
+        true;
+
+      window.location.reload();
+    }
+  );
+}
+
 
 updateThemeButton();
 updateBodyClasses();
+updateCurrentTemperatures();
+updateConnectionStatus();
 
 renderFavorites();
 renderRecentCities();
 
 initializeMap();
+registerServiceWorker();
+
+
+if (isApplicationInstalled()) {
+  document.body.classList.add(
+    "app-installed"
+  );
+
+  hideInstallButtons();
+}
+
 
 loadAllData(
   currentLatitude,
