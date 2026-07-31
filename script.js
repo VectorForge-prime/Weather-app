@@ -25,6 +25,9 @@ const weatherTimeElement =
 const refreshButton =
   document.getElementById("refresh-button");
 
+const weatherIconElement =
+  document.getElementById("weather-icon");
+
 
 let currentLatitude = 44.43;
 let currentLongitude = 26.10;
@@ -72,7 +75,6 @@ function getWeatherDescription(weatherCode) {
     86: "Averse de ninsoare puternice",
 
     95: "Furtună",
-
     96: "Furtună cu grindină",
     99: "Furtună puternică cu grindină"
   };
@@ -81,6 +83,84 @@ function getWeatherDescription(weatherCode) {
     weatherDescriptions[weatherCode] ||
     "Condiții meteo necunoscute"
   );
+}
+
+
+function getWeatherVisual(weatherCode) {
+  if (weatherCode === 0) {
+    return {
+      icon: "☀️",
+      className: "weather-clear"
+    };
+  }
+
+  if (
+    weatherCode === 1 ||
+    weatherCode === 2 ||
+    weatherCode === 3
+  ) {
+    return {
+      icon: "☁️",
+      className: "weather-cloudy"
+    };
+  }
+
+  if (
+    weatherCode === 45 ||
+    weatherCode === 48
+  ) {
+    return {
+      icon: "🌫️",
+      className: "weather-fog"
+    };
+  }
+
+  if (
+    weatherCode >= 51 &&
+    weatherCode <= 67
+  ) {
+    return {
+      icon: "🌧️",
+      className: "weather-rain"
+    };
+  }
+
+  if (
+    weatherCode >= 71 &&
+    weatherCode <= 86
+  ) {
+    return {
+      icon: "❄️",
+      className: "weather-snow"
+    };
+  }
+
+  if (
+    weatherCode >= 95 &&
+    weatherCode <= 99
+  ) {
+    return {
+      icon: "⛈️",
+      className: "weather-storm"
+    };
+  }
+
+  return {
+    icon: "🌤️",
+    className: "weather-clear"
+  };
+}
+
+
+function updateWeatherVisual(weatherCode) {
+  const visual =
+    getWeatherVisual(weatherCode);
+
+  weatherIconElement.textContent =
+    visual.icon;
+
+  document.body.className =
+    visual.className;
 }
 
 
@@ -158,7 +238,8 @@ async function loadWeather(
 
     const data = await response.json();
 
-    const currentWeather = data.current;
+    const currentWeather =
+      data.current;
 
     currentLatitude = latitude;
     currentLongitude = longitude;
@@ -166,7 +247,8 @@ async function loadWeather(
     currentCity = cityName;
     currentCountry = countryName;
 
-    cityElement.textContent = cityName;
+    cityElement.textContent =
+      cityName;
 
     countryElement.textContent =
       countryName;
@@ -190,6 +272,10 @@ async function loadWeather(
       getWeatherDescription(
         currentWeather.weather_code
       );
+
+    updateWeatherVisual(
+      currentWeather.weather_code
+    );
   } catch (error) {
     console.error(
       "Eroare la încărcarea vremii:",
@@ -243,7 +329,8 @@ async function searchCity() {
       );
     }
 
-    const data = await response.json();
+    const data =
+      await response.json();
 
     if (
       !data.results ||
@@ -256,25 +343,14 @@ async function searchCity() {
       return;
     }
 
-    const cityData = data.results[0];
-
-    const latitude =
-      cityData.latitude;
-
-    const longitude =
-      cityData.longitude;
-
-    const foundCity =
-      cityData.name;
-
-    const foundCountry =
-      cityData.country || "Țară necunoscută";
+    const cityData =
+      data.results[0];
 
     await loadWeather(
-      latitude,
-      longitude,
-      foundCity,
-      foundCountry
+      cityData.latitude,
+      cityData.longitude,
+      cityData.name,
+      cityData.country || "Țară necunoscută"
     );
 
     cityInput.value = "";
