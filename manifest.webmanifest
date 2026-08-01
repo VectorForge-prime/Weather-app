@@ -1,66 +1,48 @@
 {
-  "name": "Weather App V13 Premium",
+  "name": "Weather App Pro",
   "short_name": "Weather Pro",
-  "description": "Aplicație meteo PWA cu prognoză, hartă interactivă, calitatea aerului, statistici, grafice, alerte meteo, mod zi-noapte și funcționare offline.",
-  "lang": "ro-RO",
-  "dir": "ltr",
-  "id": "./",
+  "description": "Aplicație meteo profesională cu prognoză, hărți, grafice, PWA și funcționalitate offline.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "display_override": [
-    "window-controls-overlay",
-    "standalone",
-    "minimal-ui"
+  "orientation": "portrait-primary",
+  "background_color": "#0f172a",
+  "theme_color": "#2563eb",
+  "lang": "ro",
+  "dir": "ltr",
+
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ],
-  "orientation": "any",
-  "background_color": "#172554",
-  "theme_color": "#172554",
+
   "categories": [
     "weather",
     "utilities",
-    "lifestyle",
     "productivity"
   ],
-  "icons": [
+
+  "screenshots": [
     {
-      "src": "./icons/icon-192.png",
-      "sizes": "192x192",
+      "src": "screenshots/desktop.png",
+      "sizes": "1280x720",
       "type": "image/png",
-      "purpose": "any"
+      "form_factor": "wide"
     },
     {
-      "src": "./icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
-    },
-    {
-      "src": "./icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "./icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
-  ],
-  "shortcuts": [
-    {
-      "name": "Deschide Weather App",
-      "short_name": "Vreme",
-      "description": "Vezi vremea actuală și prognoza",
-      "url": "./",
-      "icons": [
-        {
-          "src": "./icons/icon-192.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
+      "src": "screenshots/mobile.png",
+      "sizes": "390x844",
+      "type": "image/png"
     }
   ]
 }

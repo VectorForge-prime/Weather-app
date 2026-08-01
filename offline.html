@@ -23,8 +23,13 @@
     content="yes"
   />
 
+  <meta
+    name="apple-mobile-web-app-status-bar-style"
+    content="black-translucent"
+  />
+
   <title>
-    Weather App V13 – Offline
+    Weather App Pro — Offline
   </title>
 
   <link
@@ -41,81 +46,40 @@
 
   <style>
     * {
-      box-sizing:
-        border-box;
-
-      margin:
-        0;
-
-      padding:
-        0;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     :root {
-      --text:
-        #ffffff;
-
-      --muted:
-        rgba(
-          255,
-          255,
-          255,
-          0.78
-        );
-
-      --glass:
-        rgba(
-          255,
-          255,
-          255,
-          0.14
-        );
-
-      --border:
-        rgba(
-          255,
-          255,
-          255,
-          0.23
-        );
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, 0.78);
+      --glass: rgba(255, 255, 255, 0.14);
+      --border: rgba(255, 255, 255, 0.23);
     }
 
     body {
-      min-height:
-        100vh;
+      min-height: 100vh;
 
-      display:
-        flex;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
-      justify-content:
-        center;
+      padding: 22px;
 
-      align-items:
-        center;
-
-      padding:
-        22px;
-
-      overflow:
-        hidden;
+      overflow: hidden;
 
       font-family:
         Arial,
         Helvetica,
         sans-serif;
 
-      color:
-        var(--text);
+      color: var(--text);
 
       background:
         radial-gradient(
           circle at 75% 8%,
-          rgba(
-            255,
-            255,
-            220,
-            0.16
-          ),
+          rgba(255, 255, 220, 0.16),
           transparent 12%
         ),
         linear-gradient(
@@ -127,37 +91,24 @@
     }
 
     .background {
-      position:
-        fixed;
+      position: fixed;
+      inset: 0;
+      z-index: 0;
 
-      inset:
-        0;
+      overflow: hidden;
 
-      z-index:
-        0;
-
-      overflow:
-        hidden;
-
-      pointer-events:
-        none;
+      pointer-events: none;
     }
 
     .star {
-      position:
-        absolute;
+      position: absolute;
 
-      width:
-        3px;
+      width: 3px;
+      height: 3px;
 
-      height:
-        3px;
+      border-radius: 50%;
 
-      border-radius:
-        50%;
-
-      background:
-        #ffffff;
+      background: #ffffff;
 
       animation:
         twinkle
@@ -165,22 +116,13 @@
     }
 
     .cloud {
-      position:
-        absolute;
-
-      left:
-        -250px;
+      position: absolute;
+      left: -250px;
 
       color:
-        rgba(
-          255,
-          255,
-          255,
-          0.1
-        );
+        rgba(255, 255, 255, 0.1);
 
-      font-size:
-        150px;
+      font-size: 150px;
 
       animation:
         moveCloud
@@ -188,64 +130,39 @@
     }
 
     .cloud-one {
-      top:
-        8%;
+      top: 8%;
     }
 
     .cloud-two {
-      bottom:
-        8%;
+      bottom: 8%;
 
-      font-size:
-        210px;
+      font-size: 210px;
 
-      animation-duration:
-        42s;
-
-      animation-delay:
-        -18s;
+      animation-duration: 42s;
+      animation-delay: -18s;
     }
 
     .offline-card {
-      position:
-        relative;
+      position: relative;
+      z-index: 2;
 
-      z-index:
-        2;
+      width: 100%;
+      max-width: 540px;
 
-      width:
-        100%;
+      padding: 42px 36px;
 
-      max-width:
-        540px;
+      border: 1px solid var(--border);
+      border-radius: 29px;
 
-      padding:
-        42px 36px;
-
-      border:
-        1px solid
-        var(--border);
-
-      border-radius:
-        29px;
-
-      background:
-        var(--glass);
+      background: var(--glass);
 
       box-shadow:
         0 24px 65px
-        rgba(
-          0,
-          0,
-          0,
-          0.34
-        );
+        rgba(0, 0, 0, 0.34);
 
-      backdrop-filter:
-        blur(20px);
+      backdrop-filter: blur(20px);
 
-      text-align:
-        center;
+      text-align: center;
 
       animation:
         cardAppear
@@ -253,60 +170,35 @@
     }
 
     .app-icon {
-      width:
-        88px;
+      width: 88px;
+      height: 88px;
 
-      height:
-        88px;
+      margin: 0 auto 18px;
 
-      margin:
-        0 auto 18px;
+      overflow: hidden;
 
-      overflow:
-        hidden;
-
-      border:
-        1px solid
-        var(--border);
-
-      border-radius:
-        24px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
 
       background:
-        rgba(
-          255,
-          255,
-          255,
-          0.14
-        );
+        rgba(255, 255, 255, 0.14);
 
       box-shadow:
         0 14px 35px
-        rgba(
-          0,
-          0,
-          0,
-          0.25
-        );
+        rgba(0, 0, 0, 0.25);
     }
 
     .app-icon img {
-      width:
-        100%;
+      width: 100%;
+      height: 100%;
 
-      height:
-        100%;
-
-      object-fit:
-        cover;
+      object-fit: cover;
     }
 
     .offline-symbol {
-      margin-bottom:
-        16px;
+      margin-bottom: 16px;
 
-      font-size:
-        61px;
+      font-size: 61px;
 
       animation:
         floating
@@ -314,33 +206,30 @@
     }
 
     .version-label {
-      display:
-        inline-block;
+      display: inline-block;
 
-      margin-bottom:
-        8px;
+      margin-bottom: 8px;
+      padding: 5px 9px;
+
+      border:
+        1px solid
+        rgba(255, 255, 255, 0.2);
+
+      border-radius: 999px;
 
       color:
-        rgba(
-          255,
-          255,
-          255,
-          0.68
-        );
+        rgba(255, 255, 255, 0.7);
 
-      font-size:
-        11px;
+      background:
+        rgba(255, 255, 255, 0.08);
 
-      font-weight:
-        900;
-
-      letter-spacing:
-        1.7px;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 1.7px;
     }
 
     h1 {
-      margin-bottom:
-        12px;
+      margin-bottom: 12px;
 
       font-size:
         clamp(
@@ -351,105 +240,65 @@
     }
 
     .description {
-      margin-bottom:
-        25px;
+      margin-bottom: 25px;
 
-      color:
-        var(--muted);
+      color: var(--muted);
 
-      font-size:
-        15px;
-
-      line-height:
-        1.65;
+      font-size: 15px;
+      line-height: 1.65;
     }
 
     .offline-information {
-      display:
-        grid;
+      display: grid;
+      gap: 10px;
 
-      gap:
-        10px;
+      margin-bottom: 25px;
 
-      margin-bottom:
-        25px;
-
-      text-align:
-        left;
+      text-align: left;
     }
 
     .information-item {
-      display:
-        flex;
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
 
-      align-items:
-        flex-start;
+      padding: 14px;
 
-      gap:
-        11px;
-
-      padding:
-        14px;
-
-      border:
-        1px solid
-        var(--border);
-
-      border-radius:
-        15px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
 
       background:
-        rgba(
-          255,
-          255,
-          255,
-          0.07
-        );
+        rgba(255, 255, 255, 0.07);
     }
 
     .information-item span {
-      font-size:
-        22px;
+      flex-shrink: 0;
+
+      font-size: 22px;
     }
 
     .information-item p {
-      color:
-        var(--muted);
+      color: var(--muted);
 
-      font-size:
-        13px;
-
-      line-height:
-        1.5;
+      font-size: 13px;
+      line-height: 1.5;
     }
 
     .retry-button {
-      width:
-        100%;
+      width: 100%;
 
-      padding:
-        15px 20px;
+      padding: 15px 20px;
 
-      border:
-        none;
+      border: none;
+      border-radius: 14px;
 
-      border-radius:
-        14px;
+      color: #172554;
+      background: #ffffff;
 
-      color:
-        #172554;
+      font-size: 16px;
+      font-weight: bold;
 
-      background:
-        #ffffff;
-
-      font-size:
-        16px;
-
-      font-weight:
-        bold;
-
-      cursor:
-        pointer;
+      cursor: pointer;
 
       transition:
         transform 0.2s ease,
@@ -457,54 +306,37 @@
     }
 
     .retry-button:hover {
-      transform:
-        translateY(-3px);
+      transform: translateY(-3px);
 
       box-shadow:
         0 14px 28px
-        rgba(
-          0,
-          0,
-          0,
-          0.25
-        );
+        rgba(0, 0, 0, 0.25);
     }
 
     .connection-status {
-      display:
-        inline-flex;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
 
-      align-items:
-        center;
+      margin-top: 19px;
 
-      gap:
-        8px;
+      color: var(--muted);
 
-      margin-top:
-        19px;
-
-      color:
-        var(--muted);
-
-      font-size:
-        13px;
+      font-size: 13px;
     }
 
     .connection-dot {
-      color:
-        #fb923c;
+      color: #fb923c;
     }
 
     .connection-status.online
     .connection-dot {
-      color:
-        #4ade80;
+      color: #4ade80;
     }
 
     @keyframes cardAppear {
       from {
-        opacity:
-          0;
+        opacity: 0;
 
         transform:
           translateY(30px)
@@ -512,8 +344,7 @@
       }
 
       to {
-        opacity:
-          1;
+        opacity: 1;
 
         transform:
           translateY(0)
@@ -524,13 +355,11 @@
     @keyframes floating {
       0%,
       100% {
-        transform:
-          translateY(0);
+        transform: translateY(0);
       }
 
       50% {
-        transform:
-          translateY(-8px);
+        transform: translateY(-8px);
       }
     }
 
@@ -538,57 +367,40 @@
       to {
         transform:
           translateX(
-            calc(
-              100vw + 550px
-            )
+            calc(100vw + 550px)
           );
       }
     }
 
     @keyframes twinkle {
       50% {
-        opacity:
-          0.2;
+        opacity: 0.2;
 
-        transform:
-          scale(0.6);
+        transform: scale(0.6);
       }
     }
 
-    @media (
-      max-width: 520px
-    ) {
+    @media (max-width: 520px) {
       .offline-card {
-        padding:
-          32px 21px;
+        padding: 32px 21px;
       }
 
       .app-icon {
-        width:
-          74px;
-
-        height:
-          74px;
+        width: 74px;
+        height: 74px;
       }
 
       .offline-symbol {
-        font-size:
-          52px;
+        font-size: 52px;
       }
     }
 
-    @media (
-      prefers-reduced-motion:
-      reduce
-    ) {
+    @media (prefers-reduced-motion: reduce) {
       *,
       *::before,
       *::after {
-        animation:
-          none !important;
-
-        transition:
-          none !important;
+        animation: none !important;
+        transition: none !important;
       }
     }
   </style>
@@ -613,12 +425,12 @@
     <div class="app-icon">
       <img
         src="./icons/icon-192.png"
-        alt="Weather App"
+        alt="Weather App Pro"
       />
     </div>
 
     <span class="version-label">
-      WEATHER APP V13 PREMIUM
+      WEATHER APP PRO · FINAL RELEASE
     </span>
 
     <div
@@ -633,7 +445,7 @@
     </h1>
 
     <p class="description">
-      Aplicația nu se poate conecta momentan
+      Weather App Pro nu se poate conecta momentan
       la internet. Interfața, statisticile,
       favoritele și datele accesate anterior pot
       fi disponibile din memoria cache.
@@ -641,7 +453,7 @@
 
     <div class="offline-information">
       <div class="information-item">
-        <span>
+        <span aria-hidden="true">
           🌤️
         </span>
 
@@ -652,7 +464,7 @@
       </div>
 
       <div class="information-item">
-        <span>
+        <span aria-hidden="true">
           📊
         </span>
 
@@ -663,13 +475,13 @@
       </div>
 
       <div class="information-item">
-        <span>
+        <span aria-hidden="true">
           🌐
         </span>
 
         <p>
-          O localitate nouă și datele actualizate
-          necesită conexiune la internet.
+          Căutarea unei localități noi și
+          actualizarea datelor necesită internet.
         </p>
       </div>
     </div>

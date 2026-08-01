@@ -1,5 +1,5 @@
 const VERSION =
-  "weather-app-v13-premium-1";
+  "weather-app-final-v15-1";
 
 const STATIC_CACHE =
   `${VERSION}-static`;
@@ -10,6 +10,10 @@ const DATA_CACHE =
 const MAP_CACHE =
   `${VERSION}-maps`;
 
+
+/* =====================================
+   FIȘIERE LOCALE
+===================================== */
 
 const LOCAL_APP_SHELL = [
   "./",
@@ -23,6 +27,10 @@ const LOCAL_APP_SHELL = [
 ];
 
 
+/* =====================================
+   BIBLIOTECI EXTERNE
+===================================== */
+
 const EXTERNAL_RESOURCES = [
   "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
   "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
@@ -30,9 +38,9 @@ const EXTERNAL_RESOURCES = [
 ];
 
 
-/* =========================
+/* =====================================
    INSTALARE
-========================= */
+===================================== */
 
 self.addEventListener(
   "install",
@@ -52,27 +60,25 @@ async function installApplicationShell() {
 
   /*
     Fișierele locale sunt obligatorii.
+    Dacă lipsește unul, instalarea va afișa eroarea.
   */
   await cache.addAll(
     LOCAL_APP_SHELL
   );
 
   /*
-    Bibliotecile externe sunt salvate separat.
-    Dacă un CDN nu răspunde, instalarea nu este blocată.
+    Bibliotecile externe nu trebuie să blocheze
+    instalarea dacă un CDN nu răspunde.
   */
   await Promise.allSettled(
     EXTERNAL_RESOURCES.map(
-      async function (
-        resourceUrl
-      ) {
+      async function (resourceUrl) {
         try {
           const response =
             await fetch(
               resourceUrl,
               {
-                mode:
-                  "cors"
+                mode: "cors"
               }
             );
 
@@ -98,9 +104,9 @@ async function installApplicationShell() {
 }
 
 
-/* =========================
+/* =====================================
    ACTIVARE
-========================= */
+===================================== */
 
 self.addEventListener(
   "activate",
@@ -124,9 +130,7 @@ async function activateNewVersion() {
 
   const oldCaches =
     cacheNames.filter(
-      function (
-        cacheName
-      ) {
+      function (cacheName) {
         return !currentCaches.includes(
           cacheName
         );
@@ -135,9 +139,7 @@ async function activateNewVersion() {
 
   await Promise.all(
     oldCaches.map(
-      function (
-        cacheName
-      ) {
+      function (cacheName) {
         return caches.delete(
           cacheName
         );
@@ -149,13 +151,11 @@ async function activateNewVersion() {
 }
 
 
-/* =========================
+/* =====================================
    IDENTIFICAREA CERERILOR
-========================= */
+===================================== */
 
-function isOpenMeteoRequest(
-  url
-) {
+function isOpenMeteoRequest(url) {
   return [
     "api.open-meteo.com",
     "air-quality-api.open-meteo.com",
@@ -166,18 +166,14 @@ function isOpenMeteoRequest(
 }
 
 
-function isOpenStreetMapTile(
-  url
-) {
+function isOpenStreetMapTile(url) {
   return url.hostname.endsWith(
     "tile.openstreetmap.org"
   );
 }
 
 
-function isExternalLibrary(
-  url
-) {
+function isExternalLibrary(url) {
   return (
     url.hostname ===
       "unpkg.com" ||
@@ -187,9 +183,7 @@ function isExternalLibrary(
 }
 
 
-function isLocalRequest(
-  url
-) {
+function isLocalRequest(url) {
   return (
     url.origin ===
     self.location.origin
@@ -197,9 +191,9 @@ function isLocalRequest(
 }
 
 
-/* =========================
-   STRATEGII CACHE
-========================= */
+/* =====================================
+   STRATEGII DE CACHE
+===================================== */
 
 async function networkFirst(
   request,
@@ -212,9 +206,7 @@ async function networkFirst(
 
   try {
     const networkResponse =
-      await fetch(
-        request
-      );
+      await fetch(request);
 
     if (
       networkResponse &&
@@ -233,9 +225,7 @@ async function networkFirst(
         request
       );
 
-    if (
-      cachedResponse
-    ) {
+    if (cachedResponse) {
       return cachedResponse;
     }
 
@@ -258,16 +248,12 @@ async function cacheFirst(
       request
     );
 
-  if (
-    cachedResponse
-  ) {
+  if (cachedResponse) {
     return cachedResponse;
   }
 
   const networkResponse =
-    await fetch(
-      request
-    );
+    await fetch(request);
 
   if (
     networkResponse &&
@@ -298,9 +284,7 @@ async function staleWhileRevalidate(
     );
 
   const networkPromise =
-    fetch(
-      request
-    )
+    fetch(request)
       .then(
         async function (
           networkResponse
@@ -331,18 +315,16 @@ async function staleWhileRevalidate(
 }
 
 
-/* =========================
-   NAVIGARE
-========================= */
+/* =====================================
+   NAVIGARE ȘI PAGINĂ OFFLINE
+===================================== */
 
 async function handleNavigationRequest(
   request
 ) {
   try {
     const networkResponse =
-      await fetch(
-        request
-      );
+      await fetch(request);
 
     if (
       networkResponse &&
@@ -366,9 +348,7 @@ async function handleNavigationRequest(
         request
       );
 
-    if (
-      cachedRequest
-    ) {
+    if (cachedRequest) {
       return cachedRequest;
     }
 
@@ -377,9 +357,7 @@ async function handleNavigationRequest(
         "./index.html"
       );
 
-    if (
-      cachedIndex
-    ) {
+    if (cachedIndex) {
       return cachedIndex;
     }
 
@@ -390,9 +368,9 @@ async function handleNavigationRequest(
 }
 
 
-/* =========================
+/* =====================================
    FETCH
-========================= */
+===================================== */
 
 self.addEventListener(
   "fetch",
@@ -413,6 +391,10 @@ self.addEventListener(
       );
 
 
+    /*
+      Pagini HTML:
+      încearcă internetul, apoi cache-ul.
+    */
     if (
       request.mode ===
       "navigate"
@@ -427,10 +409,13 @@ self.addEventListener(
     }
 
 
+    /*
+      API-uri Open-Meteo:
+      date noi când există internet,
+      ultima versiune salvată când e offline.
+    */
     if (
-      isOpenMeteoRequest(
-        url
-      )
+      isOpenMeteoRequest(url)
     ) {
       event.respondWith(
         networkFirst(
@@ -443,10 +428,12 @@ self.addEventListener(
     }
 
 
+    /*
+      Dalele hărții:
+      cache înainte de internet.
+    */
     if (
-      isOpenStreetMapTile(
-        url
-      )
+      isOpenStreetMapTile(url)
     ) {
       event.respondWith(
         cacheFirst(
@@ -459,10 +446,11 @@ self.addEventListener(
     }
 
 
+    /*
+      Leaflet și Chart.js.
+    */
     if (
-      isExternalLibrary(
-        url
-      )
+      isExternalLibrary(url)
     ) {
       event.respondWith(
         staleWhileRevalidate(
@@ -475,10 +463,11 @@ self.addEventListener(
     }
 
 
+    /*
+      Fișiere locale.
+    */
     if (
-      isLocalRequest(
-        url
-      )
+      isLocalRequest(url)
     ) {
       event.respondWith(
         staleWhileRevalidate(
@@ -491,9 +480,9 @@ self.addEventListener(
 );
 
 
-/* =========================
-   MESAJE ȘI UPDATE
-========================= */
+/* =====================================
+   ACTUALIZAREA APLICAȚIEI
+===================================== */
 
 self.addEventListener(
   "message",

@@ -8,22 +8,109 @@
     content="width=device-width, initial-scale=1.0"
   />
 
+  <title>
+    Weather App Pro | Prognoză meteo și calitatea aerului
+  </title>
+
   <meta
     name="description"
-    content="Weather App V13 Premium cu prognoză, hartă, statistici, grafice, alerte și mod offline."
+    content="Weather App Pro este o aplicație meteo PWA cu prognoză pe 24 de ore și 7 zile, calitatea aerului, hartă interactivă, grafice, statistici, alerte și funcționare offline."
   />
 
-  <meta name="theme-color" content="#172554" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta
+    name="keywords"
+    content="vreme, prognoză meteo, aplicație meteo, calitatea aerului, AQI, indice UV, hartă meteo, grafice meteo, PWA"
+  />
+
+  <meta
+    name="author"
+    content="Cip Isac"
+  />
+
+  <meta
+    name="robots"
+    content="index, follow"
+  />
+
+  <meta
+    name="theme-color"
+    content="#172554"
+  />
+
+  <meta
+    name="color-scheme"
+    content="dark light"
+  />
+
+  <meta
+    name="mobile-web-app-capable"
+    content="yes"
+  />
+
+  <meta
+    name="apple-mobile-web-app-capable"
+    content="yes"
+  />
+
   <meta
     name="apple-mobile-web-app-status-bar-style"
     content="black-translucent"
   />
 
-  <title>Weather App V13 Premium</title>
+  <meta
+    name="apple-mobile-web-app-title"
+    content="Weather Pro"
+  />
 
-  <link rel="manifest" href="./manifest.webmanifest" />
+  <meta
+    property="og:type"
+    content="website"
+  />
+
+  <meta
+    property="og:title"
+    content="Weather App Pro"
+  />
+
+  <meta
+    property="og:description"
+    content="Aplicație meteo PWA cu prognoză, grafice, hartă, statistici, alerte și funcționare offline."
+  />
+
+  <meta
+    property="og:locale"
+    content="ro_RO"
+  />
+
+  <meta
+    property="og:image"
+    content="./icons/icon-512.png"
+  />
+
+  <meta
+    name="twitter:card"
+    content="summary_large_image"
+  />
+
+  <meta
+    name="twitter:title"
+    content="Weather App Pro"
+  />
+
+  <meta
+    name="twitter:description"
+    content="Prognoză meteo, calitatea aerului, grafice, hartă și mod offline."
+  />
+
+  <meta
+    name="twitter:image"
+    content="./icons/icon-512.png"
+  />
+
+  <link
+    rel="manifest"
+    href="./manifest.webmanifest"
+  />
 
   <link
     rel="icon"
@@ -40,10 +127,14 @@
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
     crossorigin=""
   />
 
-  <link rel="stylesheet" href="./style.css" />
+  <link
+    rel="stylesheet"
+    href="./style.css"
+  />
 </head>
 
 <body class="weather-clear daytime">
@@ -57,19 +148,27 @@
     id="toast-container"
     class="toast-container"
     aria-live="polite"
+    aria-atomic="true"
   ></div>
 
   <main class="app">
     <header class="header reveal-section">
       <div class="branding">
-        <div class="app-logo">🌦️</div>
+        <div
+          class="app-logo"
+          aria-hidden="true"
+        >
+          🌦️
+        </div>
 
         <div>
           <span class="version-label">
-            V13 PREMIUM
+            FINAL RELEASE
           </span>
 
-          <h1>Weather App</h1>
+          <h1>
+            Weather App Pro
+          </h1>
 
           <p>
             Dashboard meteo inteligent, instalabil și offline
@@ -79,8 +178,12 @@
             <div
               id="connection-status"
               class="connection-status online"
+              role="status"
+              aria-live="polite"
             >
-              <span class="connection-dot">●</span>
+              <span class="connection-dot">
+                ●
+              </span>
 
               <span id="connection-text">
                 Conectat la internet
@@ -90,6 +193,7 @@
             <div
               id="day-status"
               class="day-status"
+              role="status"
             >
               ☀️ Mod zi
             </div>
@@ -119,7 +223,8 @@
           id="unit-button"
           class="square-button"
           type="button"
-          title="Schimbă unitatea"
+          title="Schimbă unitatea temperaturii"
+          aria-label="Schimbă unitatea temperaturii"
         >
           °F
         </button>
@@ -129,6 +234,7 @@
           class="square-button"
           type="button"
           title="Schimbă tema"
+          aria-label="Schimbă tema"
         >
           🌙
         </button>
@@ -137,14 +243,25 @@
 
     <section class="search-section reveal-section">
       <div class="search-row">
+        <label
+          class="visually-hidden"
+          for="city-input"
+        >
+          Introdu un oraș
+        </label>
+
         <input
           id="city-input"
-          type="text"
+          type="search"
           placeholder="Introdu un oraș..."
           autocomplete="off"
+          spellcheck="false"
         />
 
-        <button id="search-button" type="button">
+        <button
+          id="search-button"
+          type="button"
+        >
           🔎 Caută
         </button>
       </div>
@@ -152,6 +269,7 @@
       <div
         id="search-results"
         class="search-results hidden"
+        role="listbox"
       ></div>
 
       <button
@@ -171,6 +289,8 @@
         id="favorite-button"
         class="favorite-button"
         type="button"
+        title="Adaugă la favorite"
+        aria-label="Adaugă locația la favorite"
       >
         ☆
       </button>
@@ -180,31 +300,43 @@
         class="weather-content"
       >
         <div class="current-header">
-          <div>
+          <div class="current-location">
             <div
               id="weather-icon"
               class="weather-icon"
+              aria-hidden="true"
             >
               ☀️
             </div>
 
-            <h2 id="city">București</h2>
+            <h2 id="city">
+              București
+            </h2>
 
-            <p id="country" class="country">
+            <p
+              id="country"
+              class="country"
+            >
               România
             </p>
           </div>
 
           <div class="temperature-area">
             <p class="temperature">
-              <span id="temperature">--</span>
+              <span id="temperature">
+                --
+              </span>
 
               <span id="temperature-unit">
                 °C
               </span>
             </p>
 
-            <p id="status">
+            <p
+              id="status"
+              class="weather-status"
+              role="status"
+            >
               Se încarcă datele...
             </p>
           </div>
@@ -212,47 +344,77 @@
 
         <div class="location-meta">
           <span>
-            Lat:
-            <strong id="latitude-value">--</strong>
+            Latitudine:
+            <strong id="latitude-value">
+              --
+            </strong>
           </span>
 
           <span>
-            Lon:
-            <strong id="longitude-value">--</strong>
+            Longitudine:
+            <strong id="longitude-value">
+              --
+            </strong>
           </span>
 
           <span>
             Fus orar:
-            <strong id="timezone-value">--</strong>
+            <strong id="timezone-value">
+              --
+            </strong>
           </span>
         </div>
 
         <div class="premium-dashboard">
           <article>
-            <span>🌡️</span>
-            <small>Se simte ca</small>
+            <span aria-hidden="true">
+              🌡️
+            </span>
+
+            <small>
+              Se simte ca
+            </small>
 
             <strong>
-              <span id="apparent-temperature">--</span>
-              <span id="apparent-unit">°C</span>
+              <span id="apparent-temperature">
+                --
+              </span>
+
+              <span id="apparent-unit">
+                °C
+              </span>
             </strong>
           </article>
 
           <article>
-            <span>💧</span>
-            <small>Umiditate</small>
+            <span aria-hidden="true">
+              💧
+            </span>
+
+            <small>
+              Umiditate
+            </small>
 
             <strong>
-              <span id="humidity">--</span>%
+              <span id="humidity">
+                --
+              </span>%
             </strong>
           </article>
 
           <article>
-            <span>💨</span>
-            <small>Vânt</small>
+            <span aria-hidden="true">
+              💨
+            </span>
+
+            <small>
+              Viteză vânt
+            </small>
 
             <strong>
-              <span id="wind-speed">--</span>
+              <span id="wind-speed">
+                --
+              </span>
               km/h
             </strong>
           </article>
@@ -261,11 +423,14 @@
             <span
               id="wind-arrow"
               class="wind-arrow"
+              aria-hidden="true"
             >
               ➤
             </span>
 
-            <small>Direcție</small>
+            <small>
+              Direcție vânt
+            </small>
 
             <strong id="wind-direction">
               --
@@ -273,38 +438,64 @@
           </article>
 
           <article>
-            <span>🌧️</span>
-            <small>Precipitații</small>
+            <span aria-hidden="true">
+              🌧️
+            </span>
+
+            <small>
+              Precipitații
+            </small>
 
             <strong>
-              <span id="precipitation">--</span>
+              <span id="precipitation">
+                --
+              </span>
               mm
             </strong>
           </article>
 
           <article>
-            <span>🌡️</span>
-            <small>Presiune</small>
+            <span aria-hidden="true">
+              🌡️
+            </span>
+
+            <small>
+              Presiune
+            </small>
 
             <strong>
-              <span id="pressure">--</span>
+              <span id="pressure">
+                --
+              </span>
               hPa
             </strong>
           </article>
 
           <article>
-            <span>👁️</span>
-            <small>Vizibilitate</small>
+            <span aria-hidden="true">
+              👁️
+            </span>
+
+            <small>
+              Vizibilitate
+            </small>
 
             <strong>
-              <span id="visibility">--</span>
+              <span id="visibility">
+                --
+              </span>
               km
             </strong>
           </article>
 
           <article>
-            <span>☀️</span>
-            <small>Indice UV</small>
+            <span aria-hidden="true">
+              ☀️
+            </span>
+
+            <small>
+              Indice UV
+            </small>
 
             <strong id="dashboard-uv">
               --
@@ -312,8 +503,13 @@
           </article>
 
           <article>
-            <span>🌿</span>
-            <small>AQI</small>
+            <span aria-hidden="true">
+              🌿
+            </span>
+
+            <small>
+              AQI european
+            </small>
 
             <strong id="dashboard-aqi">
               --
@@ -321,8 +517,13 @@
           </article>
 
           <article>
-            <span>🌅</span>
-            <small>Răsărit</small>
+            <span aria-hidden="true">
+              🌅
+            </span>
+
+            <small>
+              Răsărit
+            </small>
 
             <strong id="sunrise">
               --
@@ -330,8 +531,13 @@
           </article>
 
           <article>
-            <span>🌇</span>
-            <small>Apus</small>
+            <span aria-hidden="true">
+              🌇
+            </span>
+
+            <small>
+              Apus
+            </small>
 
             <strong id="sunset">
               --
@@ -339,8 +545,13 @@
           </article>
 
           <article>
-            <span>🕒</span>
-            <small>Actualizat</small>
+            <span aria-hidden="true">
+              🕒
+            </span>
+
+            <small>
+              Actualizat
+            </small>
 
             <strong id="weather-time">
               --
@@ -353,7 +564,10 @@
           class="primary-button"
           type="button"
         >
-          <span id="refresh-icon">
+          <span
+            id="refresh-icon"
+            aria-hidden="true"
+          >
             ↻
           </span>
 
@@ -364,6 +578,7 @@
       <div
         id="weather-skeleton"
         class="weather-skeleton hidden"
+        aria-hidden="true"
       >
         <div class="skeleton skeleton-circle"></div>
         <div class="skeleton skeleton-title"></div>
@@ -375,6 +590,8 @@
           <div class="skeleton skeleton-box"></div>
           <div class="skeleton skeleton-box"></div>
         </div>
+
+        <div class="skeleton skeleton-button"></div>
       </div>
     </section>
 
@@ -388,7 +605,13 @@
             ALERTE INTELIGENTE
           </span>
 
-          <h2>Recomandări importante</h2>
+          <h2>
+            Recomandări importante
+          </h2>
+
+          <p>
+            Alerte generate automat pe baza datelor meteo.
+          </p>
         </div>
       </div>
 
@@ -405,10 +628,12 @@
             STATISTICI
           </span>
 
-          <h2>Activitatea ta meteo</h2>
+          <h2>
+            Activitatea ta meteo
+          </h2>
 
           <p>
-            Datele sunt salvate în localStorage.
+            Datele sunt păstrate local în browser.
           </p>
         </div>
 
@@ -417,14 +642,19 @@
           class="secondary-button danger-button"
           type="button"
         >
-          🗑️ Resetează
+          🗑️ Resetează statisticile
         </button>
       </div>
 
       <div class="statistics-grid">
         <article>
-          <span>🔎</span>
-          <small>Total căutări</small>
+          <span aria-hidden="true">
+            🔎
+          </span>
+
+          <small>
+            Total căutări
+          </small>
 
           <strong id="total-searches-stat">
             0
@@ -432,8 +662,13 @@
         </article>
 
         <article>
-          <span>🌍</span>
-          <small>Localități unice</small>
+          <span aria-hidden="true">
+            🌍
+          </span>
+
+          <small>
+            Localități unice
+          </small>
 
           <strong id="unique-cities-stat">
             0
@@ -441,8 +676,13 @@
         </article>
 
         <article>
-          <span>🕒</span>
-          <small>Ultima căutare</small>
+          <span aria-hidden="true">
+            🕒
+          </span>
+
+          <small>
+            Ultima căutare
+          </small>
 
           <strong
             id="last-search-stat"
@@ -453,8 +693,13 @@
         </article>
 
         <article class="maximum-stat">
-          <span>🔥</span>
-          <small>Maximă găsită</small>
+          <span aria-hidden="true">
+            🔥
+          </span>
+
+          <small>
+            Temperatura maximă
+          </small>
 
           <strong>
             <span id="maximum-temperature-stat">
@@ -472,8 +717,13 @@
         </article>
 
         <article class="minimum-stat">
-          <span>❄️</span>
-          <small>Minimă găsită</small>
+          <span aria-hidden="true">
+            ❄️
+          </span>
+
+          <small>
+            Temperatura minimă
+          </small>
 
           <strong>
             <span id="minimum-temperature-stat">
@@ -499,20 +749,34 @@
             CALITATEA AERULUI
           </span>
 
-          <h2>Aer și protecție UV</h2>
+          <h2>
+            Aer și protecție UV
+          </h2>
+
+          <p>
+            Valori actuale pentru locația selectată.
+          </p>
         </div>
 
         <div
           id="aqi-badge"
           class="aqi-badge aqi-unknown"
         >
-          <strong id="aqi-value">--</strong>
-          <small>AQI european</small>
+          <strong id="aqi-value">
+            --
+          </strong>
+
+          <small>
+            AQI european
+          </small>
         </div>
       </div>
 
       <div class="air-status">
-        <span id="air-quality-icon">
+        <span
+          id="air-quality-icon"
+          aria-hidden="true"
+        >
           🌿
         </span>
 
@@ -529,58 +793,98 @@
 
       <div class="air-grid">
         <article>
-          <span>🌫️</span>
-          <small>PM2.5</small>
+          <span aria-hidden="true">
+            🌫️
+          </span>
+
+          <small>
+            PM2.5
+          </small>
 
           <strong>
-            <span id="pm25-value">--</span>
+            <span id="pm25-value">
+              --
+            </span>
             µg/m³
           </strong>
         </article>
 
         <article>
-          <span>🏭</span>
-          <small>PM10</small>
+          <span aria-hidden="true">
+            🏭
+          </span>
+
+          <small>
+            PM10
+          </small>
 
           <strong>
-            <span id="pm10-value">--</span>
+            <span id="pm10-value">
+              --
+            </span>
             µg/m³
           </strong>
         </article>
 
         <article>
-          <span>🚗</span>
-          <small>NO₂</small>
+          <span aria-hidden="true">
+            🚗
+          </span>
+
+          <small>
+            Dioxid de azot
+          </small>
 
           <strong>
-            <span id="no2-value">--</span>
+            <span id="no2-value">
+              --
+            </span>
             µg/m³
           </strong>
         </article>
 
         <article>
-          <span>🫧</span>
-          <small>Ozon</small>
+          <span aria-hidden="true">
+            🫧
+          </span>
+
+          <small>
+            Ozon
+          </small>
 
           <strong>
-            <span id="ozone-value">--</span>
+            <span id="ozone-value">
+              --
+            </span>
             µg/m³
           </strong>
         </article>
 
         <article>
-          <span>🔥</span>
-          <small>CO</small>
+          <span aria-hidden="true">
+            🔥
+          </span>
+
+          <small>
+            Monoxid de carbon
+          </small>
 
           <strong>
-            <span id="carbon-monoxide-value">--</span>
+            <span id="carbon-monoxide-value">
+              --
+            </span>
             µg/m³
           </strong>
         </article>
 
         <article>
-          <span>☀️</span>
-          <small>Indice UV</small>
+          <span aria-hidden="true">
+            ☀️
+          </span>
+
+          <small>
+            Indice UV
+          </small>
 
           <strong id="uv-index-value">
             --
@@ -594,20 +898,34 @@
 
       <div class="recommendations">
         <article>
-          <span>🫁</span>
+          <span aria-hidden="true">
+            🫁
+          </span>
 
           <div>
-            <h3>Recomandare aer</h3>
-            <p id="air-recommendation">--</p>
+            <h3>
+              Recomandare aer
+            </h3>
+
+            <p id="air-recommendation">
+              Se analizează calitatea aerului...
+            </p>
           </div>
         </article>
 
         <article>
-          <span>🧴</span>
+          <span aria-hidden="true">
+            🧴
+          </span>
 
           <div>
-            <h3>Recomandare UV</h3>
-            <p id="uv-recommendation">--</p>
+            <h3>
+              Recomandare UV
+            </h3>
+
+            <p id="uv-recommendation">
+              Se analizează indicele UV...
+            </p>
           </div>
         </article>
       </div>
@@ -616,7 +934,9 @@
     <section class="saved-grid reveal-section">
       <article class="panel">
         <div class="panel-title">
-          <h2>⭐ Favorite inteligente</h2>
+          <h2>
+            ⭐ Favorite inteligente
+          </h2>
 
           <button
             id="clear-favorites-button"
@@ -629,12 +949,18 @@
         <div
           id="favorites-container"
           class="smart-favorites"
-        ></div>
+        >
+          <p class="empty-message">
+            Nu ai orașe favorite.
+          </p>
+        </div>
       </article>
 
       <article class="panel">
         <div class="panel-title">
-          <h2>🕘 Căutări recente</h2>
+          <h2>
+            🕘 Căutări recente
+          </h2>
 
           <button
             id="clear-recent-button"
@@ -647,7 +973,11 @@
         <div
           id="recent-container"
           class="chips"
-        ></div>
+        >
+          <p class="empty-message">
+            Nu există căutări recente.
+          </p>
+        </div>
       </article>
     </section>
 
@@ -658,15 +988,21 @@
             ANALIZĂ 24 ORE
           </span>
 
-          <h2>Grafice interactive</h2>
+          <h2>
+            Grafice meteo interactive
+          </h2>
 
           <p>
-            Selectează indicatorul pe care vrei să îl analizezi.
+            Selectează indicatorul pe care dorești să îl analizezi.
           </p>
         </div>
       </div>
 
-      <div class="chart-tabs">
+      <div
+        class="chart-tabs"
+        role="tablist"
+        aria-label="Selectarea graficului"
+      >
         <button
           class="chart-tab active"
           data-chart="temperature"
@@ -717,11 +1053,15 @@
       </div>
 
       <div class="chart-wrapper">
-        <canvas id="weather-chart"></canvas>
+        <canvas
+          id="weather-chart"
+          aria-label="Grafic meteo pentru următoarele 24 de ore"
+        ></canvas>
 
         <div
           id="chart-skeleton"
           class="chart-skeleton hidden"
+          aria-hidden="true"
         >
           <div class="skeleton skeleton-chart"></div>
         </div>
@@ -729,23 +1069,43 @@
 
       <div class="chart-summary-grid">
         <article>
-          <small>Temperatură medie</small>
-          <strong id="average-temperature">--</strong>
+          <small>
+            Temperatură medie
+          </small>
+
+          <strong id="average-temperature">
+            --
+          </strong>
         </article>
 
         <article>
-          <small>Șanse maxime ploaie</small>
-          <strong id="maximum-rain-chance">--</strong>
+          <small>
+            Șanse maxime de ploaie
+          </small>
+
+          <strong id="maximum-rain-chance">
+            --
+          </strong>
         </article>
 
         <article>
-          <small>Umiditate medie</small>
-          <strong id="average-humidity">--</strong>
+          <small>
+            Umiditate medie
+          </small>
+
+          <strong id="average-humidity">
+            --
+          </strong>
         </article>
 
         <article>
-          <small>Vânt maxim</small>
-          <strong id="maximum-wind">--</strong>
+          <small>
+            Vânt maxim
+          </small>
+
+          <strong id="maximum-wind">
+            --
+          </strong>
         </article>
       </div>
     </section>
@@ -757,7 +1117,9 @@
             HARTĂ
           </span>
 
-          <h2>Hartă meteo interactivă</h2>
+          <h2>
+            Hartă meteo interactivă
+          </h2>
 
           <p>
             Apasă pe hartă pentru datele punctului selectat.
@@ -769,13 +1131,14 @@
           class="secondary-button"
           type="button"
         >
-          🎯 Centrează
+          🎯 Centrează pe locație
         </button>
       </div>
 
       <div
         id="weather-map"
         class="weather-map"
+        aria-label="Hartă meteo interactivă"
       ></div>
     </section>
 
@@ -786,7 +1149,9 @@
             PROGNOZĂ ORARĂ
           </span>
 
-          <h2>Următoarele 24 de ore</h2>
+          <h2>
+            Următoarele 24 de ore
+          </h2>
         </div>
       </div>
 
@@ -798,6 +1163,7 @@
       <div
         id="hourly-skeleton"
         class="forecast-skeleton hidden"
+        aria-hidden="true"
       >
         <div class="skeleton skeleton-forecast-card"></div>
         <div class="skeleton skeleton-forecast-card"></div>
@@ -813,7 +1179,9 @@
             PROGNOZĂ ZILNICĂ
           </span>
 
-          <h2>Următoarele 7 zile</h2>
+          <h2>
+            Următoarele 7 zile
+          </h2>
         </div>
       </div>
 
@@ -825,6 +1193,7 @@
       <div
         id="daily-skeleton"
         class="forecast-skeleton hidden"
+        aria-hidden="true"
       >
         <div class="skeleton skeleton-forecast-card"></div>
         <div class="skeleton skeleton-forecast-card"></div>
@@ -837,10 +1206,14 @@
       id="pwa-information"
       class="pwa-box reveal-section"
     >
-      <span>📱</span>
+      <span aria-hidden="true">
+        📱
+      </span>
 
       <div>
-        <h2>Instalează Weather App</h2>
+        <h2>
+          Instalează Weather App Pro
+        </h2>
 
         <p>
           Deschide aplicația direct de pe telefon sau calculator.
@@ -858,8 +1231,15 @@
 
     <footer>
       <p>
-        Date: Open-Meteo · Hartă: OpenStreetMap
-        · Grafice: Chart.js
+        Weather App Pro · Realizat cu HTML, CSS și JavaScript
+      </p>
+
+      <p>
+        Date: Open-Meteo · Hartă: OpenStreetMap · Grafice: Chart.js
+      </p>
+
+      <p>
+        © 2026 Cip Isac
       </p>
     </footer>
   </main>
@@ -868,6 +1248,8 @@
     id="scroll-top-button"
     class="scroll-top-button"
     type="button"
+    title="Înapoi sus"
+    aria-label="Înapoi sus"
   >
     ↑
   </button>
@@ -875,22 +1257,29 @@
   <div
     id="update-notification"
     class="update-box hidden"
+    role="status"
   >
     <div>
-      <strong>Versiune nouă disponibilă</strong>
+      <strong>
+        Versiune nouă disponibilă
+      </strong>
 
       <p>
         Actualizează aplicația pentru ultimele modificări.
       </p>
     </div>
 
-    <button id="update-button" type="button">
+    <button
+      id="update-button"
+      type="button"
+    >
       Actualizează
     </button>
   </div>
 
   <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""
   ></script>
 
