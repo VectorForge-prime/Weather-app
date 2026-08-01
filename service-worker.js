@@ -1,5 +1,5 @@
 const VERSION =
-  "weather-app-v12-pro-1";
+  "weather-app-v13-premium-1";
 
 const STATIC_CACHE =
   `${VERSION}-static`;
@@ -11,11 +11,6 @@ const MAP_CACHE =
   `${VERSION}-maps`;
 
 
-/*
-  Fișiere locale obligatorii.
-
-  Acestea trebuie să existe în proiect.
-*/
 const LOCAL_APP_SHELL = [
   "./",
   "./index.html",
@@ -28,12 +23,6 @@ const LOCAL_APP_SHELL = [
 ];
 
 
-/*
-  Biblioteci externe.
-
-  Dacă una dintre ele nu poate fi descărcată,
-  instalarea Service Worker-ului nu va fi blocată.
-*/
 const EXTERNAL_RESOURCES = [
   "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
   "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
@@ -63,29 +52,34 @@ async function installApplicationShell() {
 
   /*
     Fișierele locale sunt obligatorii.
-    Dacă unul lipsește, trebuie să vedem eroarea.
   */
   await cache.addAll(
     LOCAL_APP_SHELL
   );
 
   /*
-    Resursele externe sunt salvate separat.
-    O eroare CDN nu blochează instalarea aplicației.
+    Bibliotecile externe sunt salvate separat.
+    Dacă un CDN nu răspunde, instalarea nu este blocată.
   */
   await Promise.allSettled(
     EXTERNAL_RESOURCES.map(
-      async function (resourceUrl) {
+      async function (
+        resourceUrl
+      ) {
         try {
           const response =
             await fetch(
               resourceUrl,
               {
-                mode: "cors"
+                mode:
+                  "cors"
               }
             );
 
-          if (response.ok) {
+          if (
+            response &&
+            response.ok
+          ) {
             await cache.put(
               resourceUrl,
               response.clone()
@@ -112,13 +106,13 @@ self.addEventListener(
   "activate",
   function (event) {
     event.waitUntil(
-      removeOldCaches()
+      activateNewVersion()
     );
   }
 );
 
 
-async function removeOldCaches() {
+async function activateNewVersion() {
   const cacheNames =
     await caches.keys();
 
@@ -130,7 +124,9 @@ async function removeOldCaches() {
 
   const oldCaches =
     cacheNames.filter(
-      function (cacheName) {
+      function (
+        cacheName
+      ) {
         return !currentCaches.includes(
           cacheName
         );
@@ -139,7 +135,9 @@ async function removeOldCaches() {
 
   await Promise.all(
     oldCaches.map(
-      function (cacheName) {
+      function (
+        cacheName
+      ) {
         return caches.delete(
           cacheName
         );
@@ -155,7 +153,9 @@ async function removeOldCaches() {
    IDENTIFICAREA CERERILOR
 ========================= */
 
-function isOpenMeteoRequest(url) {
+function isOpenMeteoRequest(
+  url
+) {
   return [
     "api.open-meteo.com",
     "air-quality-api.open-meteo.com",
@@ -166,16 +166,18 @@ function isOpenMeteoRequest(url) {
 }
 
 
-function isOpenStreetMapTile(url) {
-  return (
-    url.hostname.endsWith(
-      "tile.openstreetmap.org"
-    )
+function isOpenStreetMapTile(
+  url
+) {
+  return url.hostname.endsWith(
+    "tile.openstreetmap.org"
   );
 }
 
 
-function isExternalLibrary(url) {
+function isExternalLibrary(
+  url
+) {
   return (
     url.hostname ===
       "unpkg.com" ||
@@ -185,7 +187,9 @@ function isExternalLibrary(url) {
 }
 
 
-function isLocalRequest(url) {
+function isLocalRequest(
+  url
+) {
   return (
     url.origin ===
     self.location.origin
@@ -197,12 +201,6 @@ function isLocalRequest(url) {
    STRATEGII CACHE
 ========================= */
 
-/*
-  Network First
-
-  Încearcă întâi internetul.
-  Dacă nu merge, returnează ultima versiune din cache.
-*/
 async function networkFirst(
   request,
   cacheName
@@ -214,7 +212,9 @@ async function networkFirst(
 
   try {
     const networkResponse =
-      await fetch(request);
+      await fetch(
+        request
+      );
 
     if (
       networkResponse &&
@@ -233,7 +233,9 @@ async function networkFirst(
         request
       );
 
-    if (cachedResponse) {
+    if (
+      cachedResponse
+    ) {
       return cachedResponse;
     }
 
@@ -242,12 +244,6 @@ async function networkFirst(
 }
 
 
-/*
-  Cache First
-
-  Returnează mai întâi resursa salvată.
-  Dacă nu există, o descarcă și o salvează.
-*/
 async function cacheFirst(
   request,
   cacheName
@@ -262,12 +258,16 @@ async function cacheFirst(
       request
     );
 
-  if (cachedResponse) {
+  if (
+    cachedResponse
+  ) {
     return cachedResponse;
   }
 
   const networkResponse =
-    await fetch(request);
+    await fetch(
+      request
+    );
 
   if (
     networkResponse &&
@@ -283,12 +283,6 @@ async function cacheFirst(
 }
 
 
-/*
-  Stale While Revalidate
-
-  Afișează imediat versiunea din cache,
-  dar verifică în fundal dacă există una nouă.
-*/
 async function staleWhileRevalidate(
   request,
   cacheName
@@ -304,7 +298,9 @@ async function staleWhileRevalidate(
     );
 
   const networkPromise =
-    fetch(request)
+    fetch(
+      request
+    )
       .then(
         async function (
           networkResponse
@@ -336,6 +332,65 @@ async function staleWhileRevalidate(
 
 
 /* =========================
+   NAVIGARE
+========================= */
+
+async function handleNavigationRequest(
+  request
+) {
+  try {
+    const networkResponse =
+      await fetch(
+        request
+      );
+
+    if (
+      networkResponse &&
+      networkResponse.ok
+    ) {
+      const cache =
+        await caches.open(
+          STATIC_CACHE
+        );
+
+      await cache.put(
+        request,
+        networkResponse.clone()
+      );
+    }
+
+    return networkResponse;
+  } catch (error) {
+    const cachedRequest =
+      await caches.match(
+        request
+      );
+
+    if (
+      cachedRequest
+    ) {
+      return cachedRequest;
+    }
+
+    const cachedIndex =
+      await caches.match(
+        "./index.html"
+      );
+
+    if (
+      cachedIndex
+    ) {
+      return cachedIndex;
+    }
+
+    return caches.match(
+      "./offline.html"
+    );
+  }
+}
+
+
+/* =========================
    FETCH
 ========================= */
 
@@ -358,9 +413,6 @@ self.addEventListener(
       );
 
 
-    /*
-      Navigarea către pagini HTML.
-    */
     if (
       request.mode ===
       "navigate"
@@ -375,11 +427,10 @@ self.addEventListener(
     }
 
 
-    /*
-      API-urile meteo folosesc Network First.
-    */
     if (
-      isOpenMeteoRequest(url)
+      isOpenMeteoRequest(
+        url
+      )
     ) {
       event.respondWith(
         networkFirst(
@@ -392,11 +443,10 @@ self.addEventListener(
     }
 
 
-    /*
-      Hărțile folosesc Cache First.
-    */
     if (
-      isOpenStreetMapTile(url)
+      isOpenStreetMapTile(
+        url
+      )
     ) {
       event.respondWith(
         cacheFirst(
@@ -409,12 +459,10 @@ self.addEventListener(
     }
 
 
-    /*
-      Bibliotecile externe folosesc
-      Stale While Revalidate.
-    */
     if (
-      isExternalLibrary(url)
+      isExternalLibrary(
+        url
+      )
     ) {
       event.respondWith(
         staleWhileRevalidate(
@@ -427,12 +475,10 @@ self.addEventListener(
     }
 
 
-    /*
-      Fișierele locale folosesc
-      Stale While Revalidate.
-    */
     if (
-      isLocalRequest(url)
+      isLocalRequest(
+        url
+      )
     ) {
       event.respondWith(
         staleWhileRevalidate(
@@ -446,60 +492,7 @@ self.addEventListener(
 
 
 /* =========================
-   NAVIGARE OFFLINE
-========================= */
-
-async function handleNavigationRequest(
-  request
-) {
-  try {
-    const networkResponse =
-      await fetch(request);
-
-    if (
-      networkResponse &&
-      networkResponse.ok
-    ) {
-      const cache =
-        await caches.open(
-          STATIC_CACHE
-        );
-
-      await cache.put(
-        request,
-        networkResponse.clone()
-      );
-    }
-
-    return networkResponse;
-  } catch (error) {
-    const cachedPage =
-      await caches.match(
-        request
-      );
-
-    if (cachedPage) {
-      return cachedPage;
-    }
-
-    const cachedIndex =
-      await caches.match(
-        "./index.html"
-      );
-
-    if (cachedIndex) {
-      return cachedIndex;
-    }
-
-    return caches.match(
-      "./offline.html"
-    );
-  }
-}
-
-
-/* =========================
-   ACTUALIZAREA APLICAȚIEI
+   MESAJE ȘI UPDATE
 ========================= */
 
 self.addEventListener(
